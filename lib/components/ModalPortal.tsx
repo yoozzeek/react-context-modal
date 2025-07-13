@@ -1,13 +1,12 @@
-import React, { FC, ReactNode, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-const ModalPortal: FC<{
-  children: ReactNode;
-}> = ({ children }) => {
+const ModalPortal = ({ children }: { children: ReactNode }) => {
   const el = useRef(document.createElement("div"));
   const portalRoot = useMemo<HTMLElement>(
-    () => document.querySelector("#portal") as HTMLElement,
-    []
+    () => document.querySelector("#modal-portal") as HTMLElement,
+    [],
   );
 
   useEffect(() => {

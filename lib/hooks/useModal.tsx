@@ -1,52 +1,13 @@
-import React, {
-  FC,
-  ReactNode,
-  RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import disableScroll from "../../../lib/utils/scrollLocker";
-import SimpleBarCore from "simplebar-core";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import disableScroll from "@/utils/scrollLocker.ts";
+import type { ModalStack, OpenedModal } from "@/types.ts";
 
-export type OpenedModalType = {
-  key: string;
-  modalRef: RefObject<HTMLDivElement>;
-  containerRef: RefObject<HTMLDivElement>;
-  scrollableContentRef: RefObject<HTMLDivElement>;
-  simpleBarRef: RefObject<SimpleBarCore>;
-  close: () => void;
-  enableScroll?: () => void;
-};
-
-export type ModalState = {
-  lastModal: OpenedModalType | null;
-  apply: (modal: OpenedModalType) => void;
-  remove: (key: string) => void;
-  update: (key: string, newData: any) => void;
-  getPositionInStack: (key: string) => [number, boolean];
-};
-
-export const ModalContext = React.createContext<ModalState>({
-  lastModal: null,
-  apply: () => {},
-  remove: () => {},
-  update: () => {},
-  getPositionInStack: () => [1, true],
-});
-
-const TAB_KEY = "Tab";
+// const TAB_KEY = "Tab";
 const ESC_KEY = "Escape";
 
-const ModalProvider: FC<{
-  children: ReactNode;
-}> = ({ children }) => {
-  const [openedStack, setOpenedStack] = useState<OpenedModalType[]>([]);
-  const lastModal = useMemo(
-    () => openedStack[openedStack.length - 1],
-    [openedStack],
-  );
+export default function useModal(): ModalStack {
+  const [openedStack, setOpenedStack] = useState<OpenedModal[]>([]);
+  const lastModal = useMemo(() => openedStack[openedStack.length - 1], [openedStack]);
 
   /**
    * Listen outside taps on the last modal in stack
@@ -55,23 +16,18 @@ const ModalProvider: FC<{
     let startClickOutside = false;
     if (typeof document === "undefined") return;
 
-    // Listeners are attached to the last modal in stack only
+    // Listeners are attached if at least one modal in stack
     if (!lastModal) return;
 
     const containerEl = lastModal?.containerRef.current;
     const contentEl = lastModal?.modalRef.current;
 
-    // Track the mousedown/touchstart event
     function handleTouchStart(event: MouseEvent | TouchEvent) {
-      startClickOutside = !!(
-        contentEl && !contentEl.contains(event.target as Element)
-      );
+      startClickOutside = !!(contentEl && !contentEl.contains(event.target as Element));
     }
 
-    // Track the mouseup/touchend event
     function handleTouchEnd(event: MouseEvent | TouchEvent) {
-      const endClickOutside =
-        contentEl && !contentEl.contains(event.target as Element);
+      const endClickOutside = contentEl && !contentEl.contains(event.target as Element);
       if (startClickOutside && endClickOutside) {
         lastModal.close();
       }
@@ -103,9 +59,8 @@ const ModalProvider: FC<{
     };
   }, [lastModal]);
 
-  // Apply new modal to the stack
   const apply = useCallback(
-    (modal: OpenedModalType) => {
+    (modal: OpenedModal) => {
       setOpenedStack((prev) => {
         const modalIdx = openedStack.findIndex((m) => m.key === modal.key);
         if (modalIdx !== -1) {
@@ -124,7 +79,6 @@ const ModalProvider: FC<{
     [openedStack],
   );
 
-  // Remove modal from the stack
   const remove = useCallback((key: string) => {
     setOpenedStack((prevState) => {
       const newState = [...prevState];
@@ -169,19 +123,11 @@ const ModalProvider: FC<{
     return [idx, idx === openedStack.length - 1];
   }
 
-  return (
-    <ModalContext.Provider
-      value={{
-        lastModal,
-        apply,
-        remove,
-        update,
-        getPositionInStack,
-      }}
-    >
-      {children}
-    </ModalContext.Provider>
-  );
-};
-
-export default ModalProvider;
+  return {
+    lastModal,
+    apply,
+    remove,
+    update,
+    getPositionInStack,
+  };
+}

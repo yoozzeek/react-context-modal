@@ -1,17 +1,20 @@
-import React, { FC } from "react";
-import CloseIcon from "../../../../assets/icons/close.svg";
-import classNames from "classnames";
+import CloseIcon from "@/assets/icons/close.svg?react";
+import { clsx } from "clsx";
 
-const UIModalHeader2: FC<{
+const UIModalHeader2 = ({
+  title,
+  description,
+  onClose,
+}: {
   title: string;
   description?: string | null;
   onClose?: () => void;
-}> = ({ title, description, onClose }) => {
+}) => {
   return (
     <header
-      className={classNames(
+      className={clsx(
         "rounded-t-lgb z-0 mx-4 my-6 flex items-start justify-between sm:relative sm:items-center sm:justify-center",
-        "before:content[''] before:absolute before:top-2.5 before:left-[50%] before:h-[4px] before:w-[50px] before:-translate-x-[50%] before:rounded-sm before:bg-gray-900/10 sm:before:hidden"
+        "before:content[''] before:absolute before:top-2.5 before:left-[50%] before:h-[4px] before:w-[50px] before:-translate-x-[50%] before:rounded-sm before:bg-gray-900/10 sm:before:hidden",
       )}
     >
       <div className="relative flex flex-col sm:w-4/5 sm:items-center">
@@ -19,9 +22,7 @@ const UIModalHeader2: FC<{
           {title}
         </h3>
         {description && (
-          <span className="mt-2 text-sm text-gray-300 sm:text-center">
-            {description}
-          </span>
+          <span className="mt-2 text-sm text-gray-300 sm:text-center">{description}</span>
         )}
       </div>
       <button

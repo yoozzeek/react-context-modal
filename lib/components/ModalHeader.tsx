@@ -1,20 +1,16 @@
-import { FC } from "react";
-import classNames from "classnames";
-import CloseIcon from "../../../../assets/icons/close.svg";
+import { clsx } from "clsx";
+import CloseIcon from "@/assets/icons/close.svg?react";
 
-const UIModalDefaultHeader: FC<{
-  label?: string | null;
-  onClose?: () => void;
-}> = ({ label, onClose }) => {
+const ModalHeader = ({ label, onClose }: { label?: string | null; onClose?: () => void }) => {
   return (
     <header
-      className={classNames(
+      className={clsx(
         "rounded-t-lgb z-0 flex w-full items-center p-4 sm:pt-6 md:right-0 md:w-auto",
         "before:content[''] before:absolute before:top-2.5 before:left-[50%] before:h-[4px] before:w-[50px] before:-translate-x-[50%] before:rounded-sm before:bg-gray-900/10 sm:before:hidden",
         {
           "justify-between": Boolean(label),
           "justify-end": !Boolean(label),
-        }
+        },
       )}
     >
       {label && (
@@ -34,4 +30,4 @@ const UIModalDefaultHeader: FC<{
   );
 };
 
-export default UIModalDefaultHeader;
+export default ModalHeader;

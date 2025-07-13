@@ -1,32 +1,21 @@
-import React, {
-  FC,
-  ReactNode,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode, JSX } from "react";
+import type SimpleBarCore from "simplebar-core";
 import SimpleBar from "simplebar-react";
+import { clsx } from "clsx";
 import ModalPortal from "./ModalPortal";
-import { UISize } from "../../types";
-import UIModalDefaultHeader from "./ModalDefaultHeader";
-import useModal from "../../hooks/useModal";
-import classNames from "classnames";
-import useResponsiveBreakpoints from "../../hooks/useResponsiveBreakpoints";
-import UILoader from "../Loader";
+import type { Size } from "@/types";
+import UIModalDefaultHeader from "./ModalHeader.tsx";
+import useContextModal from "@/hooks/useContextModal";
+import UILoader from "@/components/Loader";
 import { flushSync } from "react-dom";
-import useIsomorphicLayoutEffect from "../../../../lib/hooks/useLayoutEffect";
 import UIModalConfirmAction from "./ModalConfirmAction";
-import Head from "next/head";
-import SimpleBarCore from "simplebar-core";
-
-export type UISize = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+import useGteSm from "@/hooks/useGteSm.ts";
 
 export type ModalType =
   | "base"
-  | "fullscreen"
   | "menu"
+  | "fullscreen"
   | "overlay-90"
   | "overlay-95"
   | "overlay-auto";
@@ -47,14 +36,16 @@ type ModalProps = {
   preventClose?: boolean;
   confirmCloseModalTitle?: string;
   confirmCloseModalDescription?: string;
-  headerEl?: React.ReactElement | boolean | null;
-  footerEl?: React.ReactElement | boolean | null;
+  headerEl?: JSX.Element | boolean | null;
+  footerEl?: JSX.Element | boolean | null;
   type?: ModalType;
-  size?: UISize;
+  size?: Size;
   onCloseModal(): void;
 };
 
-const UIModal: FC<ModalProps> = ({
+const useIsomorphicLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : useEffect;
+
+function Modal({
   id,
   scrollAreaId,
   children,
@@ -75,23 +66,20 @@ const UIModal: FC<ModalProps> = ({
   footerEl,
   type = "base",
   size = "md",
-}) => {
-  const modalCtx = useModal();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
-  const modalHeaderRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const simpleBarRef = useRef<SimpleBarCore>(null);
-  const rb = useResponsiveBreakpoints();
+}: ModalProps): JSX.Element {
+  const modalCtx = useContextModal();
+  const containerRef = useRef<HTMLDivElement>(null!);
+  const modalRef = useRef<HTMLDivElement>(null!);
+  const modalHeaderRef = useRef<HTMLDivElement>(null!);
+  const contentRef = useRef<HTMLDivElement>(null!);
+  const scrollAreaRef = useRef<HTMLDivElement>(null!);
+  const simpleBarRef = useRef<SimpleBarCore>(null!);
+  const gteSm = useGteSm();
 
-  const isRightSwipeAllowed =
-    horizontalSwipe && (type === "base" || type === "fullscreen");
+  const isRightSwipeAllowed = horizontalSwipe && (type === "base" || type === "fullscreen");
 
   const [confirmCloseModal, setConfirmCloseModal] = useState(false);
-  const [scrollableHeight, setScrollableHeight] = useState(
-    contentRef.current?.clientHeight,
-  );
+  const [scrollableHeight, setScrollableHeight] = useState(contentRef.current?.clientHeight);
 
   // Touch and animation state
   const [closeAnimation, setCloseAnimation] = useState(false);
@@ -123,23 +111,21 @@ const UIModal: FC<ModalProps> = ({
   useIsomorphicLayoutEffect(() => {
     const el = modalRef.current;
     if (!el) return;
-
-    if (rb.gteSm) return;
+    if (gteSm) return;
 
     // Right swipe allowed only on fullscreen and
     // base modals with horizontalSwipe prop
-    const rSwipeAllowed =
-      (type === "base" || type === "fullscreen") && horizontalSwipe;
+    const rSwipeAllowed = (type === "base" || type === "fullscreen") && horizontalSwipe;
 
     const headerEl = modalHeaderRef.current;
 
     // Set initial swipe state
     let currentY = 0;
-    let currentX = 0;
+    // let currentX = 0;
     let initialY = 0;
     let initialX = 0;
     let touchStart = 0;
-    let touchEnd = 0;
+    // let touchEnd = 0;
     let isLocked = false;
     let isMoving = false;
     let startedTime = 0;
@@ -216,7 +202,7 @@ const UIModal: FC<ModalProps> = ({
       const { directionY, factorY, directionX, factorX } = getTouchMeta(e);
 
       currentY = e.touches[0].clientY;
-      currentX = e.touches[0].clientX;
+      // currentX = e.touches[0].clientX;
 
       // ------------------------------------
       // Handle horizontal touch move if allowed
@@ -313,11 +299,11 @@ const UIModal: FC<ModalProps> = ({
 
     function resetValues() {
       currentY = 0;
-      currentX = 0;
+      // currentX = 0;
       initialY = 0;
       initialX = 0;
       touchStart = 0;
-      touchEnd = 0;
+      // touchEnd = 0;
       isLocked = false;
       isMoving = false;
       startedTime = 0;
@@ -425,8 +411,7 @@ const UIModal: FC<ModalProps> = ({
       const endTime = new Date().getTime();
       const touchTime = endTime - touchStart;
 
-      const swipedPercent =
-        (currentY - initialY) / (modalRef.current?.clientHeight || 0);
+      const swipedPercent = (currentY - initialY) / (modalRef.current?.clientHeight || 0);
 
       if (isTop && swipedPercent > 0.25 && touchTime < 250 && touchTime < 500) {
         closeHelper();
@@ -453,7 +438,7 @@ const UIModal: FC<ModalProps> = ({
       el.removeEventListener("touchmove", handleTouchMove);
       el.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isLoading, type, rb.gteSm]);
+  }, [isLoading, type, gteSm]);
 
   const onCloseModalHandler = useCallback(() => {
     if (preventClose) return;
@@ -473,8 +458,8 @@ const UIModal: FC<ModalProps> = ({
       }));
     });
 
-    setTimeout(() => onCloseModal(), rb.gteSm ? 0 : 200);
-  }, [confirmClose, onCloseModal, rb.gteSm]);
+    setTimeout(() => onCloseModal(), gteSm ? 0 : 200);
+  }, [confirmClose, onCloseModal, gteSm]);
 
   const onConfirmCloseModalHandler = useCallback(() => {
     setConfirmCloseModal(false);
@@ -490,8 +475,8 @@ const UIModal: FC<ModalProps> = ({
       }));
     });
 
-    setTimeout(() => onCloseModal(), rb.gteSm ? 0 : 200);
-  }, [onCloseModal, rb.gteSm]);
+    setTimeout(() => onCloseModal(), gteSm ? 0 : 200);
+  }, [onCloseModal, gteSm]);
 
   // Add modal to modal context on mount
   useLayoutEffect(() => {
@@ -620,36 +605,27 @@ const UIModal: FC<ModalProps> = ({
       role="dialog"
       aria-labelledby={ariaLabel || id}
       aria-modal="true"
-      className={classNames(
-        "fixed inset-0 right-0 left-0 z-50 mx-auto touch-none",
-        {
-          [alignmentClasses]: alignmentClasses,
-          "safe-top":
-            type !== "fullscreen" &&
-            typeof type !== "undefined" &&
-            mobileSafeTop,
-        },
-      )}
+      className={clsx("fixed inset-0 right-0 left-0 z-50 mx-auto touch-none", {
+        [alignmentClasses]: alignmentClasses,
+        "safe-top": type !== "fullscreen" && typeof type !== "undefined" && mobileSafeTop,
+      })}
     >
-      <Head>
-        <meta name="theme-color" content="#000000" />
-      </Head>
+      {/*<Head>*/}
+      {/*  <meta name="theme-color" content="#000000" />*/}
+      {/*</Head>*/}
 
       <div
         ref={modalRef}
-        className={classNames(
-          "shadow-modal relative flex flex-col overflow-hidden",
-          {
-            "opacity-0": !scrollableHeight,
-            [modalClasses]: modalClasses,
-            [sizeClasses]: sizeClasses,
-            [animationClasses]: animationClasses,
-            [bgColorClass || ""]: bgColorClass,
-            "bg-white": !bgColorClass,
-          },
-        )}
+        className={clsx("shadow-modal relative flex flex-col overflow-hidden", {
+          "opacity-0": !scrollableHeight,
+          [modalClasses]: modalClasses,
+          [sizeClasses]: sizeClasses,
+          [animationClasses]: animationClasses,
+          [bgColorClass || ""]: bgColorClass,
+          "bg-white": !bgColorClass,
+        })}
         style={
-          rb.gteSm
+          gteSm
             ? {
                 // Patch for Safari browser
                 maskImage: "-webkit-radial-gradient(white, black)",
@@ -657,9 +633,7 @@ const UIModal: FC<ModalProps> = ({
             : {
                 willChange: "transform opacity",
                 // parse transform value from touchState
-                transition: transformState.transitionEnabled
-                  ? transformState.transition
-                  : "none",
+                transition: transformState.transitionEnabled ? transformState.transition : "none",
                 transform: transformState.transform,
                 opacity: transformState.opacity,
               }
@@ -698,14 +672,13 @@ const UIModal: FC<ModalProps> = ({
       )}
 
       <div
-        className={classNames(
+        className={clsx(
           "absolute inset-0 -z-20 h-full w-full bg-gray-900",
           "transition-opacity duration-200 ease-in-out",
           {
             "opacity-50": !closeAnimation && isRightSwipeAllowed,
             "opacity-0":
-              (closeAnimation && type !== "fullscreen") ||
-              (closeAnimation && isRightSwipeAllowed),
+              (closeAnimation && type !== "fullscreen") || (closeAnimation && isRightSwipeAllowed),
             "opacity-50 sm:opacity-30": !closeAnimation, // && type !== "fullscreen",
           },
         )}
@@ -715,6 +688,6 @@ const UIModal: FC<ModalProps> = ({
       />
     </div>,
   );
-};
+}
 
-export default UIModal;
+export default Modal;

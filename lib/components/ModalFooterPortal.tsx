@@ -1,9 +1,8 @@
-import React, { FC, ReactNode, useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-const UIModalFooterPortal: FC<{
-  children: ReactNode;
-}> = ({ children }) => {
+const UIModalFooterPortal = ({ children }: { children: ReactNode }) => {
   const el = useRef(document.createElement("div"));
 
   useEffect(() => {
@@ -11,16 +10,12 @@ const UIModalFooterPortal: FC<{
     const current = el.current;
     const timeout = setTimeout(() => {
       footerPortalRoot = document.querySelector("#modal-footer-container");
-      if (footerPortalRoot) {
-        footerPortalRoot.appendChild(current);
-      }
+      if (footerPortalRoot) footerPortalRoot.appendChild(current);
     }, 0);
 
     return () => {
       clearTimeout(timeout);
-      if (footerPortalRoot) {
-        footerPortalRoot.removeChild(current);
-      }
+      if (footerPortalRoot) footerPortalRoot.removeChild(current);
     };
   }, []);
 
