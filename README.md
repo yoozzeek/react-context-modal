@@ -142,7 +142,7 @@ type ModalProps = {
   // Parent handler that will be called after the close animation 
   // finished or Esc event fired. Parent should hide the modal
   // from dom if it was closed.
-  onModal(): void;
+  onClose(): void;
 }
 ```
 
