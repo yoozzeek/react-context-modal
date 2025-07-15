@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Modal } from "../lib";
+import ModalProvider from "../lib/providers/ModalProvider";
 
-const ExamplePage = () => {
+const WithContextProviderExamplePage = () => {
   const [opened, setOpened] = useState(false);
   return (
-    <div>
+    <ModalProvider>
+      <h3>With context provider</h3>
+      <p>Basic usage supports modal stack global for all your app.</p>
       <button type="button" onClick={() => setOpened(true)}>
-        Open modal
+        Open
       </button>
       {opened && (
         <Modal
@@ -18,8 +21,8 @@ const ExamplePage = () => {
           CONTENT
         </Modal>
       )}
-    </div>
+    </ModalProvider>
   );
 };
 
-export default ExamplePage;
+export default WithContextProviderExamplePage;
