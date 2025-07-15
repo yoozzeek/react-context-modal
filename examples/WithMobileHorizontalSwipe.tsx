@@ -19,7 +19,7 @@ const WithMobileHorizontalSwipeExamplePage = () => {
           title="Modal example"
           isPortal={false}
           type="fullscreen"
-          onCloseModal={() => setOpened(false)}
+          onClose={() => setOpened(false)}
         >
           Modal content
         </Modal>

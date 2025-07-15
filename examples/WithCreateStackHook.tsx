@@ -19,8 +19,8 @@ const WithCreateStackHookExamplePage = () => {
           id="example-modal"
           title="Modal example"
           isPortal={false}
-          stackFallbackCtx={modalStackCtx}
-          onCloseModal={() => setOpened(false)}
+          fallbackCtx={modalStackCtx}
+          onClose={() => setOpened(false)}
         >
           Content
         </Modal>

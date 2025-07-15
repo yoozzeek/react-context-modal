@@ -14,7 +14,7 @@ const SubModal = () => {
           id="sub-modal-example"
           title="Sub modal example"
           type="overlay-90"
-          onCloseModal={() => setOpened(false)}
+          onClose={() => setOpened(false)}
         >
           Sub modal content
         </Modal>
@@ -42,7 +42,7 @@ const WithSubModalExamplePage = () => {
           id="example-modal"
           title="Modal example"
           type="overlay-95"
-          onCloseModal={() => setOpened(false)}
+          onClose={() => setOpened(false)}
         >
           Parent modal content
           <SubModal />

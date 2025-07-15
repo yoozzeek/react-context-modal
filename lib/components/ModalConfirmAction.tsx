@@ -46,7 +46,7 @@ function ModalConfirmAction({
           </Button>
         </div>
       }
-      onCloseModal={onClose}
+      onClose={onClose}
     >
       {description && <p className="modal-confirm__description">{description}</p>}
     </Modal>

@@ -51,8 +51,8 @@ const WithMobileTypeExamplePage = () => {
           title="Modal example"
           type={type}
           isPortal={false}
-          stackFallbackCtx={modalStackCtx}
-          onCloseModal={() => setOpened(false)}
+          fallbackCtx={modalStackCtx}
+          onClose={() => setOpened(false)}
         >
           Modal content
         </Modal>

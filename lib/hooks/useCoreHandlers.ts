@@ -14,7 +14,7 @@ export default function useCoreHandlers({
   modalRef,
   modalHeaderRef,
   scrollAreaRef,
-  onCloseModal,
+  onClose,
 }: {
   id: string;
   type: ModalType;
@@ -24,7 +24,7 @@ export default function useCoreHandlers({
   modalRef: RefObject<HTMLDivElement>;
   modalHeaderRef: RefObject<HTMLDivElement>;
   scrollAreaRef: RefObject<HTMLDivElement>;
-  onCloseModal(): void;
+  onClose(): void;
 }) {
   const gteSm = useGteSm();
   const [transformState, setTransformState] = useState({
@@ -113,7 +113,7 @@ export default function useCoreHandlers({
       // Close modal after animation is finished
       setTimeout(() => {
         stackCtx?.remove(id);
-        onCloseModal();
+        onClose();
       }, 150);
 
       initialPointWasAtTop = false;
@@ -276,7 +276,7 @@ export default function useCoreHandlers({
 
           // Close modal after animation is finished
           setTimeout(() => {
-            onCloseModal();
+            onClose();
           }, 180);
         } else {
           // Otherwise reset swipe state
@@ -401,7 +401,7 @@ export default function useCoreHandlers({
     setTimeout(
       () => {
         stackCtx?.remove(id);
-        onCloseModal();
+        onClose();
       },
       gteSm ? 0 : 200,
     );

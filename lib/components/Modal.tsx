@@ -27,14 +27,14 @@ type ModalProps = {
   title?: string | null;
   bgColorClass?: string;
   preventClose?: boolean;
-  confirmCloseModalTitle?: string;
-  confirmCloseModalDescription?: string;
+  confirmTitle?: string;
+  confirmDescription?: string;
   headerEl?: JSX.Element | boolean | null;
   footerEl?: JSX.Element | boolean | null;
   type?: ModalType;
   size?: Size;
-  stackFallbackCtx?: StackCtx;
-  onCloseModal(): void;
+  fallbackCtx?: StackCtx;
+  onClose(): void;
 };
 
 function Modal({
@@ -43,7 +43,7 @@ function Modal({
   children,
   ariaLabel,
   title,
-  onCloseModal,
+  onClose,
   loadingText,
   horizontalSwipe = false,
   confirmClose = false,
@@ -52,15 +52,15 @@ function Modal({
   mobileSafeTop = true,
   preventClose = false,
   bgColorClass,
-  confirmCloseModalTitle = "Are you sure?",
-  confirmCloseModalDescription = "Are you sure you want to close this dialog?",
+  confirmTitle = "Are you sure?",
+  confirmDescription = "Are you sure you want to close this dialog?",
   headerEl = true,
   footerEl,
-  stackFallbackCtx,
+  fallbackCtx,
   type = "base",
   size = "md",
 }: ModalProps): JSX.Element {
-  const stackCtx = useModal(stackFallbackCtx);
+  const stackCtx = useModal(fallbackCtx);
   const containerRef = useRef<HTMLDivElement>(null!);
   const modalRef = useRef<HTMLDivElement>(null!);
   const modalHeaderRef = useRef<HTMLDivElement>(null!);
@@ -76,14 +76,14 @@ function Modal({
 
   const { closeAnimation, transformState, handleClose } = useCoreHandlers({
     id,
-    stackCtx,
     modalRef,
     modalHeaderRef,
     scrollAreaRef,
-    onCloseModal,
+    onClose,
     type: type ?? "base",
     isLoading: isLoading ?? false,
     horizontalSwipe: horizontalSwipe ?? false,
+    stackCtx: fallbackCtx,
   });
 
   const onCloseModalHandler = useCallback(() => {
@@ -93,12 +93,12 @@ function Modal({
       return;
     }
     handleClose();
-  }, [confirmClose, onCloseModal, gteSm]);
+  }, [confirmClose, onClose, gteSm]);
 
   const onConfirmCloseModalHandler = useCallback(() => {
     setConfirmCloseModal(false);
     handleClose();
-  }, [onCloseModal, gteSm]);
+  }, [onClose, gteSm]);
 
   useLayoutEffect(() => {
     const key = id;
@@ -205,8 +205,8 @@ function Modal({
       </div>
       {confirmCloseModal && (
         <UIModalConfirmAction
-          title={confirmCloseModalTitle}
-          description={confirmCloseModalDescription}
+          title={confirmTitle}
+          description={confirmDescription}
           onConfirm={onConfirmCloseModalHandler}
           onClose={() => setConfirmCloseModal(false)}
         />

@@ -21,7 +21,7 @@ const WithPortalExamplePage = () => {
           id="example-modal"
           title="Modal example"
           type="overlay-95"
-          onCloseModal={() => setOpened(false)}
+          onClose={() => setOpened(false)}
         >
           Modal content
         </Modal>

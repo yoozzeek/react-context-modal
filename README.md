@@ -2,9 +2,9 @@
 
 A flexible modal component and hooks for React providing features missing from most popular modal libs such as: close with horizontal/vertical swipe, doesn't affect `window.scrollY` on iOS and can stack sub modals.
 
-[Open demo page](https://react-context-modal.github.com/yoozzeek)
-
 This library is kindly provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for use as a public npm package.
+
+[Open demo page](https://react-context-modal.github.com/yoozzeek)
 
 ## Motivation
 
@@ -32,6 +32,12 @@ Lib hasn't published on npm yet, but you can test and play with it:
 <br />
 `yarn add https://github.com/yoozzeek/react-context-modal.git`
 
+Add CSS styles to your app or separate page (if supported):
+<br />
+```jsx
+import "react-context-modal/dist/index.css"
+```
+
 
 ## Examples
 Lots of use cases are available in [examples](./examples) directory. Feel free to add more and contribute.
@@ -51,7 +57,7 @@ const YourComponent = () => {
           id="example-modal"
           title="Modal example"
           type="overlay-95"
-          onCloseModal={() => setOpened(false)}
+          onClose={() => setOpened(false)}
         >
           Modal content
         </Modal>
@@ -77,8 +83,8 @@ const YourComponent = () => {
           id="example-modal"
           title="Modal example"
           isPortal={false}
-          stackFallbackCtx={modalStackCtx}
-          onCloseModal={() => setOpened(false)}
+          fallbackCtx={modalStackCtx}
+          onClose={() => setOpened(false)}
         >
           Content
         </Modal>
@@ -120,8 +126,8 @@ type ModalProps = {
   preventClose?: boolean;
   
   confirmClose?: boolean; // If enabled, will ask confirmation before close
-  confirmCloseModalTitle?: string;
-  confirmCloseModalDescription?: string;
+  confirmModalTitle?: string;
+  confirmModalDescription?: string;
   
   // Usually, you will use own header and footer elements
   headerEl?: JSX.Element | boolean | null;
@@ -131,13 +137,27 @@ type ModalProps = {
   // There's special 'fullscreen' type for full screen modals.
   type?: ModalType;
   size?: Size; // Width size (only for desktop)
-  stackFallbackCtx?: StackCtx; // If no global modal context
+  fallbackCtx?: StackCtx; // If no global modal context
 
   // Parent handler that will be called after the close animation 
   // finished or Esc event fired. Parent should hide the modal
   // from dom if it was closed.
-  onCloseModal(): void;
+  onModal(): void;
 }
+```
+
+## Styles and customization
+You can easily change colors and front size by modifying CSS3 variables or 
+replacing styles for the modal classes.
+
+### Theme variables
+```css
+
+```
+
+### Class names
+```css
+
 ```
 
 ## Bundle size and dependencies

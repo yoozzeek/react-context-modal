@@ -16,9 +16,9 @@ const WithContextProviderExamplePage = () => {
           id="example-modal"
           title="Modal example"
           isPortal={false}
-          onCloseModal={() => setOpened(false)}
+          onClose={() => setOpened(false)}
         >
-          CONTENT
+          Content
         </Modal>
       )}
     </ModalProvider>
