@@ -3,6 +3,26 @@ import type SimpleBarCore from "simplebar-core";
 
 export type Size = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
+export type Variant =
+  | "light"
+  | "dark"
+  | "outline-light"
+  | "outline-green"
+  | "outline-warning"
+  | "success"
+  | "danger"
+  | "warning"
+  | "gray"
+  | "none";
+
+export type ModalType =
+  | "base"
+  | "menu"
+  | "fullscreen"
+  | "overlay-90"
+  | "overlay-95"
+  | "overlay-auto";
+
 export type OpenedModal = {
   key: string;
   modalRef: RefObject<HTMLDivElement>;
@@ -13,7 +33,7 @@ export type OpenedModal = {
   enableScroll?: () => void;
 };
 
-export type ModalCtx = {
+export type StackCtx = {
   lastModal: OpenedModal | null;
   apply(modal: OpenedModal): void;
   remove(key: string): void;

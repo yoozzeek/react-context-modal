@@ -1,18 +1,12 @@
 import { createContext } from "react";
 import type { ReactNode } from "react";
-import useModal from "@/hooks/useModal";
-import type { ModalCtx } from "@/types";
+import useModalStackCtx from "@/hooks/useModalStackCtx.tsx";
+import type { StackCtx } from "@/types";
 
-export const ModalContext = createContext<ModalCtx>({
-  lastModal: null,
-  apply: () => {},
-  remove: () => {},
-  update: () => {},
-  getPositionInStack: () => [1, true],
-});
+export const ModalContext = createContext<StackCtx | undefined>(undefined);
 
 function ModalProvider({ children }: { children: ReactNode }) {
-  const initialStack = useModal();
+  const initialStack = useModalStackCtx();
   return <ModalContext.Provider value={initialStack}>{children}</ModalContext.Provider>;
 }
 

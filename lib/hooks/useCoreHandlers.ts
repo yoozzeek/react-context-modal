@@ -3,23 +3,24 @@ import type { RefObject } from "react";
 import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect.ts";
 import useGteSm from "@/hooks/useGteSm.ts";
 import { flushSync } from "react-dom";
-import type { ModalCtx } from "@/types.ts";
-import type { ModalType } from "@/components/Modal.tsx";
+import type { StackCtx, ModalType } from "@/types.ts";
 
-export default function useModalHandlers({
+export default function useCoreHandlers({
   isLoading = false,
+  id,
   type,
   horizontalSwipe,
-  modalCtx,
+  stackCtx,
   modalRef,
   modalHeaderRef,
   scrollAreaRef,
   onCloseModal,
 }: {
+  id: string;
   type: ModalType;
   isLoading: boolean;
   horizontalSwipe: boolean;
-  modalCtx: ModalCtx;
+  stackCtx?: StackCtx;
   modalRef: RefObject<HTMLDivElement>;
   modalHeaderRef: RefObject<HTMLDivElement>;
   scrollAreaRef: RefObject<HTMLDivElement>;
@@ -111,6 +112,7 @@ export default function useModalHandlers({
 
       // Close modal after animation is finished
       setTimeout(() => {
+        stackCtx?.remove(id);
         onCloseModal();
       }, 150);
 
@@ -369,7 +371,7 @@ export default function useModalHandlers({
       el.removeEventListener("touchmove", handleTouchMove);
       el.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isLoading, type, gteSm]);
+  }, [isLoading, type, gteSm, stackCtx.lastModal]);
 
   function getScrollMeta() {
     let isScrollable = false;
@@ -384,7 +386,7 @@ export default function useModalHandlers({
     return { isScrollable, isTop, isBottom };
   }
 
-  function handleClose(key: string) {
+  function handleClose() {
     flushSync(() => {
       setCloseAnimation(true);
       setTransformState((state) => ({
@@ -398,7 +400,7 @@ export default function useModalHandlers({
 
     setTimeout(
       () => {
-        modalCtx.remove(key);
+        stackCtx?.remove(id);
         onCloseModal();
       },
       gteSm ? 0 : 200,
