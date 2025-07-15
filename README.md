@@ -1,6 +1,10 @@
 # react-context-modal
 
-A flexible modal component and hooks for React providing features missing from most popular modal libs such as: close with horizontal/vertical swipe, doesn't affect document.scrollY on iOS and can stack sub modals.
+A flexible modal component and hooks for React providing features missing from most popular modal libs such as: close with horizontal/vertical swipe, doesn't affect `window.scrollY` on iOS and can stack sub modals.
+
+[Open demo page](https://react-context-modal.github.com/yoozzeek)
+
+This library is kindly provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for use as a public npm package.
 
 ## Motivation
 
@@ -11,7 +15,7 @@ as blocking the parent scroll, and a few the most
 important goals why I started making my own:
 
 * Close the window with vertical and horizontal swipe.
-* Doesn't affect the document.window's Y scroll position.
+* Doesn't affect the `window`'s Y scroll position.
 * Works well on all modern iOS, Android and desktop browsers.
 * Full-height scroll for modal content with sticky header and footer.
 * Modals can stack one above another and closed one by one.
