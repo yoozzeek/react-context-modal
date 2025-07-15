@@ -371,7 +371,7 @@ export default function useCoreHandlers({
       el.removeEventListener("touchmove", handleTouchMove);
       el.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isLoading, type, gteSm, stackCtx.lastModal]);
+  }, [isLoading, type, gteSm, stackCtx?.lastModal]);
 
   function getScrollMeta() {
     let isScrollable = false;

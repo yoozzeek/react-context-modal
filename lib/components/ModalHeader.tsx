@@ -2,7 +2,7 @@ import styles from "@/assets/styles/header.module.css";
 import { clsx } from "clsx";
 import CloseIcon from "@/assets/icons/close.svg?react";
 
-const ModalHeader = ({ label, onClose }) => {
+const ModalHeader = ({ label, onClose }: { label?: string; onClose(): void }) => {
   return (
     <header
       className={clsx(styles.modal__header, "modal__header--with-bar", {

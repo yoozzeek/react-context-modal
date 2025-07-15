@@ -129,7 +129,7 @@ function Modal({
       </div>
     ) : (
       <div ref={modalHeaderRef} className={styles.modal__header}>
-        <UIModalDefaultHeader label={title} onClose={onCloseModalHandler} />
+        <UIModalDefaultHeader label={title || undefined} onClose={onCloseModalHandler} />
       </div>
     );
 

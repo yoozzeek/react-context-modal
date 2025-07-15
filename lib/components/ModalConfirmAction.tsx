@@ -16,6 +16,8 @@ function ModalConfirmAction({
   description?: string;
   variant?: Variant;
   isLoading?: boolean;
+  onConfirm(): void;
+  onClose(): void;
 }): JSX.Element {
   function handleConfirm() {
     onConfirm();
