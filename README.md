@@ -147,7 +147,7 @@ type ModalProps = {
 ```
 
 ## Styles and customization
-You can easily change colors and front size by modifying CSS3 variables or 
+You can easily change colors and font size by modifying CSS3 variables or 
 replacing styles for the modal classes.
 
 ### Theme variables
