@@ -2,14 +2,14 @@ import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-const UIModalFooterPortal = ({ children }: { children: ReactNode }) => {
+const ModalFooterPortal = ({ children }: { children: ReactNode }) => {
   const el = useRef(document.createElement("div"));
 
   useEffect(() => {
     let footerPortalRoot: HTMLElement | null = null;
     const current = el.current;
     const timeout = setTimeout(() => {
-      footerPortalRoot = document.querySelector("#modal-footer-container");
+      footerPortalRoot = document.querySelector("#rcm-modal-footer-portal");
       if (footerPortalRoot) footerPortalRoot.appendChild(current);
     }, 0);
 
@@ -22,4 +22,4 @@ const UIModalFooterPortal = ({ children }: { children: ReactNode }) => {
   return createPortal(children, el.current);
 };
 
-export default UIModalFooterPortal;
+export default ModalFooterPortal;

@@ -1,30 +1,18 @@
+import styles from "@/assets/styles/header.module.css";
 import { clsx } from "clsx";
 import CloseIcon from "@/assets/icons/close.svg?react";
 
-const ModalHeader = ({ label, onClose }: { label?: string | null; onClose?: () => void }) => {
+const ModalHeader = ({ label, onClose }) => {
   return (
     <header
-      className={clsx(
-        "rounded-t-lgb z-0 flex w-full items-center p-4 sm:pt-6 md:right-0 md:w-auto",
-        "before:content[''] before:absolute before:top-2.5 before:left-[50%] before:h-[4px] before:w-[50px] before:-translate-x-[50%] before:rounded-sm before:bg-gray-900/10 sm:before:hidden",
-        {
-          "justify-between": Boolean(label),
-          "justify-end": !Boolean(label),
-        },
-      )}
+      className={clsx(styles.modal__header, "modal__header--with-bar", {
+        "modal__header--with-label": Boolean(label),
+        "modal__header--no-label": !Boolean(label),
+      })}
     >
-      {label && (
-        <h4 className="mt-2 truncate font-serif text-2xl font-medium sm:mt-0 sm:font-sans">
-          {label}
-        </h4>
-      )}
-
-      <button
-        type="button"
-        className="hidden appearance-none outline-none sm:block"
-        onClick={onClose}
-      >
-        <CloseIcon className="h-5 w-5 text-gray-200 transition-colors duration-200 hover:text-gray-300 sm:h-6 sm:w-6" />
+      {label && <h4 className="modal__header-title">{label}</h4>}
+      <button type="button" className="modal__header-close" onClick={onClose}>
+        <CloseIcon className="modal__header-close-icon" />
       </button>
     </header>
   );

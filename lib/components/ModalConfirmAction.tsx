@@ -1,5 +1,8 @@
+import "@/assets/styles/confirm.module.css";
 import Modal from "./Modal";
 import Button from "@/components/Button";
+import type { JSX } from "react";
+import type { Variant } from "@/types.ts";
 
 function ModalConfirmAction({
   title,
@@ -11,11 +14,9 @@ function ModalConfirmAction({
 }: {
   title?: string;
   description?: string;
+  variant?: Variant;
   isLoading?: boolean;
-  variant?: "danger" | "success";
-  onConfirm(): void;
-  onClose(): void;
-}) {
+}): JSX.Element {
   function handleConfirm() {
     onConfirm();
     onClose();
@@ -26,9 +27,9 @@ function ModalConfirmAction({
       ariaLabel="Aria label"
       type="overlay-auto"
       size="sm"
-      headerEl={<h3 className="pt-6 text-center text-2xl font-semibold">{title}</h3>}
+      headerEl={<h3 className="modal-confirm__title">{title}</h3>}
       footerEl={
-        <div className="safe-bottom mt-4 flex gap-3">
+        <div className="modal-confirm__footer">
           <Button
             fullWidth
             type="button"
@@ -45,9 +46,7 @@ function ModalConfirmAction({
       }
       onCloseModal={onClose}
     >
-      {description && (
-        <p className="px-4 pt-4 text-center text-sm text-gray-800 sm:px-6 sm:pt-4">{description}</p>
-      )}
+      {description && <p className="modal-confirm__description">{description}</p>}
     </Modal>
   );
 }
