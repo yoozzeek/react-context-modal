@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import disableScroll from "@/utils/scrollLocker.ts";
-import type { ModalStack, OpenedModal } from "@/types.ts";
+import type { ModalCtx, OpenedModal } from "@/types";
 
 // const TAB_KEY = "Tab";
 const ESC_KEY = "Escape";
 
-export default function useModal(): ModalStack {
+export default function useModal(): ModalCtx {
   const [openedStack, setOpenedStack] = useState<OpenedModal[]>([]);
   const lastModal = useMemo(() => openedStack[openedStack.length - 1], [openedStack]);
 

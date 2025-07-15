@@ -13,10 +13,10 @@ export type OpenedModal = {
   enableScroll?: () => void;
 };
 
-export type ModalStack = {
+export type ModalCtx = {
   lastModal: OpenedModal | null;
-  apply: (modal: OpenedModal) => void;
-  remove: (key: string) => void;
-  update: (key: string, newData: any) => void;
-  getPositionInStack: (key: string) => [number, boolean];
+  apply(modal: OpenedModal): void;
+  remove(key: string): void;
+  update(key: string, newData: any): void;
+  getPositionInStack(key: string): [number, boolean];
 };
