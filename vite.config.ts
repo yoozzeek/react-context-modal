@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [react(), svgr(), ...(isDemo ? [] : [libInjectCss(), dts(dtsOptions)])],
     root: buildExamples ? "examples" : ".",
+    base: isDemo ? "/react-context-modal/" : undefined,
     build: isDemo
       ? ({
           outDir: path.resolve(__dirname, "./dist"),
