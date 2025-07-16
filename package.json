@@ -25,7 +25,7 @@
     "simplebar-react": ">=3.1.0"
   },
   "dependencies": {
-    "body-scroll-lock": "git+https://github.com/yoozzeek/body-scroll-lock",
+    "body-scroll-lock": "git+https://github.com/yoozzeek/body-scroll-lock.git",
     "clsx": "^2.1.1"
   },
   "devDependencies": {
