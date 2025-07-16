@@ -5,10 +5,10 @@ import SimpleBar from "simplebar-react";
 import { clsx } from "clsx";
 import ModalPortal from "./ModalPortal";
 import type { ModalType, Size, StackCtx } from "@/types";
-import UIModalDefaultHeader from "./ModalHeader";
+import ModalDefaultHeader from "./ModalHeader";
 import useModal from "@/hooks/useModal";
-import UILoader from "@/components/Loader";
-import UIModalConfirmAction from "./ModalConfirmAction";
+import Loader from "@/components/Loader";
+import ModalConfirmAction from "./ModalConfirmAction";
 import useGteSm from "@/hooks/useGteSm";
 import useCoreHandlers from "@/hooks/useCoreHandlers";
 import styles from "@/assets/styles/modal.module.css";
@@ -129,7 +129,7 @@ function Modal({
       </div>
     ) : (
       <div ref={modalHeaderRef} className={styles.modal__header}>
-        <UIModalDefaultHeader label={title || undefined} onClose={onCloseModalHandler} />
+        <ModalDefaultHeader label={title || undefined} onClose={onCloseModalHandler} />
       </div>
     );
 
@@ -194,7 +194,7 @@ function Modal({
           >
             {isLoading ? (
               <div className={styles.modal__loader}>
-                <UILoader text={loadingText} />
+                <Loader text={loadingText} />
               </div>
             ) : (
               children
@@ -204,7 +204,7 @@ function Modal({
         {footerEl && !isLoading && <footer className={styles.modal__footer}>{footerEl}</footer>}
       </div>
       {confirmCloseModal && (
-        <UIModalConfirmAction
+        <ModalConfirmAction
           title={confirmTitle}
           description={confirmDescription}
           onConfirm={onConfirmCloseModalHandler}

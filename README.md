@@ -42,6 +42,8 @@ Wrap your application or specific components with `ModalProvider`. Modals can th
 wrapped context (including another modals):
 
 ```jsx
+import { Modal } from "react-context-modal";
+
 const YourComponent = () => {
   const [opened, setOpened] = useState(false);
   return (
@@ -70,14 +72,14 @@ You can also use the modal directly without wrapping in `ModalProvider`.
 Pass context manually for sub-modals with the `useModalStackCtx` hook:
 
 ```jsx
+import { Modal, useModalStackCtx } from "react-context-modal";
+
 const YourComponent = () => {
   const [opened, setOpened] = useState(false);
   const modalStackCtx = useModalStackCtx();
   return (
     <>
-      <button type="button" onClick={() => setOpened(true)}>
-        Open
-      </button>
+      ...
       {opened && (
         <Modal
           id="example-modal"
@@ -89,6 +91,7 @@ const YourComponent = () => {
           Content
         </Modal>
       )}
+      ...
     </>
   );
 };
