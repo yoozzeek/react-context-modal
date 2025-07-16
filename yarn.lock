@@ -1331,9 +1331,9 @@ base64-js@^1.3.1:
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
-"body-scroll-lock@git+https://github.com/yoozzeek/body-scroll-lock":
+"body-scroll-lock@git+https://github.com/yoozzeek/body-scroll-lock.git":
   version "4.0.0-beta.0"
-  resolved "git+ssh://git@github.com/yoozzeek/body-scroll-lock.git#d48bf791f8e0b11b9b05c20177f3c98845d27f67"
+  resolved "git+https://github.com/yoozzeek/body-scroll-lock.git#d48bf791f8e0b11b9b05c20177f3c98845d27f67"
 
 brace-expansion@^1.1.7:
   version "1.1.12"
