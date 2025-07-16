@@ -31,16 +31,16 @@
     opacity: 0.5;
 }
 
-.btn--size-xxs { padding: 0.125rem 0.375rem; border-radius: 0.125rem; }
-.btn--size-xs  { width: 7rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.125rem; }
-.btn--size-sm  { padding: 0.25rem 1rem; height: 32px; border-radius: 0.125rem; }
-.btn--size-md  { padding: 0.25rem 1rem; height: 44px; border-radius: 0.125rem; }
-@media (min-width: 640px) {
+.btn--size-xxs { padding: 0.125rem 0.375rem; }
+.btn--size-xs  { width: 7rem; padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.btn--size-sm  { padding: 0.25rem 1rem; height: 32px; }
+.btn--size-md  { padding: 0.25rem 1rem; height: 44px; }
+@media (min-width: 576px) {
     .btn--size-md { height: 40px; }
 }
-.btn--size-lg  { padding: 0.75rem 1.5rem; border-radius: 0.125rem; }
+.btn--size-lg  { padding: 0.75rem 1.5rem; }
 .btn--size-xl  { padding: 1.25rem 2rem; font-size: 1.125rem; border-radius: 1.5rem; }
-.btn--size-icon { display: flex; align-items: center; justify-content: center; padding: 0.25rem; border-radius: 0.125rem; }
+.btn--size-icon { display: flex; align-items: center; justify-content: center; padding: 0.25rem; border-radius: 50% }
 
 .btn--variant-success {
     border-color: #22c55e;

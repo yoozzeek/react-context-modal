@@ -1,38 +1,33 @@
 # react-context-modal
 
-A flexible modal component and hooks for React providing features missing from most popular modal libs such as: close with horizontal/vertical swipe, doesn't affect `window.scrollY` on iOS and can stack sub modals.
+A flexible React modal component and hooks designed to overcome limitations of existing modal libraries. Key features 
+include horizontal and vertical swipe-to-close, scroll position preservation on iOS, and stacking multiple modals.
 
-This library is kindly provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for use as a public npm package.
+This library is provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for public npm distribution.
 
-[Open demo page](https://react-context-modal.github.com/yoozzeek)
+[View Demo](https://react-context-modal.github.com/yoozzeek)
 
-## Motivation
+## Why Another Modal Library?
 
-There are already so many react modal packages; 
-it would seem why another one, but because many of them 
-do not support closing modal with down swipe, as well 
-as blocking the parent scroll, and a few the most 
-important goals why I started making my own:
-
-* Close the window with vertical and horizontal swipe.
-* Doesn't affect the `window`'s Y scroll position.
-* Works well on all modern iOS, Android and desktop browsers.
-* Full-height scroll for modal content with sticky header and footer.
-* Modals can stack one above another and closed one by one.
-* Can be rendered in your component node or as portal at the root level.
-* Util for allowing horizontal scroll events for child nodes on iOS.
-
+Although numerous modal libraries exist, few support intuitive swipe-to-close actions or maintain the parent scroll 
+position effectively. This library addresses these specific gaps by providing:
+* Vertical and horizontal swipe gestures for closing modals.
+* Preservation of the page's vertical scroll (window.scrollY) position.
+* Full compatibility with modern browsers on iOS, Android, and desktop.
+* Full-height modal content scrolling with support for sticky headers and footers.
+* Stacking capability, allowing multiple modals to open and close independently.
+* Flexibility to render modals inline within a component or via a portal at the document root.
+* Utility to enable horizontal scrolling within modal content on iOS.
 
 ## Installation
-Install peer dependencies before using this package:
+Install required peer dependencies first:
 <br/>
 `yarn add react react-dom react-responsive simplebar-react`
 
-Lib hasn't published on npm yet, but you can test and play with it:
-<br />
+This library isn't yet published to npm. To test and use it, install directly from GitHub:
 `yarn add https://github.com/yoozzeek/react-context-modal.git`
 
-Add CSS styles to your app or separate page (if supported):
+Include the CSS in your app or SSR/SSG page:
 <br />
 ```jsx
 import "react-context-modal/dist/index.css"
@@ -40,9 +35,12 @@ import "react-context-modal/dist/index.css"
 
 
 ## Examples
-Lots of use cases are available in [examples](./examples) directory. Feel free to add more and contribute.
+Various use-case examples are provided in the [examples](./examples) directory. Contributions and additional examples are welcome.
 
 ### Basic usage
+Wrap your application or specific components with `ModalProvider`. Modals can then be rendered anywhere within the 
+wrapped context (including another modals):
+
 ```jsx
 const YourComponent = () => {
   const [opened, setOpened] = useState(false);
@@ -68,7 +66,9 @@ const YourComponent = () => {
 ```
 
 ### Alternative (without context)
-You can use simple modals (no stacking, no sub modals) without wrapping your app into `ModalProvider`.
+You can also use the modal directly without wrapping in `ModalProvider`. 
+Pass context manually for sub-modals with the `useModalStackCtx` hook:
+
 ```jsx
 const YourComponent = () => {
   const [opened, setOpened] = useState(false);
@@ -107,48 +107,38 @@ type ModalType =
   | "overlay-auto";
 
 type ModalProps = {
-  id: string; // modal id, should be unique
+  id: string; // Unique identifier for modal
   scrollAreaId?: string;
-  children: ReactNode; // Any jsx that will be rendered in modal content container
-  isPortal?: boolean; // Should be rendered in #rcm-modal-portal dom node or inline
-  isLoading?: boolean; // Parent data loading state
+  children: ReactNode; // JSX content for modal
+  isPortal?: boolean; // Render modal at root or inline
+  isLoading?: boolean; // Loading state indicator
   loadingText?: string;
-  
-  // If enabled, on mobile will allow close 
-  // modal with horizontal swipe to right
-  horizontalSwipe?: boolean;
+
+  horizontalSwipe?: boolean; // Enable horizontal swipe-to-close on mobile
   mobileSafeTop?: boolean; // deprecated
   ariaLabel?: string | null;
 
-  // Base title, will be rendered if no custom headerEl provided
   title?: string | null;
   bgColorClass?: string;
   preventClose?: boolean;
-  
-  confirmClose?: boolean; // If enabled, will ask confirmation before close
+
+  confirmClose?: boolean; // Prompt confirmation on close
   confirmModalTitle?: string;
   confirmModalDescription?: string;
-  
-  // Usually, you will use own header and footer elements
+
   headerEl?: JSX.Element | boolean | null;
   footerEl?: JSX.Element | boolean | null;
 
-  // Modal type affects the content height on mobile and desktop.
-  // There's special 'fullscreen' type for full screen modals.
-  type?: ModalType;
-  size?: Size; // Width size (only for desktop)
-  fallbackCtx?: StackCtx; // If no global modal context
+  type?: ModalType; // Modal display type
+  size?: Size; // Desktop width
+  fallbackCtx?: StackCtx; // Context fallback for modals without global provider
 
-  // Parent handler that will be called after the close animation 
-  // finished or Esc event fired. Parent should hide the modal
-  // from dom if it was closed.
-  onClose(): void;
-}
+  onClose(): void; // Handler called upon modal close
+};
 ```
 
 ## Styles and customization
-You can easily change colors and font size by modifying CSS3 variables or 
-replacing styles for the modal classes.
+Modify CSS variables or class styles to customize modal appearance easily.
 
 ### Theme variables
 ```css
@@ -161,7 +151,7 @@ replacing styles for the modal classes.
 ```
 
 ## Bundle size and dependencies
-The size of the modal component with all its hooks and provider is about 25.07 KB (gzip: 7.25 KB).
+The modal component with hooks and provider is approximately 25.07 KB (gzip: 7.25 KB).
 
 Based on two npm packages:
 - clsx

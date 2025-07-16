@@ -35,7 +35,7 @@
     width: 50px;
     transform: translateX(-50%);
     border-radius: 0.125rem;
-    background: rgba(17, 24, 39, 0.10); /* gray-900/10 */
+    background: rgba(17, 24, 39, 0.10);
 }
 
 @media (min-width: 576px) {
@@ -79,7 +79,7 @@
 .modal__header-close-icon {
     height: 1.25rem;
     width: 1.25rem;
-    color: #e5e7eb; /* gray-200 */
+    color: #e5e7eb;
     transition: color 0.2s;
 }
 
@@ -91,5 +91,5 @@
 }
 
 .modal__header-close:hover .modal__header-close-icon {
-    color: #d1d5db; /* gray-300 */
+    color: #d1d5db;
 }
