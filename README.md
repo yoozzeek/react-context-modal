@@ -5,7 +5,7 @@ include horizontal and vertical swipe-to-close, scroll position preservation on 
 
 This library is provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for public npm distribution.
 
-[View Demo](https://react-context-modal.github.com/yoozzeek)
+[View Demo](https://yoozzeek.github.io/react-context-modal/)
 
 ## Why Another Modal Library?
 
