@@ -5,12 +5,12 @@ import SimpleBar from "simplebar-react";
 import { clsx } from "clsx";
 import ModalPortal from "./ModalPortal";
 import type { ModalType, Size, StackCtx } from "@/types";
-import UIModalDefaultHeader from "./ModalHeader.tsx";
-import useModal from "@/hooks/useModal.tsx";
+import UIModalDefaultHeader from "./ModalHeader";
+import useModal from "@/hooks/useModal";
 import UILoader from "@/components/Loader";
 import UIModalConfirmAction from "./ModalConfirmAction";
-import useGteSm from "@/hooks/useGteSm.ts";
-import useCoreHandlers from "@/hooks/useCoreHandlers.ts";
+import useGteSm from "@/hooks/useGteSm";
+import useCoreHandlers from "@/hooks/useCoreHandlers";
 import styles from "@/assets/styles/modal.module.css";
 
 type ModalProps = {
@@ -83,7 +83,7 @@ function Modal({
     type: type ?? "base",
     isLoading: isLoading ?? false,
     horizontalSwipe: horizontalSwipe ?? false,
-    stackCtx: fallbackCtx,
+    stackCtx: stackCtx!,
   });
 
   const onCloseModalHandler = useCallback(() => {
@@ -93,12 +93,12 @@ function Modal({
       return;
     }
     handleClose();
-  }, [confirmClose, onClose, gteSm]);
+  }, [confirmClose]);
 
   const onConfirmCloseModalHandler = useCallback(() => {
     setConfirmCloseModal(false);
     handleClose();
-  }, [onClose, gteSm]);
+  }, []);
 
   useLayoutEffect(() => {
     const key = id;

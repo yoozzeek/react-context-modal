@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import type { ReactNode } from "react";
-import useModalStackCtx from "@/hooks/useModalStackCtx.tsx";
+import useModalStackCtx from "@/hooks/useModalStackCtx.ts";
 import type { StackCtx } from "@/types";
 
 export const ModalContext = createContext<StackCtx | undefined>(undefined);
