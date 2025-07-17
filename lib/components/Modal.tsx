@@ -138,9 +138,9 @@ function Modal({
 
     return () => {
       if (originalContent !== null) {
-        metaEl.setAttribute("content", originalContent);
+        metaEl?.setAttribute("content", originalContent);
       } else {
-        metaEl.remove();
+        metaEl?.remove();
       }
     };
   }, []);
