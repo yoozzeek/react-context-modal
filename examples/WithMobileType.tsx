@@ -15,7 +15,7 @@ const WithMobileTypeExamplePage = () => {
   return (
     <>
       <header>
-        <h3>With type</h3>
+        <h3>With modal type</h3>
         <a
           href="https://github.com/yoozzeek/react-context-modal/blob/main/examples/WithMobileType.tsx"
           target="_blank"

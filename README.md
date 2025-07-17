@@ -1,6 +1,6 @@
 # react-context-modal
 
-A flexible React modal component and hooks designed to overcome limitations of existing modal libraries. Key features 
+A simple React modal component and hooks designed to overcome limitations of existing modal libraries. Key features 
 include horizontal and vertical swipe-to-close, scroll position preservation on iOS, and stacking multiple modals.
 
 This library is provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for public npm distribution.
@@ -33,10 +33,6 @@ Include the CSS in your app or SSR/SSG page:
 import "react-context-modal/dist/index.css"
 ```
 
-
-## Examples
-Various use-case examples are provided in the [examples](./examples) directory. Contributions and additional examples are welcome.
-
 ### Basic usage
 Wrap your application or specific components with `ModalProvider`. Modals can then be rendered anywhere within the 
 wrapped context (including another modals):
@@ -67,35 +63,19 @@ const YourComponent = () => {
 };
 ```
 
-### Alternative (without context)
-You can also use the modal directly without wrapping in `ModalProvider`. 
-Pass context manually for sub-modals with the `useModalStackCtx` hook:
+## Examples
 
-```jsx
-import { Modal, useModalStackCtx } from "react-context-modal";
+Various use-case examples are provided in the [examples](./examples) directory. Contributions and additional examples are welcome.
 
-const YourComponent = () => {
-  const [opened, setOpened] = useState(false);
-  const modalStackCtx = useModalStackCtx();
-  return (
-    <>
-      ...
-      {opened && (
-        <Modal
-          id="example-modal"
-          title="Modal example"
-          isPortal={false}
-          fallbackCtx={modalStackCtx}
-          onClose={() => setOpened(false)}
-        >
-          Content
-        </Modal>
-      )}
-      ...
-    </>
-  );
-};
-```
+* [Context provider](./examples/WithContextProvider.tsx)
+* [React portal](./examples/WithPortal.tsx)
+* [Sub modal](./examples/WithSubModal.tsx)
+* [Custom header](./examples/WithCustomHeader.tsx)
+* [Custom footer](./examples/WithCustomFooter.tsx)
+* [Modal type](./examples/WithMobileType.tsx)
+* [Horizontal swipe](./examples/WithMobileHorizontalSwipe.tsx)
+* [Global context](./examples/WithCreateStackHook.tsx)
+* [Footer portal](./examples/WithFooterPortal.tsx)
 
 ## Configuration and props
 ```typescript
