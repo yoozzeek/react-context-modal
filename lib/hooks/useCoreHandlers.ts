@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { RefObject } from "react";
-import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect.ts";
-import useGteSm from "@/hooks/useGteSm.ts";
+import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect";
+import useGteSm from "@/hooks/useGteSm";
 import { flushSync } from "react-dom";
-import type { StackCtx, ModalType } from "@/types.ts";
+import type { StackCtx, ModalType } from "@/types";
 
 export default function useCoreHandlers({
   isLoading = false,
@@ -100,30 +100,97 @@ export default function useCoreHandlers({
       initialPointWasAtTop = isTop;
     };
 
-    const closeHelper = () => {
+    function resetValues() {
+      currentY = 0;
+      // currentX = 0;
+      initialY = 0;
+      initialX = 0;
+      touchStart = 0;
+      // touchEnd = 0;
+      isLocked = false;
+      isMoving = false;
+      startedTime = 0;
+      initialPointWasAtTop = false;
+    }
+
+    function closeHelper() {
       setCloseAnimation(true);
-      setTransformState((state) => ({
-        ...state,
-        transitionEnabled: true,
-        transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
-        transform: "translateY(100%)",
-        opacity: 0,
-      }));
+      resetValues();
 
       // Close modal after animation is finished
       setTimeout(() => {
         stackCtx?.remove(id);
         onClose();
       }, 150);
+    }
 
-      initialPointWasAtTop = false;
-      initialX = 0;
-      initialY = 0;
-      isLocked = false;
-      isMoving = false;
-      touchStart = 0;
-      startedTime = 0;
-    };
+    function closeXWithTransition() {
+      closeHelper();
+      setTransformState((prevState) => ({
+        ...prevState,
+        transitionEnabled: true,
+        transition: "transform 0.18s, opacity 0.18s",
+        transform: `translateX(100%)`,
+        opacity: 0,
+      }));
+    }
+
+    function resetXWithTransition() {
+      setTransformState((prevState) => ({
+        ...prevState,
+        isMoving: false,
+        scrollDisabled: false,
+        transitionEnabled: true,
+        transition: "transform 0.15s, opacity 0.15s",
+        transform: `translateX(0)`,
+        opacity: 1,
+      }));
+    }
+
+    function closeYWithTransition() {
+      closeHelper();
+      setTransformState((prevState) => ({
+        ...prevState,
+        transitionEnabled: true,
+        transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
+        transform: "translateY(100%)",
+        opacity: 0,
+      }));
+    }
+
+    function resetYWithTransition() {
+      setTransformState((prevState) => ({
+        ...prevState,
+        transitionEnabled: true,
+        transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
+        transform: "translateY(0)",
+        opacity: 1,
+      }));
+    }
+
+    function preventResetX() {
+      setTransformState((prevState) => ({
+        ...prevState,
+        isMoving: false,
+        scrollDisabled: true,
+        transitionEnabled: false,
+        transition: "none",
+        transform: `translateX(0)`,
+        opacity: 1,
+      }));
+    }
+
+    function preventResetY() {
+      setTransformState((prevState) => ({
+        ...prevState,
+        isMoving: true,
+        scrollDisabled: true,
+        transitionEnabled: false,
+        transition: "none",
+        transform: `translateY(0)`,
+        opacity: 1,
+      }));
+    }
 
     const handleTouchMove = (e: TouchEvent) => {
       const targetEl = e.target as HTMLElement;
@@ -140,16 +207,6 @@ export default function useCoreHandlers({
       // ------------------------------------
       // Handle horizontal touch move if allowed
       if (rSwipeAllowed) {
-        const resetXTranslateSetter = (prevState: any) => ({
-          ...prevState,
-          isMoving: false,
-          scrollDisabled: true,
-          transitionEnabled: false,
-          transition: "none",
-          transform: `translateX(0)`,
-          opacity: 1,
-        });
-
         // Prevent if duration between touch start and move is too long
         if (!isMoving && new Date().getTime() - startedTime > 150) return;
 
@@ -157,7 +214,7 @@ export default function useCoreHandlers({
 
         // Don't allow swipe if direction is not right
         if (directionX === -1) {
-          setTransformState(resetXTranslateSetter);
+          preventResetX();
           return;
         }
 
@@ -175,7 +232,7 @@ export default function useCoreHandlers({
           return;
         } else {
           // Otherwise prevent vertical touchmove and reset swipe state
-          setTransformState(resetXTranslateSetter);
+          preventResetX();
         }
 
         return;
@@ -186,39 +243,27 @@ export default function useCoreHandlers({
       if (type === "base" || type === "fullscreen") return;
 
       // Is it touch on modal header?
-      const resetYStateSetter = (prevState: any) => ({
-        ...prevState,
-        isMoving: true,
-        scrollDisabled: true,
-        transitionEnabled: false,
-        transition: "none",
-        transform: `translateY(0)`,
-        opacity: 1,
-      });
       const isTouchOnHeader = headerEl
         ? e.target === headerEl || headerEl.contains(e.target as Node)
         : false;
 
       // Prevent if duration between touch start and move is too long
-      if (!isMoving && new Date().getTime() - startedTime > 150) {
-        return;
-      }
-
+      if (!isMoving && new Date().getTime() - startedTime > 150) return;
       isMoving = true;
 
       // Prevent swipe if gesture started from the scroll Y of the modal
       if (!initialPointWasAtTop && !isTouchOnHeader) {
-        setTransformState(resetYStateSetter);
+        preventResetY();
         return;
       }
 
       // Prevent if direction is not down
       if (directionY === -1) {
-        setTransformState(resetYStateSetter);
+        preventResetY();
         return;
       }
 
-      // Change Y position if user is swiping down
+      // Change Y position if it is swipe down
       const nextY = e.changedTouches[0].clientY - initialY;
       setTransformState((state) => {
         return {
@@ -229,29 +274,6 @@ export default function useCoreHandlers({
         };
       });
     };
-
-    function resetValues() {
-      currentY = 0;
-      // currentX = 0;
-      initialY = 0;
-      initialX = 0;
-      touchStart = 0;
-      // touchEnd = 0;
-      isLocked = false;
-      isMoving = false;
-      startedTime = 0;
-      initialPointWasAtTop = false;
-    }
-
-    function resetYTransform() {
-      setTransformState((state) => ({
-        ...state,
-        transitionEnabled: true,
-        transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
-        transform: "translateY(0)",
-        opacity: 1,
-      }));
-    }
 
     const handleTouchEnd = (e: TouchEvent) => {
       const { directionX, factorX, directionY, factorY } = getTouchMeta(e);
@@ -265,30 +287,10 @@ export default function useCoreHandlers({
           factorX > 0.25 &&
           (new Date().getTime() - startedTime < 250 || factorX > 0.8)
         ) {
-          setCloseAnimation(true);
-          setTransformState((prevState) => ({
-            ...prevState,
-            transitionEnabled: true,
-            transition: "transform 0.18s, opacity 0.18s",
-            transform: `translateX(100%)`,
-            opacity: 0,
-          }));
-
-          // Close modal after animation is finished
-          setTimeout(() => {
-            onClose();
-          }, 180);
+          closeXWithTransition();
         } else {
           // Otherwise reset swipe state
-          setTransformState((prevState) => ({
-            ...prevState,
-            isMoving: false,
-            scrollDisabled: false,
-            transitionEnabled: true,
-            transition: "transform 0.15s, opacity 0.15s",
-            transform: `translateX(0)`,
-            opacity: 1,
-          }));
+          resetXWithTransition();
         }
 
         resetValues();
@@ -307,10 +309,10 @@ export default function useCoreHandlers({
 
         // Close modal if header swiped down and factor is more than 0.25
         if (directionY === 1 && factorY > 0.25 && isTouchOnHeader) {
-          closeHelper();
+          closeYWithTransition();
         } else {
           // Otherwise reset swipe state to collapsed modal
-          resetYTransform();
+          resetYWithTransition();
         }
 
         resetValues();
@@ -319,7 +321,7 @@ export default function useCoreHandlers({
 
       // Reset state when direction Y is not down
       if (directionY === -1) {
-        resetYTransform();
+        resetYWithTransition();
         resetValues();
         return;
       }
@@ -327,14 +329,14 @@ export default function useCoreHandlers({
       // Prevent close modal by swipe if content is scrolled
       const { isScrollable, isTop } = getScrollMeta();
       if (isScrollable && !isTop) {
-        resetYTransform();
+        resetYWithTransition();
         resetValues();
         return;
       }
 
       // If initial Y is less than touch end Y then do not close modal
       if (initialY > currentY) {
-        resetYTransform();
+        resetYWithTransition();
         resetValues();
         return;
       }
@@ -347,14 +349,14 @@ export default function useCoreHandlers({
       const swipedPercent = (currentY - initialY) / (modalRef.current?.clientHeight || 0);
 
       if (isTop && swipedPercent > 0.25 && touchTime < 250 && touchTime < 500) {
-        closeHelper();
+        closeYWithTransition();
         resetValues();
       } else if (touchTime > 500 && touchTime < 1200 && factorY > 0.2) {
-        closeHelper();
+        closeYWithTransition();
         resetValues();
       } else {
         // Otherwise reset state
-        resetYTransform();
+        resetYWithTransition();
         resetValues();
       }
     };
