@@ -6,17 +6,14 @@ import WithMobileTypeExamplePage from "./WithMobileType";
 import WithMobileHorizontalSwipeExamplePage from "./WithMobileHorizontalSwipe";
 import WithSubModal from "./WithSubModal";
 import WithPortalExamplePage from "./WithPortal";
+import WithCustomHeader from "./WithCustomHeader";
+import WithCustomFooter from "./WithCustomFooter";
+import WithFooterPortal from "./WithFooterPortal";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <header>
       <h1>react-context-modal examples</h1>
-      <div>
-        <strong>Authors:</strong>
-        <ul>
-          <li>Andrew [zeek@tuta.com]</li>
-        </ul>
-      </div>
       <a href="https://github.com/yoozzeek/react-context-modal" target="_blank">
         Open on Github
       </a>
@@ -24,10 +21,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
     <section>
       <h2>Base cases</h2>
-      <WithPortalExamplePage />
       <WithContextProviderExamplePage />
-      <WithCreateStackHookExamplePage />
+      <WithPortalExamplePage />
       <WithSubModal />
+      <WithCustomHeader />
+      <WithCustomFooter />
     </section>
 
     <section>
@@ -36,7 +34,32 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <WithMobileHorizontalSwipeExamplePage />
     </section>
 
-    <p>Feel free to add more examples and contribute.</p>
-    <strong>License: MIT</strong>
+    <section>
+      <h2>Additional cases</h2>
+      <WithCreateStackHookExamplePage />
+      <WithFooterPortal />
+    </section>
+
+    <footer>
+      <p>Feel free to add more examples and contribute.</p>
+      <p>
+        <strong>Authors:</strong>
+        <ul>
+          <li>
+            <a href="https://bitkind.org/about" target="_blank">
+              Bitkind.org
+            </a>{" "}
+            [inbox@bitkind.org]
+          </li>
+          <li>
+            <a href="https://github.com/yoozzeek" target="_blank">
+              Andrew
+            </a>{" "}
+            [zeek@tuta.com]
+          </li>
+        </ul>
+      </p>
+      <strong>License: MIT</strong>
+    </footer>
   </React.StrictMode>,
 );

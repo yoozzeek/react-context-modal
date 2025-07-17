@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "../lib";
 import ModalProvider from "../lib/providers/ModalProvider";
 
-const SubModal = () => {
+const ComponentWithSubModal = () => {
   const [opened, setOpened] = useState(false);
   return (
     <div>
@@ -27,7 +27,15 @@ const WithSubModalExamplePage = () => {
   const [opened, setOpened] = useState(false);
   return (
     <ModalProvider>
-      <h3>With sub modal</h3>
+      <header>
+        <h3>With sub modal</h3>
+        <a
+          href="https://github.com/yoozzeek/react-context-modal/blob/main/examples/WithSubModal.tsx"
+          target="_blank"
+        >
+          Source code
+        </a>
+      </header>
       <p>
         Sometimes you need to open sub modals from your modal, and you probably doesn't want to
         close all opened modals by Esc or have touch events enabled for all them at once.
@@ -45,7 +53,7 @@ const WithSubModalExamplePage = () => {
           onClose={() => setOpened(false)}
         >
           Parent modal content
-          <SubModal />
+          <ComponentWithSubModal />
         </Modal>
       )}
     </ModalProvider>

@@ -13,8 +13,16 @@ const WithMobileTypeExamplePage = () => {
   }
 
   return (
-    <div>
-      <h3>With overlay</h3>
+    <>
+      <header>
+        <h3>With type</h3>
+        <a
+          href="https://github.com/yoozzeek/react-context-modal/blob/main/examples/WithMobileType.tsx"
+          target="_blank"
+        >
+          Source code
+        </a>
+      </header>
       <p>The max height of these modals on mobile devices varies depending on type.</p>
       <div
         style={{
@@ -26,7 +34,7 @@ const WithMobileTypeExamplePage = () => {
         <button type="button" onClick={() => openModal("fullscreen")}>
           Fullscreen
         </button>
-        <button type="button" onClick={() => openModal("overlay-auto")}>
+        <button type="button" onClick={() => openModal("overlay-95")}>
           Overlay auto
         </button>
         <button type="button" onClick={() => openModal("overlay-90")}>
@@ -34,9 +42,6 @@ const WithMobileTypeExamplePage = () => {
         </button>
         <button type="button" onClick={() => openModal("overlay-95")}>
           Overlay 95
-        </button>
-        <button type="button" onClick={() => openModal("overlay-90")}>
-          Overlay 90
         </button>
         <button type="button" onClick={() => openModal("menu")}>
           Menu
@@ -57,7 +62,7 @@ const WithMobileTypeExamplePage = () => {
           Modal content
         </Modal>
       )}
-    </div>
+    </>
   );
 };
 

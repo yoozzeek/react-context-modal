@@ -7,7 +7,15 @@ const WithMobileHorizontalSwipeExamplePage = () => {
 
   return (
     <ModalProvider>
-      <h3>With horizontal swipe</h3>
+      <header>
+        <h3>With horizontal swipe</h3>
+        <a
+          href="https://github.com/yoozzeek/react-context-modal/blob/main/examples/WithMobileHorizontalSwipe.tsx"
+          target="_blank"
+        >
+          Source code
+        </a>
+      </header>
       <p>Can be closed by horizontal swipe on mobile.</p>
       <button type="button" onClick={() => setOpened(true)}>
         Open
@@ -21,7 +29,7 @@ const WithMobileHorizontalSwipeExamplePage = () => {
           type="fullscreen"
           onClose={() => setOpened(false)}
         >
-          Modal content
+          Swipe me to the right
         </Modal>
       )}
     </ModalProvider>
