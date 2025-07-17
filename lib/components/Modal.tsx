@@ -1,4 +1,4 @@
-import { memo, useCallback, useLayoutEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { ReactNode, ReactElement, JSX } from "react";
 import type SimpleBarCore from "simplebar-core";
 import SimpleBar from "simplebar-react";
@@ -119,6 +119,30 @@ function Modal({
     });
     resizeObserver.observe(scrollAreaRef.current);
     return () => resizeObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const existingMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    let originalContent = null;
+    let metaEl = existingMeta;
+
+    if (existingMeta) {
+      originalContent = existingMeta.getAttribute("content");
+      existingMeta.setAttribute("content", "#000000"); // Temporarily override
+    } else {
+      metaEl = document.createElement("meta");
+      metaEl.name = "theme-color";
+      metaEl.content = "#000000";
+      document.head.appendChild(metaEl);
+    }
+
+    return () => {
+      if (originalContent !== null) {
+        metaEl.setAttribute("content", originalContent);
+      } else {
+        metaEl.remove();
+      }
+    };
   }, []);
 
   // Header
