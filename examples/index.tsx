@@ -13,7 +13,7 @@ import WithFooterPortal from "./WithFooterPortal";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <header>
-      <h1>react-context-modal examples</h1>
+      <h1>react-context-modal demo</h1>
       <p>
         A simple React modal component and hooks designed to overcome limitations of existing modal
         libraries. Key features include horizontal and vertical swipe-to-close, scroll position
