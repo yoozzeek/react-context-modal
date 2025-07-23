@@ -153,11 +153,9 @@ function Modal({
 
   const headerWrapperEl =
     !isLoading && (isRightSwipeAllowed || dynamicHeader) ? (
-      <div ref={modalHeaderRef} className={styles.modal__header}>
-        {dynamicHeader}
-      </div>
+      <div ref={modalHeaderRef}>{dynamicHeader}</div>
     ) : (
-      <div ref={modalHeaderRef} className={styles.modal__header}>
+      <div ref={modalHeaderRef}>
         <ModalDefaultHeader label={title || undefined} onClose={onCloseModalHandler} />
       </div>
     );

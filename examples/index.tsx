@@ -47,7 +47,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
     <footer>
       <p>Feel free to add more examples and contribute.</p>
-      <p>
+      <div>
         <strong>Authors:</strong>
         <ul>
           <li>
@@ -63,7 +63,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             [zeek@tuta.com]
           </li>
         </ul>
-      </p>
+      </div>
       <strong>License: MIT</strong>
     </footer>
   </React.StrictMode>,

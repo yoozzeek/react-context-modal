@@ -3,11 +3,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "unplugin-dts/vite";
 import svgr from "vite-plugin-svgr";
-import { libInjectCss } from "vite-plugin-lib-inject-css";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import type { PluginOptions } from "unplugin-dts";
-import type { BuildEnvironmentOptions } from "vite";
+import type { UserConfig, BuildEnvironmentOptions } from "vite";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +14,7 @@ const __dirname = path.dirname(__filename);
 const dtsOptions = {
   exclude: [],
   tsconfigPath: "./tsconfig.app.json",
+  outDirs: "lib",
   bundleTypes: true,
 } as PluginOptions;
 
@@ -23,13 +23,13 @@ export default defineConfig(({ mode }) => {
   const isDemo = mode === "demo";
   const isDev = process.env.NODE_ENV === "development";
   const buildExamples = isDemo || isDev;
-  return {
+  const config: UserConfig = {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    plugins: [react(), svgr(), ...(isDemo ? [] : [libInjectCss(), dts(dtsOptions)])],
+    plugins: [react(), svgr(), ...(isDemo ? [] : [dts(dtsOptions)])],
     root: buildExamples ? "examples" : ".",
     base: isDemo ? "/react-context-modal/" : undefined,
     build: isDemo
@@ -44,6 +44,7 @@ export default defineConfig(({ mode }) => {
               entry: path.resolve(__dirname, "src/index.ts"),
               name: "react-context-modal",
               formats: ["es"],
+              cssFileName: "index",
             },
             outDir: path.resolve(__dirname, "./lib"),
             rollupOptions: {
@@ -54,7 +55,20 @@ export default defineConfig(({ mode }) => {
                 "react-responsive",
                 "simplebar-react",
               ],
+              output: {
+                entryFileNames: "[name].js",
+                chunkFileNames: "chunks/[name].[hash].js",
+              },
             },
           },
+    css: {
+      modules: {
+        generateScopedName: (name) => {
+          return `context-modal-${name}`;
+        },
+      },
+    },
   };
+
+  return config;
 });

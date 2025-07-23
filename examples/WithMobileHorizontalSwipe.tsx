@@ -27,6 +27,13 @@ const WithMobileHorizontalSwipeExamplePage = () => {
           title="Modal example"
           isPortal={false}
           type="fullscreen"
+          footerRenderer={(onClose) => (
+            <footer>
+              <button type="button" onClick={onClose}>
+                Close
+              </button>
+            </footer>
+          )}
           onClose={() => setOpened(false)}
         >
           Swipe me to the right

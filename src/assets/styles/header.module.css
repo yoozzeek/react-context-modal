@@ -45,6 +45,7 @@
 }
 
 .modal__header-title {
+    flex: 1;
     margin-top: 0.5rem;
     white-space: nowrap;
     overflow: hidden;
@@ -57,6 +58,7 @@
 @media (min-width: 576px) {
     .modal__header-title {
         margin-top: 0;
+        margin-bottom: 0;
         font-family: sans-serif;
     }
 }

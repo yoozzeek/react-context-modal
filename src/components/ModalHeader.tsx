@@ -5,14 +5,14 @@ import CloseIcon from "@/assets/icons/close.svg?react";
 const ModalHeader = ({ label, onClose }: { label?: string; onClose(): void }) => {
   return (
     <header
-      className={clsx(styles.modal__header, "modal__header--with-bar", {
-        "modal__header--with-label": Boolean(label),
-        "modal__header--no-label": !Boolean(label),
+      className={clsx(styles.modal__header, styles["modal__header--with-bar"], {
+        [styles["modal__header--with-label"]]: Boolean(label),
+        [styles["modal__header--no-label"]]: !Boolean(label),
       })}
     >
-      {label && <h4 className="modal__header-title">{label}</h4>}
-      <button type="button" className="modal__header-close" onClick={onClose}>
-        <CloseIcon className="modal__header-close-icon" />
+      {label && <h4 className={styles["modal__header-title"]}>{label}</h4>}
+      <button type="button" className={styles["modal__header-close"]} onClick={onClose}>
+        <CloseIcon className={styles["modal__header-close-icon"]} />
       </button>
     </header>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, useModalStackCtx } from "../src";
 import type { ModalType } from "../src";
+import ModalHeader1 from "../src/components/ModalHeader1";
 
 const WithMobileTypeExamplePage = () => {
   const modalStackCtx = useModalStackCtx();
@@ -46,9 +47,6 @@ const WithMobileTypeExamplePage = () => {
         <button type="button" onClick={() => openModal("menu")}>
           Menu
         </button>
-        <button type="button" onClick={() => openModal("base")}>
-          Base
-        </button>
       </div>
       {opened && (
         <Modal
@@ -57,6 +55,18 @@ const WithMobileTypeExamplePage = () => {
           type={type}
           isPortal={false}
           fallbackCtx={modalStackCtx}
+          headerRenderer={(onClose) =>
+            type === "fullscreen" ? (
+              <ModalHeader1 title="Modal example" onClose={onClose} />
+            ) : undefined
+          }
+          footerRenderer={(onClose) => (
+            <footer>
+              <button type="button" onClick={onClose}>
+                Close
+              </button>
+            </footer>
+          )}
           onClose={() => setOpened(false)}
         >
           Modal content
