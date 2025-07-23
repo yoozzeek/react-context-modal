@@ -1,14 +1,16 @@
+import "./styles.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import WithCreateStackHookExamplePage from "./WithCreateStackHook";
-import WithContextProviderExamplePage from "./WithContextProvider";
-import WithMobileTypeExamplePage from "./WithMobileType";
-import WithMobileHorizontalSwipeExamplePage from "./WithMobileHorizontalSwipe";
-import WithSubModal from "./WithSubModal";
-import WithPortalExamplePage from "./WithPortal";
-import WithCustomHeader from "./WithCustomHeader";
-import WithCustomFooter from "./WithCustomFooter";
-import WithFooterPortal from "./WithFooterPortal";
+import WithCreateStackHookExample from "./WithCreateStackHook";
+import WithContextProviderExample from "./WithContextProvider";
+import WithMobileTypeExample from "./WithMobileType";
+import WithMobileHorizontalSwipeExample from "./WithMobileHorizontalSwipe";
+import WithSubModalExample from "./WithSubModal";
+import WithPortalExample from "./WithPortal";
+import WithCustomHeaderExample from "./WithCustomHeader";
+import WithCustomFooterExample from "./WithCustomFooter";
+import WithFooterPortalExample from "./WithFooterPortal";
+import WithHighContentHeightExample from "./WithHighContentHeight";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -25,24 +27,25 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </header>
 
     <section>
-      <h2>Base cases</h2>
-      <WithContextProviderExamplePage />
-      <WithPortalExamplePage />
-      <WithSubModal />
-      <WithCustomHeader />
-      <WithCustomFooter />
+      <h2>Mobile first</h2>
+      <WithMobileTypeExample />
+      <WithMobileHorizontalSwipeExample />
     </section>
 
     <section>
-      <h2>Mobile advanced</h2>
-      <WithMobileTypeExamplePage />
-      <WithMobileHorizontalSwipeExamplePage />
+      <h2>Base cases</h2>
+      <WithHighContentHeightExample />
+      <WithSubModalExample />
+      <WithCustomHeaderExample />
+      <WithCustomFooterExample />
+      <WithContextProviderExample />
+      <WithPortalExample />
     </section>
 
     <section>
       <h2>Additional cases</h2>
-      <WithCreateStackHookExamplePage />
-      <WithFooterPortal />
+      <WithCreateStackHookExample />
+      <WithFooterPortalExample />
     </section>
 
     <footer>
