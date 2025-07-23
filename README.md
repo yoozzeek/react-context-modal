@@ -21,11 +21,14 @@ This library is provided by the non-profit organization [Bitkind.org](https://bi
 
 ## Installation
 Install required peer dependencies first:
-<br/>
-`yarn add react react-dom react-responsive simplebar-react`
+```bash
+yarn add react react-dom react-responsive simplebar-react
+```
 
 This library isn't yet published to npm. To test and use it, install directly from GitHub:
-`yarn add https://github.com/yoozzeek/react-context-modal.git`
+```bash
+yarn add https://github.com/yoozzeek/react-context-modal.git
+```
 
 Include the CSS in your app or SSR/SSG page:
 <br />
