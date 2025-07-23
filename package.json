@@ -4,6 +4,10 @@
   "homepage": "https://yoozzeek.github.io/react-context-modal/",
   "version": "0.0.7",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoozzeek/react-context-modal.git"
+  },
   "author": {
     "name": "Andrew",
     "email": "zeek@tuta.com",
@@ -13,6 +17,15 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./index.css": {
+      "import": "./lib/index.css"
+    }
+  },
   "files": [
     "LICENSE",
     "README.md",
@@ -68,5 +81,16 @@
     "vite": "^7.0.4",
     "vite-plugin-svgr": "^4.3.0",
     "vitest": "^3.2.4"
-  }
+  },
+  "keywords": [
+    "react",
+    "responsive",
+    "uikit",
+    "modal",
+    "dialog",
+    "window",
+    "mobile",
+    "popup",
+    "web"
+  ]
 }

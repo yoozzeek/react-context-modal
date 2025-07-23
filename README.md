@@ -33,7 +33,7 @@ yarn add https://github.com/yoozzeek/react-context-modal.git
 Include the CSS in your app or SSR/SSG page:
 <br />
 ```jsx
-import "react-context-modal/lib/index.css"
+import "react-context-modal/index.css"
 ```
 
 ### Basic usage
