@@ -11,7 +11,7 @@ import Loader from "@/components/Loader";
 import ModalConfirmAction from "./ModalConfirmAction";
 import useGteSm from "@/hooks/useGteSm";
 import useCoreHandlers from "@/hooks/useCoreHandlers";
-import styles from "@/assets/styles/modal.module.css";
+import styles from "@/styles/modal.module.css";
 
 type ModalProps = {
   id: string;

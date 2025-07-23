@@ -46,7 +46,8 @@
 
 .modal__header-title {
     flex: 1;
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

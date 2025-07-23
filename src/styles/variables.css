@@ -1,12 +1,12 @@
 :root {
     --context-modal-backdrop-background-color: #111827;
-    --context-modal-main-background-color: #f3f6f9;
+    --context-modal-main-background-color: #ffffff;
 
-    --context-modal-indent-xs: 0.4em;
-    --context-modal-indent-sm: 0.6em;
-    --context-modal-indent-md: 0.8em;
-    --context-modal-indent-lg: 1em;
-    --context-modal-indent-xl: 1.2em;
+    --context-modal-indent-1: 0.4em;
+    --context-modal-indent-2: 0.6em;
+    --context-modal-indent-3: 0.8em;
+    --context-modal-indent-4: 1em;
+    --context-modal-indent-5: 1.2em;
 
     --context-modal-radius-xs: 0.4em;
     --context-modal-radius-sm: 0.6em;

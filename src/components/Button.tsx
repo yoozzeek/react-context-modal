@@ -1,4 +1,4 @@
-import "@/assets/styles/button.module.css";
+import "@/styles/button.module.css";
 import { clsx } from "clsx";
 import LoadingIcon from "@/components/Loader";
 import type { MouseEvent, ReactNode, JSX } from "react";
