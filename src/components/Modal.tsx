@@ -57,7 +57,7 @@ function Modal({
   headerRenderer,
   footerRenderer,
   fallbackCtx,
-  type = "base",
+  type = "overlay-auto",
   size = "md",
 }: ModalProps): JSX.Element {
   const stackCtx = useModal(fallbackCtx);
@@ -80,7 +80,7 @@ function Modal({
     modalHeaderRef,
     scrollAreaRef,
     onClose,
-    type: type ?? "base",
+    type: type ?? "overlay-auto",
     isLoading: isLoading ?? false,
     horizontalSwipe: horizontalSwipe ?? false,
     stackCtx: stackCtx!,
@@ -186,8 +186,7 @@ function Modal({
     [styles[`modal__main--animate-slide-up-90`]]:
       !closeAnimation && (type === "menu" || type === "overlay-90" || type === "overlay-auto"),
     [styles[`modal__main--animate-slide-up-95`]]: !closeAnimation && type === "overlay-95",
-    [styles[`modal__main--animate-slide-right`]]:
-      !closeAnimation && (type === "fullscreen" || type === "base"),
+    [styles[`modal__main--animate-slide-right`]]: !closeAnimation && type === "fullscreen",
     [bgColorClass!]: !!bgColorClass,
   });
 

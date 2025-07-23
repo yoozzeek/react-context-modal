@@ -15,13 +15,7 @@ export type Variant =
   | "gray"
   | "none";
 
-export type ModalType =
-  | "base"
-  | "menu"
-  | "fullscreen"
-  | "overlay-90"
-  | "overlay-95"
-  | "overlay-auto";
+export type ModalType = "menu" | "fullscreen" | "overlay-90" | "overlay-95" | "overlay-auto";
 
 export type OpenedModal = {
   key: string;
