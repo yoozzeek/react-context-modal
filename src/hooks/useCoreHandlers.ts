@@ -47,7 +47,7 @@ export default function useCoreHandlers({
 
     // Right swipe allowed only on fullscreen and
     // base modals with horizontalSwipe prop
-    const rSwipeAllowed = (type === "base" || type === "fullscreen") && horizontalSwipe;
+    const rSwipeAllowed = type === "fullscreen" && horizontalSwipe;
 
     const headerEl = modalHeaderRef.current;
 
@@ -240,7 +240,7 @@ export default function useCoreHandlers({
 
       // -------------------------------
       // Handle vertical touch move
-      if (type === "base" || type === "fullscreen") return;
+      if (type === "fullscreen") return;
 
       // Is it touch on modal header?
       const isTouchOnHeader = headerEl
@@ -299,7 +299,7 @@ export default function useCoreHandlers({
 
       // -------------------------------
       // Handle vertical swipe
-      if (type === "base" || type === "fullscreen") return;
+      if (type === "fullscreen") return;
 
       if (!initialPointWasAtTop) {
         // Is it touch on modal header?

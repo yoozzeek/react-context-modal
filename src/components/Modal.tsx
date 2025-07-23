@@ -69,7 +69,7 @@ function Modal({
   const simpleBarRef = useRef<SimpleBarCore>(null!);
   const gteSm = useGteSm();
 
-  const isRightSwipeAllowed = horizontalSwipe && (type === "base" || type === "fullscreen");
+  const isRightSwipeAllowed = horizontalSwipe && type === "fullscreen";
 
   const [confirmCloseModal, setConfirmCloseModal] = useState(false);
   const [scrollableHeight, setScrollableHeight] = useState(contentRef.current?.clientHeight);
