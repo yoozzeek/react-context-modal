@@ -30,7 +30,7 @@ This library isn't yet published to npm. To test and use it, install directly fr
 Include the CSS in your app or SSR/SSG page:
 <br />
 ```jsx
-import "react-context-modal/dist/index.css"
+import "react-context-modal/lib/index.css"
 ```
 
 ### Basic usage
@@ -109,8 +109,8 @@ type ModalProps = {
   confirmModalTitle?: string;
   confirmModalDescription?: string;
 
-  headerEl?: JSX.Element | boolean | null;
-  footerEl?: JSX.Element | boolean | null;
+  headerRenderer?: (onClose: () => void) => ReactElement;
+  footerRenderer?: (onClose: () => void) => ReactElement;
 
   type?: ModalType; // Modal display type
   size?: Size; // Desktop width
@@ -137,7 +137,7 @@ Modify CSS variables or class styles to customize modal appearance easily.
 The modal component with hooks and provider is approximately 25.07 KB (gzip: 7.25 KB).
 
 Based on two npm packages:
-- clsx
+- [clsx](https://github.com/lukeed/clsx)
 - [body-scroll-lock](https://github.com/yoozzeek/body-scroll-lock)
 
 ## License
