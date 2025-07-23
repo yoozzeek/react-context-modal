@@ -29,8 +29,8 @@ function ModalConfirmAction({
       ariaLabel="Aria label"
       type="overlay-auto"
       size="sm"
-      headerEl={<h3 className="modal-confirm__title">{title}</h3>}
-      footerEl={
+      headerRenderer={() => <h3 className="modal-confirm__title">{title}</h3>}
+      footerRenderer={(onCloseHandler) => (
         <div className="modal-confirm__footer">
           <Button
             fullWidth
@@ -41,11 +41,17 @@ function ModalConfirmAction({
           >
             Confirm
           </Button>
-          <Button fullWidth type="button" variant="light" disabled={isLoading} onClick={onClose}>
+          <Button
+            fullWidth
+            type="button"
+            variant="light"
+            disabled={isLoading}
+            onClick={onCloseHandler}
+          >
             Cancel
           </Button>
         </div>
-      }
+      )}
       onClose={onClose}
     >
       {description && <p className="modal-confirm__description">{description}</p>}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Modal } from "../lib";
-import ModalProvider from "../lib/providers/ModalProvider";
+import { Modal } from "../src";
+import ModalProvider from "../src/providers/ModalProvider";
 
 const WithPortalExamplePage = () => {
   const [opened, setOpened] = useState(false);
@@ -28,14 +28,14 @@ const WithPortalExamplePage = () => {
           id="example-modal"
           title="Modal example"
           type="overlay-95"
-          headerEl={
+          headerRenderer={(onClose) => (
             <header>
               <h3>Custom header</h3>
-              <button type="button" onClick={() => setOpened(false)}>
+              <button type="button" onClick={onClose}>
                 Close
               </button>
             </header>
-          }
+          )}
           onClose={() => setOpened(false)}
         >
           Modal content

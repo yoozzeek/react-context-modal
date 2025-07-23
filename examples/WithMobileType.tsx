@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Modal, useModalStackCtx } from "../lib";
-import type { ModalType } from "../lib";
+import { Modal, useModalStackCtx } from "../src";
+import type { ModalType } from "../src";
 
 const WithMobileTypeExamplePage = () => {
   const modalStackCtx = useModalStackCtx();

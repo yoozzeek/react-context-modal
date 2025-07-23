@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Modal } from "../lib";
-import ModalProvider from "../lib/providers/ModalProvider";
-import ModalFooterPortal from "../lib/components/ModalFooterPortal";
+import { Modal } from "../src";
+import ModalProvider from "../src/providers/ModalProvider";
+import ModalFooterPortal from "../src/components/ModalFooterPortal";
 
 const WithPortalExamplePage = () => {
   const [opened, setOpened] = useState(false);
@@ -33,7 +33,7 @@ const WithPortalExamplePage = () => {
           id="example-modal"
           title="Modal example"
           type="overlay-95"
-          footerEl={<footer id="rcm-modal-footer-portal"></footer>}
+          footerRenderer={() => <footer id="rcm-modal-footer-portal"></footer>}
           onClose={() => setOpened(false)}
         >
           Modal content

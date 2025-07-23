@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Modal } from "../lib";
-import ModalProvider from "../lib/providers/ModalProvider";
+import { Modal } from "../src";
+import ModalProvider from "../src/providers/ModalProvider";
 
 const WithContextProviderExamplePage = () => {
   const [opened, setOpened] = useState(false);

@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const dtsOptions = {
-  exclude: ["**/*.stories.tsx"],
+  exclude: [],
   tsconfigPath: "./tsconfig.app.json",
   bundleTypes: true,
 } as PluginOptions;
@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
   return {
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./lib"),
+        "@": path.resolve(__dirname, "./src"),
       },
     },
     plugins: [react(), svgr(), ...(isDemo ? [] : [libInjectCss(), dts(dtsOptions)])],
@@ -41,10 +41,11 @@ export default defineConfig(({ mode }) => {
         ? undefined // no need to build with vite dev server
         : {
             lib: {
-              entry: path.resolve(__dirname, "lib/index.ts"),
+              entry: path.resolve(__dirname, "src/index.ts"),
               name: "react-context-modal",
               formats: ["es"],
             },
+            outDir: path.resolve(__dirname, "./lib"),
             rollupOptions: {
               external: [
                 "react",

@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode, ReactElement, JSX } from "react";
 import type SimpleBarCore from "simplebar-core";
 import SimpleBar from "simplebar-react";
@@ -29,8 +29,8 @@ type ModalProps = {
   preventClose?: boolean;
   confirmTitle?: string;
   confirmDescription?: string;
-  headerEl?: JSX.Element | boolean | null;
-  footerEl?: JSX.Element | boolean | null;
+  headerRenderer?: (onClose: () => void) => ReactElement;
+  footerRenderer?: (onClose: () => void) => ReactElement;
   type?: ModalType;
   size?: Size;
   fallbackCtx?: StackCtx;
@@ -54,8 +54,8 @@ function Modal({
   bgColorClass,
   confirmTitle = "Are you sure?",
   confirmDescription = "Are you sure you want to close this dialog?",
-  headerEl = true,
-  footerEl,
+  headerRenderer,
+  footerRenderer,
   fallbackCtx,
   type = "base",
   size = "md",
@@ -145,17 +145,33 @@ function Modal({
     };
   }, []);
 
-  // Header
+  // Dynamic header
+  const dynamicHeader = useMemo(() => {
+    if (!headerRenderer) return null;
+    return headerRenderer(onCloseModalHandler);
+  }, [headerRenderer, onCloseModalHandler]);
+
   const headerWrapperEl =
-    !isLoading && (isRightSwipeAllowed || typeof headerEl !== "boolean" || !headerEl) ? (
+    !isLoading && (isRightSwipeAllowed || dynamicHeader) ? (
       <div ref={modalHeaderRef} className={styles.modal__header}>
-        {headerEl}
+        {dynamicHeader}
       </div>
     ) : (
       <div ref={modalHeaderRef} className={styles.modal__header}>
         <ModalDefaultHeader label={title || undefined} onClose={onCloseModalHandler} />
       </div>
     );
+
+  // Dynamic footer
+  const dynamicFooter = useMemo(() => {
+    if (!footerRenderer) return null;
+    return footerRenderer(onCloseModalHandler);
+  }, [footerRenderer, onCloseModalHandler]);
+
+  const footerWrapperEl =
+    !isLoading && !!dynamicFooter ? (
+      <footer className={styles.modal__footer}>{dynamicFooter}</footer>
+    ) : null;
 
   const containerClass = clsx(styles.modal__container, {
     [styles[`modal__container--fullscreen`]]: type === "fullscreen",
@@ -225,7 +241,7 @@ function Modal({
             )}
           </SimpleBar>
         </div>
-        {footerEl && !isLoading && <footer className={styles.modal__footer}>{footerEl}</footer>}
+        {footerWrapperEl}
       </div>
       {confirmCloseModal && (
         <ModalConfirmAction

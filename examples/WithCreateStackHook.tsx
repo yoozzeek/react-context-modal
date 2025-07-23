@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, useModalStackCtx } from "../lib";
+import { Modal, useModalStackCtx } from "../src";
 
 const WithCreateStackHookExamplePage = () => {
   const [opened, setOpened] = useState(false);
