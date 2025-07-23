@@ -14,7 +14,9 @@
   "types": "lib/index.d.ts",
   "sideEffects": false,
   "files": [
-    "dist"
+    "LICENSE",
+    "README.md",
+    "lib/"
   ],
   "scripts": {
     "dev": "vite",
