@@ -38,7 +38,7 @@ export declare function ModalProvider({ children }: {
     children: ReactNode;
 }): JSX_2.Element;
 
-export declare type ModalType = "base" | "menu" | "fullscreen" | "overlay-90" | "overlay-95" | "overlay-auto";
+export declare type ModalType = "menu" | "fullscreen" | "overlay-90" | "overlay-95" | "overlay-auto";
 
 declare type OpenedModal = {
     key: string;
