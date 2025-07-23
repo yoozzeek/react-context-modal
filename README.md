@@ -70,14 +70,15 @@ const YourComponent = () => {
 
 Various use-case examples are provided in the [examples](./examples) directory. Contributions and additional examples are welcome.
 
-* [Context provider](./examples/WithContextProvider.tsx)
-* [React portal](./examples/WithPortal.tsx)
+* [Modal type](./examples/WithMobileType.tsx)
+* [Horizontal swipe](./examples/WithMobileHorizontalSwipe.tsx)
+* [High content height](./examples/WithHighContentHeight.tsx)
 * [Sub modal](./examples/WithSubModal.tsx)
 * [Custom header](./examples/WithCustomHeader.tsx)
 * [Custom footer](./examples/WithCustomFooter.tsx)
-* [Modal type](./examples/WithMobileType.tsx)
-* [Horizontal swipe](./examples/WithMobileHorizontalSwipe.tsx)
-* [Global context](./examples/WithCreateStackHook.tsx)
+* [Context provider](./examples/WithContextProvider.tsx)
+* [React portal](./examples/WithPortal.tsx)
+* [Without context](./examples/WithCreateStackHook.tsx)
 * [Footer portal](./examples/WithFooterPortal.tsx)
 
 ## Configuration and props
