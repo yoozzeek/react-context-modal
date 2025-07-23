@@ -1,4 +1,4 @@
-import "@/assets/styles/confirm.module.css";
+import "@/styles/confirm.module.css";
 import Modal from "./Modal";
 import Button from "@/components/Button";
 import type { JSX } from "react";

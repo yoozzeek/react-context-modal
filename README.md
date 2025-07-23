@@ -132,7 +132,20 @@ Override them in your global styles or scoped stylesheets to match your design s
 ```css
 :root {
     --context-modal-backdrop-background-color: #111827;
-    --context-modal-main-background-color: #f3f6f9;
+    --context-modal-main-background-color: #ffffff;
+
+    --context-modal-indent-1: 0.4em;
+    --context-modal-indent-2: 0.6em;
+    --context-modal-indent-3: 0.8em;
+    --context-modal-indent-4: 1em;
+    --context-modal-indent-5: 1.2em;
+
+    --context-modal-radius-xs: 0.4em;
+    --context-modal-radius-sm: 0.6em;
+    --context-modal-radius-md: 0.8em;
+    --context-modal-radius-lg: 1em;
+    --context-modal-radius-xl: 1.2em;
+    
     --context-modal-box-shadow: 0 4px 32px rgba(0,0,0,0.22),
         0 4px 20px rgba(43, 52, 80, 0.04),
         0 0 4px rgba(43, 52, 80, 0.04);

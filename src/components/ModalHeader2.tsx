@@ -1,4 +1,4 @@
-import styles from "@/assets/styles/header2.module.css";
+import styles from "@/styles/header2.module.css";
 import CloseIcon from "@/assets/icons/close.svg?react";
 import { clsx } from "clsx";
 
