@@ -164,7 +164,7 @@ like `context-modal-modal__container`. However, here are the most useful classes
 ```
 
 ## Bundle and dependencies
-The modal component with hooks and provider is approximately 25.07 KB (gzip: 7.25 KB).
+The modal component with hooks and provider is 26.22 KB (gzip: 7.30 KB) + styles 5.51 KB (gzip: 1.32 KB).
 
 Based on two npm packages:
 - [clsx](https://github.com/lukeed/clsx)
