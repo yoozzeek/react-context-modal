@@ -3,8 +3,6 @@
 A simple React modal component and hooks designed to overcome limitations of existing modal libraries. Key features 
 include horizontal and vertical swipe-to-close, scroll position preservation on iOS, and stacking multiple modals.
 
-This library is provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for public npm distribution.
-
 [View Demo](https://yoozzeek.github.io/react-context-modal/)
 
 ## Why Another Modal Library?
@@ -18,6 +16,8 @@ position effectively. This library addresses these specific gaps by providing:
 * Stacking capability, allowing multiple modals to open and close independently.
 * Flexibility to render modals inline within a component or via a portal at the document root.
 * Utility to enable horizontal scrolling within modal content on iOS.
+
+This library is provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for public npm distribution.
 
 ## Installation
 Install required peer dependencies first:
@@ -106,8 +106,8 @@ type ModalProps = {
   preventClose?: boolean;
 
   confirmClose?: boolean; // Prompt confirmation on close
-  confirmModalTitle?: string;
-  confirmModalDescription?: string;
+  confirmTitle?: string;
+  confirmDescription?: string;
 
   headerRenderer?: (onClose: () => void) => ReactElement;
   footerRenderer?: (onClose: () => void) => ReactElement;
@@ -121,19 +121,33 @@ type ModalProps = {
 ```
 
 ## Styles and customization
-Modify CSS variables or class styles to customize modal appearance easily.
+You can easily style and theme the modal by adjusting CSS variables or overriding specific class names.
 
 ### Theme variables
+The package defines CSS variables for layout, spacing, colors, typography, and shadows. 
+Override them in your global styles or scoped stylesheets to match your design system:
 ```css
-
+:root {
+    --context-modal-backdrop-background-color: #111827;
+    --context-modal-main-background-color: #f3f6f9;
+    --context-modal-box-shadow: 0 4px 32px rgba(0,0,0,0.22),
+        0 4px 20px rgba(43, 52, 80, 0.04),
+        0 0 4px rgba(43, 52, 80, 0.04);
+}
 ```
 
-### Class names
+### CSS Classes
+All class names use the `context-modal-*` prefix. In most cases, you won’t need to touch internal layout classes 
+like `context-modal-modal__container`. However, here are the most useful classes for customization:
 ```css
-
+.context-modal-modal__main {}
+.context-modal-modal__header {}
+.context-modal-modal__header-title {}
+.context-modal-modal__footer {}
+.context-modal-modal__backdrop { }
 ```
 
-## Bundle size and dependencies
+## Bundle and dependencies
 The modal component with hooks and provider is approximately 25.07 KB (gzip: 7.25 KB).
 
 Based on two npm packages:
