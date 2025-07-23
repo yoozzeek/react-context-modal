@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 const ModalPortal = ({ children }: { children: ReactNode }) => {
   const el = useRef(document.createElement("div"));
   const portalRoot = useMemo<HTMLElement>(
-    () => document.querySelector("#rcm-modal-portal") as HTMLElement,
+    () => document.querySelector("#context-modal-portal") as HTMLElement,
     [],
   );
 

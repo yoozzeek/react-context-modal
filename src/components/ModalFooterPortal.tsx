@@ -9,7 +9,7 @@ const ModalFooterPortal = ({ children }: { children: ReactNode }) => {
     let footerPortalRoot: HTMLElement | null = null;
     const current = el.current;
     const timeout = setTimeout(() => {
-      footerPortalRoot = document.querySelector("#rcm-modal-footer-portal");
+      footerPortalRoot = document.querySelector("#context-modal-footer-portal");
       if (footerPortalRoot) footerPortalRoot.appendChild(current);
     }, 0);
 

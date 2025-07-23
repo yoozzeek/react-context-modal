@@ -19,7 +19,7 @@ const WithPortalExamplePage = () => {
       <p>
         You can append dynamic elements, such as action buttons, to the modal footer from child
         components using a footer portal. Pass a footer element containing a DOM node with the id{" "}
-        <i>#rcm-modal-footer-portal</i>. Then use <i>ModalFooterPortal</i> to render content
+        <i>#context-modal-footer-portal</i>. Then use <i>ModalFooterPortal</i> to render content
         directly into the footer. Note that form submission will not work if the button with type{" "}
         <i>submit</i> is rendered outside the form via a portal. To handle form actions, set the
         button type to <i>button</i> or choose another method.
@@ -33,7 +33,7 @@ const WithPortalExamplePage = () => {
           id="example-modal"
           title="Modal example"
           type="overlay-95"
-          footerRenderer={() => <footer id="rcm-modal-footer-portal"></footer>}
+          footerRenderer={() => <footer id="context-modal-footer-portal"></footer>}
           onClose={() => setOpened(false)}
         >
           Modal content

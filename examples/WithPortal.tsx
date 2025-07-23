@@ -18,7 +18,7 @@ const WithPortalExamplePage = () => {
       <p>
         Portal is enabled by default, it will render modal outside the parent component where you
         use Modal component. All other modals in the stack will be rendered there as well. Check
-        that you have dom node with <i>#rcm-modal-portal</i> id.
+        that you have dom node with <i>#context-modal-portal</i> id.
       </p>
       <button type="button" onClick={() => setOpened(true)}>
         Open
