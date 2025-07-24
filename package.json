@@ -84,13 +84,15 @@
   },
   "keywords": [
     "react",
+    "components",
     "responsive",
     "uikit",
     "modal",
     "dialog",
     "window",
-    "mobile",
+    "mobile-first",
     "popup",
+    "library",
     "web"
   ]
 }
