@@ -31,7 +31,7 @@ yarn add @yoozzeek/react-context-modal simplebar-react
 Include the CSS in your app or SSR/SSG page:
 <br />
 ```jsx
-import "react-context-modal/dist/index.css"
+import "@yoozzeek/react-context-modal/dist/index.css"
 ```
 
 ### Basic usage
@@ -39,7 +39,7 @@ Wrap your application or specific components with `ModalProvider`. Modals can th
 wrapped context (including another modals):
 
 ```jsx
-import { Modal } from "react-context-modal";
+import { Modal } from "@yoozzeek/react-context-modal";
 
 const YourComponent = () => {
   const [opened, setOpened] = useState(false);
