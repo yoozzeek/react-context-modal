@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 const dtsOptions = {
   exclude: [],
   tsconfigPath: "./tsconfig.app.json",
-  outDirs: "lib",
+  outDirs: "./dist",
   bundleTypes: true,
 } as PluginOptions;
 
@@ -46,7 +46,7 @@ export default defineConfig(({ mode }) => {
               formats: ["es"],
               cssFileName: "index",
             },
-            outDir: path.resolve(__dirname, "./lib"),
+            outDir: path.resolve(__dirname, "./dist"),
             rollupOptions: {
               external: ["react", "react-dom", "react/jsx-runtime", "simplebar-react"],
               output: {
