@@ -81,6 +81,7 @@
     "prettier-eslint": "^16.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-github-btn": "^1.4.0",
     "simplebar-react": "^3.3.2",
     "stylelint": "^16.21.1",
     "stylelint-config-standard": "^38.0.0",

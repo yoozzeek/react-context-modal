@@ -1,5 +1,8 @@
 # react-context-modal
 
+![npm](https://img.shields.io/npm/v/@yoozzeek/react-context-modal.svg)
+![downloads](https://img.shields.io/npm/dm/@yoozzeek/react-context-modal.svg)
+
 A simple React modal component and hooks designed to overcome limitations of existing modal libraries. Key features 
 include horizontal and vertical swipe-to-close, scroll position preservation on iOS, and stacking multiple modals.
 

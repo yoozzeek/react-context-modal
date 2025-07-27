@@ -1,6 +1,7 @@
 import "./styles.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import GitHubButton from "react-github-btn";
 import WithCreateStackHookExample from "./WithCreateStackHook";
 import WithContextProviderExample from "./WithContextProvider";
 import WithMobileTypeExample from "./WithMobileType";
@@ -22,9 +23,24 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         libraries. Key features include horizontal and vertical swipe-to-close, scroll position
         preservation on iOS, and stacking multiple modals.
       </p>
-      <a href="https://github.com/yoozzeek/react-context-modal" target="_blank">
-        Open on Github
-      </a>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.6em",
+        }}
+      >
+        <GitHubButton
+          href="https://github.com/yoozzeek/react-context-modal"
+          data-color-scheme="no-preference: light; light: light; dark: light;"
+          data-size="large"
+          data-show-count="true"
+          aria-label="Star yoozzeek/react-context-modal on GitHub"
+        >
+          Star
+        </GitHubButton>
+        <img alt="npm" src="https://img.shields.io/npm/v/@yoozzeek/react-context-modal.svg" />
+      </div>
     </header>
 
     <section>
@@ -59,13 +75,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <a href="https://bitkind.org/about" target="_blank">
               Bitkind.org
             </a>{" "}
-            [inbox@bitkind.org]
+            {"<"}inbox@bitkind.org{">"}
           </li>
           <li>
             <a href="https://github.com/yoozzeek" target="_blank">
               Andrew
             </a>{" "}
-            [zeek@tuta.com]
+            {"<"}zeek@tuta.com{">"}
           </li>
         </ul>
       </div>
