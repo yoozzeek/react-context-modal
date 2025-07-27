@@ -39,7 +39,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         >
           Star
         </GitHubButton>
-        <img alt="npm" src="https://img.shields.io/npm/v/@yoozzeek/react-context-modal.svg" />
+        <a href="https://www.npmjs.com/package/@yoozzeek/react-context-modal" target="_blank">
+          <img
+            alt="Open @yoozzeek/react-context-modal on npmjs"
+            src="https://img.shields.io/npm/v/@yoozzeek/react-context-modal.svg"
+          />
+        </a>
       </div>
     </header>
 
