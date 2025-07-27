@@ -6,8 +6,21 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yoozzeek/react-context-modal.git"
+    "url": "https://github.com/yoozzeek/react-context-modal.git"
   },
+  "keywords": [
+    "react",
+    "components",
+    "responsive",
+    "uikit",
+    "modal",
+    "dialog",
+    "window",
+    "mobile-first",
+    "popup",
+    "library",
+    "web"
+  ],
   "author": {
     "name": "Andrew",
     "email": "zeek@tuta.com",
@@ -27,8 +40,6 @@
     }
   },
   "files": [
-    "LICENSE",
-    "README.md",
     "lib/"
   ],
   "scripts": {
@@ -42,7 +53,6 @@
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
-    "react-responsive": ">=10.0.1",
     "simplebar-react": ">=3.1.0"
   },
   "dependencies": {
@@ -71,7 +81,6 @@
     "prettier-eslint": "^16.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-responsive": "^10.0.1",
     "simplebar-react": "^3.3.2",
     "stylelint": "^16.21.1",
     "stylelint-config-standard": "^38.0.0",
@@ -81,18 +90,5 @@
     "vite": "^7.0.4",
     "vite-plugin-svgr": "^4.3.0",
     "vitest": "^3.2.4"
-  },
-  "keywords": [
-    "react",
-    "components",
-    "responsive",
-    "uikit",
-    "modal",
-    "dialog",
-    "window",
-    "mobile-first",
-    "popup",
-    "library",
-    "web"
-  ]
+  }
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { RefObject } from "react";
 import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect";
-import useGteSm from "@/hooks/useGteSm";
+import useIsTabletOrDesktop from "@/hooks/useIsTabletOrDesktop.ts";
 import { flushSync } from "react-dom";
 import type { StackCtx, ModalType } from "@/types";
 
@@ -26,7 +26,7 @@ export default function useCoreHandlers({
   scrollAreaRef: RefObject<HTMLDivElement>;
   onClose(): void;
 }) {
-  const gteSm = useGteSm();
+  const gteSm = useIsTabletOrDesktop();
   const [transformState, setTransformState] = useState({
     isMoving: false,
     scrollDisabled: false,

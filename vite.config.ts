@@ -48,13 +48,7 @@ export default defineConfig(({ mode }) => {
             },
             outDir: path.resolve(__dirname, "./lib"),
             rollupOptions: {
-              external: [
-                "react",
-                "react-dom",
-                "react/jsx-runtime",
-                "react-responsive",
-                "simplebar-react",
-              ],
+              external: ["react", "react-dom", "react/jsx-runtime", "simplebar-react"],
               output: {
                 entryFileNames: "[name].js",
                 chunkFileNames: "chunks/[name].[hash].js",

@@ -9,13 +9,18 @@ import ModalDefaultHeader from "./ModalHeader";
 import useModal from "@/hooks/useModal";
 import Loader from "@/components/Loader";
 import ModalConfirmAction from "./ModalConfirmAction";
-import useGteSm from "@/hooks/useGteSm";
+import useIsTabletOrDesktop from "@/hooks/useIsTabletOrDesktop.ts";
 import useCoreHandlers from "@/hooks/useCoreHandlers";
 import styles from "@/styles/modal.module.css";
 
 type ModalProps = {
   id: string;
-  scrollAreaId?: string;
+  title?: string | null;
+  ariaLabel?: string | null;
+  type?: ModalType;
+  size?: Size;
+  fallbackCtx?: StackCtx;
+  tabletBreakpoint?: string;
   children: ReactNode;
   isPortal?: boolean;
   isLoading?: boolean;
@@ -23,17 +28,12 @@ type ModalProps = {
   confirmClose?: boolean;
   horizontalSwipe?: boolean;
   mobileSafeTop?: boolean;
-  ariaLabel?: string | null;
-  title?: string | null;
-  bgColorClass?: string;
   preventClose?: boolean;
+  scrollAreaId?: string;
   confirmTitle?: string;
   confirmDescription?: string;
   headerRenderer?: (onClose: () => void) => ReactElement;
   footerRenderer?: (onClose: () => void) => ReactElement;
-  type?: ModalType;
-  size?: Size;
-  fallbackCtx?: StackCtx;
   onClose(): void;
 };
 
@@ -51,7 +51,7 @@ function Modal({
   isPortal = true,
   mobileSafeTop = true,
   preventClose = false,
-  bgColorClass,
+  tabletBreakpoint,
   confirmTitle = "Are you sure?",
   confirmDescription = "Are you sure you want to close this dialog?",
   headerRenderer,
@@ -67,7 +67,7 @@ function Modal({
   const contentRef = useRef<HTMLDivElement>(null!);
   const scrollAreaRef = useRef<HTMLDivElement>(null!);
   const simpleBarRef = useRef<SimpleBarCore>(null!);
-  const gteSm = useGteSm();
+  const gteSm = useIsTabletOrDesktop(tabletBreakpoint);
 
   const isRightSwipeAllowed = horizontalSwipe && type === "fullscreen";
 
@@ -187,7 +187,6 @@ function Modal({
       !closeAnimation && (type === "menu" || type === "overlay-90" || type === "overlay-auto"),
     [styles[`modal__main--animate-slide-up-95`]]: !closeAnimation && type === "overlay-95",
     [styles[`modal__main--animate-slide-right`]]: !closeAnimation && type === "fullscreen",
-    [bgColorClass!]: !!bgColorClass,
   });
 
   function renderModal(content: ReactElement) {
