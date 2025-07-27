@@ -22,7 +22,7 @@ This library is provided by the non-profit organization [Bitkind.org](https://bi
 ## Installation
 Install the context modal with required peer dependencies:
 ```bash
-yarn add react-context-modal simplebar-react
+yarn add @yoozzeek/react-context-modal simplebar-react
 ```
 
 Include the CSS in your app or SSR/SSG page:
@@ -86,11 +86,11 @@ Various use-case examples are provided in the [examples](./examples) directory. 
 
 ### Display & Behavior
 * `type`: Modal display type on mobile.<br>
-Options: "base", "menu", "fullscreen", "overlay-90", "overlay-95", "overlay-auto".
+Options: `base`, `menu`, `fullscreen`, `overlay-90`, `overlay-95`, `overlay-auto`.
 * `size`: Modal width on desktop/tablet.<br>
-Options: "xxs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl".
+Options: `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`.
 * `tabletBreakpoint`: Min viewport width (px) for tablet/desktop mode.<br>
-Example: tabletBreakpoint={576} (default: 576).
+Example: `tabletBreakpoint={576}` (default: 576).
 * `isPortal`: Render modal in a portal/root (default: true). If false, renders inline.
 * `horizontalSwipe`: Enable swipe-to-close gesture on mobile (default: false).
 * `preventClose`: Prevent modal from closing (default: false).
