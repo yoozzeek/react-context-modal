@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "../src";
 import ModalProvider from "../src/providers/ModalProvider";
 
-const WithMobileHorizontalSwipeExamplePage = () => {
+const WithMobileHorizontalSwipeExample = () => {
   const [opened, setOpened] = useState(false);
 
   return (
@@ -43,4 +43,4 @@ const WithMobileHorizontalSwipeExamplePage = () => {
   );
 };
 
-export default WithMobileHorizontalSwipeExamplePage;
+export default WithMobileHorizontalSwipeExample;

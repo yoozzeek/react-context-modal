@@ -3,7 +3,7 @@ import { Modal } from "../src";
 import ModalProvider from "../src/providers/ModalProvider";
 import ModalFooterPortal from "../src/components/ModalFooterPortal";
 
-const WithPortalExamplePage = () => {
+const WithPortalExample = () => {
   const [opened, setOpened] = useState(false);
   return (
     <ModalProvider>
@@ -53,4 +53,4 @@ const WithPortalExamplePage = () => {
   );
 };
 
-export default WithPortalExamplePage;
+export default WithPortalExample;

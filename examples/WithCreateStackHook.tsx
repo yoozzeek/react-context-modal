@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, useModalStackCtx } from "../src";
 
-const WithCreateStackHookExamplePage = () => {
+const WithCreateStackHookExample = () => {
   const [opened, setOpened] = useState(false);
   const modalStackCtx = useModalStackCtx();
   return (
@@ -37,4 +37,4 @@ const WithCreateStackHookExamplePage = () => {
   );
 };
 
-export default WithCreateStackHookExamplePage;
+export default WithCreateStackHookExample;

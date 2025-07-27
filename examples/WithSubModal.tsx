@@ -23,7 +23,7 @@ const ComponentWithSubModal = () => {
   );
 };
 
-const WithSubModalExamplePage = () => {
+const WithSubModalExample = () => {
   const [opened, setOpened] = useState(false);
   return (
     <ModalProvider>
@@ -60,4 +60,4 @@ const WithSubModalExamplePage = () => {
   );
 };
 
-export default WithSubModalExamplePage;
+export default WithSubModalExample;

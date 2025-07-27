@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Modal, useModalStackCtx } from "../src";
+import { Modal, ModalProvider } from "../src";
 import type { ModalType } from "../src";
 import ModalHeader1 from "../src/components/ModalHeader1";
 
-const WithMobileTypeExamplePage = () => {
-  const modalStackCtx = useModalStackCtx();
+const WithMobileTypeExample = () => {
   const [opened, setOpened] = useState(false);
   const [type, setType] = useState<ModalType>("overlay-auto");
 
@@ -14,7 +13,7 @@ const WithMobileTypeExamplePage = () => {
   }
 
   return (
-    <>
+    <ModalProvider>
       <header>
         <h3>With modal type</h3>
         <a
@@ -54,7 +53,6 @@ const WithMobileTypeExamplePage = () => {
           title="Modal example"
           type={type}
           isPortal={false}
-          fallbackCtx={modalStackCtx}
           headerRenderer={(onClose) =>
             type === "fullscreen" ? (
               <ModalHeader1 title="Modal example" onClose={onClose} />
@@ -72,8 +70,8 @@ const WithMobileTypeExamplePage = () => {
           Modal content
         </Modal>
       )}
-    </>
+    </ModalProvider>
   );
 };
 
-export default WithMobileTypeExamplePage;
+export default WithMobileTypeExample;
