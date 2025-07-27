@@ -26,7 +26,7 @@ export default function useCoreHandlers({
   scrollAreaRef: RefObject<HTMLDivElement>;
   onClose(): void;
 }) {
-  const gteSm = useIsTabletOrDesktop();
+  const isTabletOrDesktop = useIsTabletOrDesktop();
   const [transformState, setTransformState] = useState({
     isMoving: false,
     scrollDisabled: false,
@@ -43,7 +43,7 @@ export default function useCoreHandlers({
   useIsomorphicLayoutEffect(() => {
     const el = modalRef.current;
     if (!el) return;
-    if (gteSm) return;
+    if (isTabletOrDesktop) return;
 
     // Right swipe allowed only on fullscreen and
     // base modals with horizontalSwipe prop
@@ -373,7 +373,7 @@ export default function useCoreHandlers({
       el.removeEventListener("touchmove", handleTouchMove);
       el.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isLoading, type, gteSm, stackCtx?.lastModal]);
+  }, [isLoading, type, isTabletOrDesktop, stackCtx?.lastModal]);
 
   function getScrollMeta() {
     let isScrollable = false;
@@ -405,7 +405,7 @@ export default function useCoreHandlers({
         stackCtx?.remove(id);
         onClose();
       },
-      gteSm ? 0 : 200,
+      isTabletOrDesktop ? 0 : 200,
     );
   }
 

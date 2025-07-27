@@ -67,7 +67,7 @@ function Modal({
   const contentRef = useRef<HTMLDivElement>(null!);
   const scrollAreaRef = useRef<HTMLDivElement>(null!);
   const simpleBarRef = useRef<SimpleBarCore>(null!);
-  const gteSm = useIsTabletOrDesktop(tabletBreakpoint);
+  const isTabletOrDesktop = useIsTabletOrDesktop(tabletBreakpoint);
 
   const isRightSwipeAllowed = horizontalSwipe && type === "fullscreen";
 
@@ -206,7 +206,7 @@ function Modal({
         ref={modalRef}
         className={mainClass}
         style={
-          gteSm
+          isTabletOrDesktop
             ? {
                 // Patch for Safari browser
                 maskImage: "-webkit-radial-gradient(white, black)",
