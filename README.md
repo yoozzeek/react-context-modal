@@ -28,7 +28,7 @@ yarn add @yoozzeek/react-context-modal simplebar-react
 Include the CSS in your app or SSR/SSG page:
 <br />
 ```jsx
-import "react-context-modal/index.css"
+import "react-context-modal/dist/index.css"
 ```
 
 ### Basic usage
@@ -154,7 +154,7 @@ like `context-modal-modal__container`. However, here are the most useful classes
 ```
 
 ## Bundle and dependencies
-The modal component with hooks and provider is 26.60 KB (gzip: 7.39 KB) + styles 5.51 KB (gzip: 1.32 KB).
+The modal component with hooks and provider is 26.69 KB (gzip: 7.41 KB) + styles 5.51 KB (gzip: 1.32 KB).
 
 Based on two npm packages:
 - [body-scroll-lock](https://github.com/yoozzeek/body-scroll-lock)

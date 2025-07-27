@@ -32,19 +32,17 @@ type ModalProps = {
   scrollAreaId?: string;
   confirmTitle?: string;
   confirmDescription?: string;
-  headerRenderer?: (onClose: OnCloseCb) => ReactElement;
-  footerRenderer?: (onClose: OnCloseCb) => ReactElement;
+  headerRenderer?: (onClose: () => void) => ReactElement;
+  footerRenderer?: (onClose: () => void) => ReactElement;
   onClose(): void;
 };
 
-type OnCloseCb = () => void;
-
-type ChildrenRendererFn = (onClose: OnCloseCb) => void;
+type ChildrenRendererFn = (onClose: () => void) => ReactNode;
 
 type ModalChildrenType = ReactNode | ChildrenRendererFn;
 
-function isFunction(functionToCheck) {
-  return functionToCheck && {}.toString.call(functionToCheck) === "[object Function]";
+function isFunction(value: unknown): value is Function {
+  return typeof value === "function";
 }
 
 function Modal({
@@ -201,7 +199,7 @@ function Modal({
     ) : null;
 
   const wrappedChildren = useMemo(() => {
-    return isFunction(children) ? (children as Function)(onCloseModalHandler) : children;
+    return isFunction(children) ? (children as ChildrenRendererFn)(onCloseModalHandler) : children;
   }, [children, onCloseModalHandler]);
 
   function renderModal(content: ReactElement) {
