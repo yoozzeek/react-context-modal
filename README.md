@@ -158,7 +158,6 @@ The modal component with hooks and provider is 26.22 KB (gzip: 7.30 KB) + styles
 
 Based on two npm packages:
 - [body-scroll-lock](https://github.com/yoozzeek/body-scroll-lock)
-- [react-responsive](https://github.com/yocontra/react-responsive)
 - [clsx](https://github.com/lukeed/clsx)
 
 ### Peer dependencies
