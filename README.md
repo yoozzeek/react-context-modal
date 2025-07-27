@@ -74,6 +74,7 @@ Various use-case examples are provided in the [examples](./examples) directory. 
 * [Context provider](./examples/WithContextProvider.tsx)
 * [React portal](./examples/WithPortal.tsx)
 * [Without context](./examples/WithCreateStackHook.tsx)
+* [With children props](./examples/WithChildrenProps.tsx)
 * [Footer portal](./examples/WithFooterPortal.tsx)
 
 ## Configuration and Props
