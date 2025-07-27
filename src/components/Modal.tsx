@@ -21,7 +21,7 @@ type ModalProps = {
   size?: Size;
   fallbackCtx?: StackCtx;
   tabletBreakpoint?: string;
-  children: ReactNode;
+  children: ModalChildrenType;
   isPortal?: boolean;
   isLoading?: boolean;
   loadingText?: string;
@@ -32,10 +32,20 @@ type ModalProps = {
   scrollAreaId?: string;
   confirmTitle?: string;
   confirmDescription?: string;
-  headerRenderer?: (onClose: () => void) => ReactElement;
-  footerRenderer?: (onClose: () => void) => ReactElement;
+  headerRenderer?: (onClose: OnCloseCb) => ReactElement;
+  footerRenderer?: (onClose: OnCloseCb) => ReactElement;
   onClose(): void;
 };
+
+type OnCloseCb = () => void;
+
+type ChildrenRendererFn = (onClose: OnCloseCb) => void;
+
+type ModalChildrenType = ReactNode | ChildrenRendererFn;
+
+function isFunction(functionToCheck) {
+  return functionToCheck && {}.toString.call(functionToCheck) === "[object Function]";
+}
 
 function Modal({
   id,
@@ -67,7 +77,7 @@ function Modal({
   const contentRef = useRef<HTMLDivElement>(null!);
   const scrollAreaRef = useRef<HTMLDivElement>(null!);
   const simpleBarRef = useRef<SimpleBarCore>(null!);
-  const gteSm = useIsTabletOrDesktop(tabletBreakpoint);
+  const isTabletOrDesktop = useIsTabletOrDesktop(tabletBreakpoint);
 
   const isRightSwipeAllowed = horizontalSwipe && type === "fullscreen";
 
@@ -145,6 +155,25 @@ function Modal({
     };
   }, []);
 
+  // Dynamic styles
+  const containerClass = clsx(styles.modal__container, {
+    [styles[`modal__container--fullscreen`]]: type === "fullscreen",
+    [styles[`modal__container--menu`]]: type === "menu",
+    [styles[`modal__container--overlay-90`]]: type === "overlay-90",
+    [styles[`modal__container--overlay-95`]]: type === "overlay-95",
+    [styles[`modal__container--overlay-auto`]]: type === "overlay-auto",
+    [styles[`modal__safe-top`]]: type !== "fullscreen" && mobileSafeTop,
+  });
+
+  const mainClass = clsx(styles.modal__main, styles[`modal__main--${type}`], {
+    [styles[`modal__main--${size}`]]: type !== "fullscreen",
+    [styles[`modal__main--opacity-0`]]: !scrollableHeight,
+    [styles[`modal__main--animate-slide-up-90`]]:
+      !closeAnimation && (type === "menu" || type === "overlay-90" || type === "overlay-auto"),
+    [styles[`modal__main--animate-slide-up-95`]]: !closeAnimation && type === "overlay-95",
+    [styles[`modal__main--animate-slide-right`]]: !closeAnimation && type === "fullscreen",
+  });
+
   // Dynamic header
   const dynamicHeader = useMemo(() => {
     if (!headerRenderer) return null;
@@ -171,23 +200,9 @@ function Modal({
       <footer className={styles.modal__footer}>{dynamicFooter}</footer>
     ) : null;
 
-  const containerClass = clsx(styles.modal__container, {
-    [styles[`modal__container--fullscreen`]]: type === "fullscreen",
-    [styles[`modal__container--menu`]]: type === "menu",
-    [styles[`modal__container--overlay-90`]]: type === "overlay-90",
-    [styles[`modal__container--overlay-95`]]: type === "overlay-95",
-    [styles[`modal__container--overlay-auto`]]: type === "overlay-auto",
-    [styles[`modal__safe-top`]]: type !== "fullscreen" && mobileSafeTop,
-  });
-
-  const mainClass = clsx(styles.modal__main, styles[`modal__main--${type}`], {
-    [styles[`modal__main--${size}`]]: type !== "fullscreen",
-    [styles[`modal__main--opacity-0`]]: !scrollableHeight,
-    [styles[`modal__main--animate-slide-up-90`]]:
-      !closeAnimation && (type === "menu" || type === "overlay-90" || type === "overlay-auto"),
-    [styles[`modal__main--animate-slide-up-95`]]: !closeAnimation && type === "overlay-95",
-    [styles[`modal__main--animate-slide-right`]]: !closeAnimation && type === "fullscreen",
-  });
+  const wrappedChildren = useMemo(() => {
+    return isFunction(children) ? (children as Function)(onCloseModalHandler) : children;
+  }, [children, onCloseModalHandler]);
 
   function renderModal(content: ReactElement) {
     return isPortal ? <ModalPortal>{content}</ModalPortal> : content;
@@ -206,7 +221,7 @@ function Modal({
         ref={modalRef}
         className={mainClass}
         style={
-          gteSm
+          isTabletOrDesktop
             ? {
                 // Patch for Safari browser
                 maskImage: "-webkit-radial-gradient(white, black)",
@@ -233,7 +248,7 @@ function Modal({
                 <Loader text={loadingText} />
               </div>
             ) : (
-              children
+              wrappedChildren
             )}
           </SimpleBar>
         </div>

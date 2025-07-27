@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "../src";
 import ModalProvider from "../src/providers/ModalProvider";
 
-const WithPortalExamplePage = () => {
+const WithPortalExample = () => {
   const [opened, setOpened] = useState(false);
   return (
     <ModalProvider>
@@ -49,4 +49,4 @@ const WithPortalExamplePage = () => {
   );
 };
 
-export default WithPortalExamplePage;
+export default WithPortalExample;

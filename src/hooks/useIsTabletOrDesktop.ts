@@ -25,7 +25,7 @@ export default function useIsTabletOrDesktop(minWidth = "576px"): boolean {
   }, []);
 
   function getMedia(): MediaQueryList {
-    return window.matchMedia(`(min-width: ${minWidth}px)`);
+    return window.matchMedia(`(min-width: ${minWidth})`);
   }
 
   function getMatches(): boolean {

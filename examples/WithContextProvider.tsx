@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "../src";
 import ModalProvider from "../src/providers/ModalProvider";
 
-const WithContextProviderExamplePage = () => {
+const WithContextProviderExample = () => {
   const [opened, setOpened] = useState(false);
   return (
     <ModalProvider>
@@ -33,4 +33,4 @@ const WithContextProviderExamplePage = () => {
   );
 };
 
-export default WithContextProviderExamplePage;
+export default WithContextProviderExample;
