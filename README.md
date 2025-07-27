@@ -20,14 +20,9 @@ position effectively. This library addresses these specific gaps by providing:
 This library is provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for public npm distribution.
 
 ## Installation
-Install required peer dependencies first:
+Install the context modal with required peer dependencies:
 ```bash
-yarn add react react-dom react-responsive simplebar-react
-```
-
-This library isn't yet published to npm. To test and use it, install directly from GitHub:
-```bash
-yarn add https://github.com/yoozzeek/react-context-modal.git
+yarn add react-context-modal simplebar-react
 ```
 
 Include the CSS in your app or SSR/SSG page:
@@ -81,48 +76,42 @@ Various use-case examples are provided in the [examples](./examples) directory. 
 * [Without context](./examples/WithCreateStackHook.tsx)
 * [Footer portal](./examples/WithFooterPortal.tsx)
 
-## Configuration and props
-```typescript
-export type Size = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+## Configuration and Props
 
-type ModalType =
-  | "base"
-  | "menu"
-  | "fullscreen"
-  | "overlay-90"
-  | "overlay-95"
-  | "overlay-auto";
+### Base
+* `id` (required): Unique identifier for the modal.
+* `title`: Modal title (string or null).
+* `ariaLabel`: Custom accessibility label (string or null).
+* `onClose` (required): Callback fired when modal closes (should remove modal from DOM).
 
-type ModalProps = {
-  id: string; // Unique identifier for modal
-  scrollAreaId?: string;
-  children: ReactNode; // JSX content for modal
-  isPortal?: boolean; // Render modal at root or inline
-  isLoading?: boolean; // Loading state indicator
-  loadingText?: string;
+### Display & Behavior
+* `type`: Modal display type on mobile.<br>
+Options: "base", "menu", "fullscreen", "overlay-90", "overlay-95", "overlay-auto".
+* `size`: Modal width on desktop/tablet.<br>
+Options: "xxs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl".
+* `tabletBreakpoint`: Min viewport width (px) for tablet/desktop mode.<br>
+Example: tabletBreakpoint={576} (default: 576).
+* `isPortal`: Render modal in a portal/root (default: true). If false, renders inline.
+* `horizontalSwipe`: Enable swipe-to-close gesture on mobile (default: false).
+* `preventClose`: Prevent modal from closing (default: false).
 
-  horizontalSwipe?: boolean; // Enable horizontal swipe-to-close on mobile
-  mobileSafeTop?: boolean; // deprecated
-  ariaLabel?: string | null;
+### Content & Customization
+* `children` (required): Modal content/body.
+* `bgColorClass`: Custom background color class.
+* `headerRenderer`: Custom header render function.
+* `footerRenderer`: Custom footer render function.
+* `scrollAreaId`: ID for scrollable content area.
+* `isLoading`: Show loading state (default: false).
+* `loadingText`: Custom text for loading state.
 
-  title?: string | null;
-  bgColorClass?: string;
-  preventClose?: boolean;
+### Confirmation on Close
+* `confirmClose`: Show confirmation dialog before closing (default: false).
+* `confirmTitle`: Title for the close confirmation.
+* `confirmDescription`: Description for the close confirmation.
 
-  confirmClose?: boolean; // Prompt confirmation on close
-  confirmTitle?: string;
-  confirmDescription?: string;
-
-  headerRenderer?: (onClose: () => void) => ReactElement;
-  footerRenderer?: (onClose: () => void) => ReactElement;
-
-  type?: ModalType; // Modal display type
-  size?: Size; // Desktop width
-  fallbackCtx?: StackCtx; // Context fallback for modals without global provider
-
-  onClose(): void; // Handler called upon modal close
-};
-```
+### Advanced
+* `mobileSafeTop`: Adjust top spacing for in-app browsers (default: false).
+* `fallbackCtx`: Context override when rendering outside a ModalProvider.
 
 ## Styles and customization
 You can easily style and theme the modal by adjusting CSS variables or overriding specific class names.
@@ -168,8 +157,14 @@ like `context-modal-modal__container`. However, here are the most useful classes
 The modal component with hooks and provider is 26.22 KB (gzip: 7.30 KB) + styles 5.51 KB (gzip: 1.32 KB).
 
 Based on two npm packages:
-- [clsx](https://github.com/lukeed/clsx)
 - [body-scroll-lock](https://github.com/yoozzeek/body-scroll-lock)
+- [react-responsive](https://github.com/yocontra/react-responsive)
+- [clsx](https://github.com/lukeed/clsx)
+
+### Peer dependencies
+- react
+- react-dom
+- [simplebar-react](https://github.com/Grsmto/simplebar)
 
 ## License
 
