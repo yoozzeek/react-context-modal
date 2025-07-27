@@ -2,7 +2,7 @@
   "name": "@yoozzeek/react-context-modal",
   "description": "A simple React modal component and hooks designed to overcome limitations of existing modal libraries. Key features include horizontal and vertical swipe-to-close, scroll position preservation on iOS, and stacking multiple modals.",
   "homepage": "https://yoozzeek.github.io/react-context-modal/",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "license": "MIT",
   "repository": {
     "type": "git",
