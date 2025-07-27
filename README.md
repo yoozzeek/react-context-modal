@@ -154,7 +154,7 @@ like `context-modal-modal__container`. However, here are the most useful classes
 ```
 
 ## Bundle and dependencies
-The modal component with hooks and provider is 26.22 KB (gzip: 7.30 KB) + styles 5.51 KB (gzip: 1.32 KB).
+The modal component with hooks and provider is 26.60 KB (gzip: 7.39 KB) + styles 5.51 KB (gzip: 1.32 KB).
 
 Based on two npm packages:
 - [body-scroll-lock](https://github.com/yoozzeek/body-scroll-lock)
