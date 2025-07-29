@@ -7,7 +7,7 @@ const ModalHeader = ({ label, onClose }: { label?: string; onClose(): void }) =>
     <header
       className={clsx(styles.modal__header, styles["modal__header--with-bar"], {
         [styles["modal__header--with-label"]]: Boolean(label),
-        [styles["modal__header--no-label"]]: !Boolean(label),
+        [styles["modal__header--no-label"]]: !label,
       })}
     >
       {label && <h4 className={styles["modal__header-title"]}>{label}</h4>}

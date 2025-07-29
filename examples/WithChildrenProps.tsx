@@ -1,22 +1,22 @@
-import React, { useCallback, useState } from "react";
+import { useState } from "react";
 import { Modal } from "../src";
 import ModalProvider from "../src/providers/ModalProvider";
 
 const WithChildrenPropsExample = () => {
   const [opened, setOpened] = useState(false);
 
-  // If you're want extra performance and minimize renderers
-  const _contentRendererFn = useCallback(
-    (onClose) => (
-      <>
-        Modal content
-        <button type="button" onClick={onClose}>
-          Close
-        </button>
-      </>
-    ),
-    [],
-  );
+  // If you want extra performance and minimize renderers
+  // const contentRendererFn = useCallback(
+  //   (onClose) => (
+  //     <>
+  //       Modal content
+  //       <button type="button" onClick={onClose}>
+  //         Close
+  //       </button>
+  //     </>
+  //   ),
+  //   [],
+  // );
 
   return (
     <ModalProvider>

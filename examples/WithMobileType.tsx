@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal, ModalProvider } from "../src";
 import type { ModalType } from "../src";
 import ModalHeader1 from "../src/components/ModalHeader1";
@@ -53,10 +53,10 @@ const WithMobileTypeExample = () => {
           title="Modal example"
           type={type}
           isPortal={false}
-          headerRenderer={(onClose) =>
-            type === "fullscreen" ? (
-              <ModalHeader1 title="Modal example" onClose={onClose} />
-            ) : undefined
+          headerRenderer={
+            type === "fullscreen"
+              ? (onClose) => <ModalHeader1 title="Modal example" onClose={onClose} />
+              : undefined
           }
           footerRenderer={(onClose) => (
             <footer>
