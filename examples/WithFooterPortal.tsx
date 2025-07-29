@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal } from "../src";
 import ModalProvider from "../src/providers/ModalProvider";
 import ModalFooterPortal from "../src/components/ModalFooterPortal";
