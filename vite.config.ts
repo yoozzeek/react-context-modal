@@ -5,6 +5,7 @@ import dts from "unplugin-dts/vite";
 import svgr from "vite-plugin-svgr";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import process from "node:process";
 import type { PluginOptions } from "unplugin-dts";
 import type { UserConfig, BuildEnvironmentOptions } from "vite";
 

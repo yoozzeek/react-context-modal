@@ -35,9 +35,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           data-color-scheme="no-preference: light; light: light; dark: light;"
           data-size="large"
           data-show-count="true"
-          aria-label="Star yoozzeek/react-context-modal on GitHub"
+          aria-label="Open yoozzeek/react-context-modal on GitHub"
         >
-          Star
+          Open
         </GitHubButton>
         <a href="https://www.npmjs.com/package/@yoozzeek/react-context-modal" target="_blank">
           <img
