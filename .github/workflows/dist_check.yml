@@ -1,10 +1,26 @@
-name: dist-check
+name: Dist check
 
 on:
   push:
     branches: [main]
+    paths:
+      - 'src/**'
+      - 'dist/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'vite.config.ts'
+      - 'tsconfig*.json'
+      - '.github/workflows/dist_check.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'src/**'
+      - 'dist/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'vite.config.ts'
+      - 'tsconfig*.json'
+      - '.github/workflows/dist_check.yml'
 
 jobs:
   dist:
