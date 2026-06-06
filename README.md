@@ -9,32 +9,37 @@ React modal that actually feels native. Solves pain from existing libs: horizont
 
 ## Why Another Modal Library?
 
-Although numerous modal libraries exist, few support intuitive swipe-to-close actions or maintain the parent scroll 
+Although numerous modal libraries exist, few support intuitive swipe-to-close actions or maintain the parent scroll
 position effectively. This library addresses these specific gaps by providing:
-* Vertical and horizontal swipe gestures for closing modals.
-* Preservation of the page's vertical scroll (window.scrollY) position.
-* Full compatibility with modern browsers on iOS, Android, and desktop.
-* Full-height modal content scrolling with support for sticky headers and footers.
-* Stacking capability, allowing multiple modals to open and close independently.
-* Flexibility to render modals inline within a component or via a portal at the document root.
-* Utility to enable horizontal scrolling within modal content on iOS.
+
+- Vertical and horizontal swipe gestures for closing modals.
+- Preservation of the page's vertical scroll (window.scrollY) position.
+- Full compatibility with modern browsers on iOS, Android, and desktop.
+- Full-height modal content scrolling with support for sticky headers and footers.
+- Stacking capability, allowing multiple modals to open and close independently.
+- Flexibility to render modals inline within a component or via a portal at the document root.
+- Utility to enable horizontal scrolling within modal content on iOS.
 
 This library is provided by the non-profit organization [Bitkind.org](https://bitkind.org/about) and adapted for public npm distribution.
 
 ## Installation
+
 Install the context modal with required peer dependencies:
+
 ```bash
 yarn add @yoozzeek/react-context-modal simplebar-react
 ```
 
 Include the CSS in your app or SSR/SSG page:
 <br />
+
 ```jsx
-import "@yoozzeek/react-context-modal/dist/index.css"
+import "@yoozzeek/react-context-modal/dist/index.css";
 ```
 
 ### Basic usage
-Wrap your application or specific components with `ModalProvider`. Modals can then be rendered anywhere within the 
+
+Wrap your application or specific components with `ModalProvider`. Modals can then be rendered anywhere within the
 wrapped context (including another modals):
 
 ```jsx
@@ -64,6 +69,7 @@ const YourComponent = () => {
 ```
 
 ## Todos
+
 - [x] Core helpers, hooks and component;
 - [x] Vite configuration: build and dev;
 - [x] Beta is available as npm package;
@@ -74,31 +80,35 @@ const YourComponent = () => {
 
 Various use-case examples are provided in the [examples](./examples) directory. Contributions and additional examples are welcome.
 
-* [Modal type](./examples/WithMobileType.tsx)
-* [Horizontal swipe](./examples/WithMobileHorizontalSwipe.tsx)
-* [High content height](./examples/WithHighContentHeight.tsx)
-* [Sub modal](./examples/WithSubModal.tsx)
-* [Custom header](./examples/WithCustomHeader.tsx)
-* [Custom footer](./examples/WithCustomFooter.tsx)
-* [Context provider](./examples/WithContextProvider.tsx)
-* [React portal](./examples/WithPortal.tsx)
-* [Without context](./examples/WithCreateStackHook.tsx)
-* [With children props](./examples/WithChildrenProps.tsx)
-* [Footer portal](./examples/WithFooterPortal.tsx)
+- [Modal type](./examples/WithMobileType.tsx)
+- [Horizontal swipe](./examples/WithMobileHorizontalSwipe.tsx)
+- [High content height](./examples/WithHighContentHeight.tsx)
+- [Sub modal](./examples/WithSubModal.tsx)
+- [Custom header](./examples/WithCustomHeader.tsx)
+- [Custom footer](./examples/WithCustomFooter.tsx)
+- [Context provider](./examples/WithContextProvider.tsx)
+- [React portal](./examples/WithPortal.tsx)
+- [Without context](./examples/WithCreateStackHook.tsx)
+- [With children props](./examples/WithChildrenProps.tsx)
+- [Footer portal](./examples/WithFooterPortal.tsx)
 
 ## Styles and customization
+
 You can easily style and theme the modal by adjusting CSS variables or overriding specific class names.
 
 TODO: Complete customization guide
 
 ## Bundle and dependencies
+
 The modal component with hooks and provider is 26.69 KB (gzip: 7.41 KB) + styles 5.51 KB (gzip: 1.32 KB).
 
 Based on two npm packages:
+
 - [body-scroll-lock](https://github.com/yoozzeek/body-scroll-lock)
 - [clsx](https://github.com/lukeed/clsx)
 
 ### Peer dependencies
+
 - react
 - react-dom
 - [simplebar-react](https://github.com/Grsmto/simplebar)
