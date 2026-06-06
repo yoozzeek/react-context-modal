@@ -1,0 +1,33 @@
+name: dist-check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  dist:
+    name: Verify committed dist is fresh
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Rebuild dist
+        run: pnpm exec vite build
+
+      - name: Fail if committed dist is stale
+        run: |
+          git add -A dist
+          git diff --cached --exit-code -- dist

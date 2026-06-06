@@ -45,7 +45,6 @@
   ],
   "scripts": {
     "dev": "vite",
-    "prepare": "vite build",
     "build": "tsc -b && vite build",
     "build:demo": "vite build --mode demo",
     "lint": "eslint --quiet .",
