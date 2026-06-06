@@ -41,7 +41,7 @@ type ChildrenRendererFn = (onClose: () => void) => ReactNode;
 
 type ModalChildrenType = ReactNode | ChildrenRendererFn;
 
-function isFunction(value: unknown): value is Function {
+function isFunction(value: unknown): value is ChildrenRendererFn {
   return typeof value === "function";
 }
 
@@ -199,7 +199,7 @@ function Modal({
     ) : null;
 
   const wrappedChildren = useMemo(() => {
-    return isFunction(children) ? (children as ChildrenRendererFn)(onCloseModalHandler) : children;
+    return isFunction(children) ? children(onCloseModalHandler) : children;
   }, [children, onCloseModalHandler]);
 
   function renderModal(content: ReactElement) {

@@ -110,7 +110,7 @@ export default function useModalStackCtx(): StackCtx {
   }, []);
 
   const update = useCallback(
-    (key: string, newData: any) => {
+    (key: string, newData: Partial<OpenedModal>) => {
       if (!openedModalsRef.current.has(key)) return;
 
       const modalIdx = openedStack.findIndex((modal) => modal.key === key);

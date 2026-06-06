@@ -12,7 +12,7 @@ const ModalHeader1 = ({
   title?: string | ReactElement;
   superposition?: boolean;
   transparent?: boolean;
-  onClose?: (e?: any) => void;
+  onClose?: (e?: unknown) => void;
 }) => {
   return (
     <header
