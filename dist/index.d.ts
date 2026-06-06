@@ -1,6 +1,5 @@
 import { default as default_2 } from 'simplebar-core';
 import { JSX } from 'react';
-import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { MemoExoticComponent } from 'react';
 import { ReactElement } from 'react';
 import { ReactNode } from 'react';
@@ -40,7 +39,7 @@ declare type ModalProps = {
 
 export declare function ModalProvider({ children }: {
     children: ReactNode;
-}): JSX_2.Element;
+}): JSX;
 
 export declare type ModalType = "menu" | "fullscreen" | "overlay-90" | "overlay-95" | "overlay-auto";
 
