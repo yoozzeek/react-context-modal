@@ -60,7 +60,7 @@ export declare type StackCtx = {
     lastModal: OpenedModal | null;
     apply(modal: OpenedModal): void;
     remove(key: string): void;
-    update(key: string, newData: any): void;
+    update(key: string, newData: Partial<OpenedModal>): void;
     getPositionInStack(key: string): [number, boolean];
 };
 

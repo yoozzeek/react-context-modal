@@ -154,10 +154,12 @@ function U(e, t = !0) {
 	if (!e) return () => null;
 	let n = window.scrollY;
 	return t && document.body.style.setProperty("top", `${n * -1}px`), V(e, { allowTouchMove: (e) => {
-		for (; e && e !== document.body;) {
-			if (e.getAttribute("body-scroll-lock-ignore") !== null) return !0;
-			e = e.parentElement;
+		let t = e ?? null;
+		for (; t && t !== document.body;) {
+			if (t.getAttribute("body-scroll-lock-ignore") !== null) return !0;
+			t = t.parentElement;
 		}
+		return !1;
 	} }), () => {
 		if (H(e), t && (document.body.style.setProperty("top", ""), document.body.scrollTo(0, n)), !t) {
 			document.body.style.overflow = "hidden";
