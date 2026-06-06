@@ -10,17 +10,21 @@ export default function useIsTabletOrDesktop(minWidth = "576px"): boolean {
 
     const handlerFn = () => setMatches(getMatches);
 
-    // Listen for changes
-    media.addEventListener
-      ? media.addEventListener("change", handlerFn)
-      : media.addListener(handlerFn); // Fallback for Safari
+    // Listen for changes (addListener is the Safari fallback)
+    if (media.addEventListener) {
+      media.addEventListener("change", handlerFn);
+    } else {
+      media.addListener(handlerFn);
+    }
 
     setMatches(getMatches);
 
     return () => {
-      media.removeEventListener
-        ? media.removeEventListener("change", handlerFn)
-        : media.removeListener(handlerFn);
+      if (media.removeEventListener) {
+        media.removeEventListener("change", handlerFn);
+      } else {
+        media.removeListener(handlerFn);
+      }
     };
   }, []);
 

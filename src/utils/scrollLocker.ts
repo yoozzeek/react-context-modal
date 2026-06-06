@@ -7,20 +7,23 @@ export default function disableScroll(
   if (!element) return () => null;
 
   const storedScrollY = window.scrollY;
-  isFirstInStack && document.body.style.setProperty("top", `${storedScrollY * -1}px`);
+  if (isFirstInStack) {
+    document.body.style.setProperty("top", `${storedScrollY * -1}px`);
+  }
 
   // When disabling body scrolling
   disableBodyScroll(element, {
-    // @ts-ignore
     allowTouchMove: (el) => {
-      while (el && el !== document.body) {
-        if (el.getAttribute("body-scroll-lock-ignore") !== null) {
+      let node: Element | null = el ?? null;
+      while (node && node !== document.body) {
+        if (node.getAttribute("body-scroll-lock-ignore") !== null) {
           return true;
         }
 
-        // @ts-ignore
-        el = el.parentElement;
+        node = node.parentElement;
       }
+
+      return false;
     },
   });
   return () => {
