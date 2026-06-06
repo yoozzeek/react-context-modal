@@ -72,7 +72,6 @@ function Modal({
   const containerRef = useRef<HTMLDivElement>(null!);
   const modalRef = useRef<HTMLDivElement>(null!);
   const modalHeaderRef = useRef<HTMLDivElement>(null!);
-  const contentRef = useRef<HTMLDivElement>(null!);
   const scrollAreaRef = useRef<HTMLDivElement>(null!);
   const simpleBarRef = useRef<SimpleBarCore>(null!);
   const isTabletOrDesktop = useIsTabletOrDesktop(tabletBreakpoint);
@@ -80,7 +79,7 @@ function Modal({
   const isRightSwipeAllowed = horizontalSwipe && type === "fullscreen";
 
   const [confirmCloseModal, setConfirmCloseModal] = useState(false);
-  const [scrollableHeight, setScrollableHeight] = useState(contentRef.current?.clientHeight);
+  const [scrollableHeight, setScrollableHeight] = useState<number | undefined>(undefined);
 
   const { closeAnimation, transformState, handleClose } = useCoreHandlers({
     id,

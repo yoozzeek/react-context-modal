@@ -19,6 +19,7 @@ const ModalFooterPortal = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  // eslint-disable-next-line react-hooks/refs -- el.current is a stable detached <div> created at init, never null
   return createPortal(children, el.current);
 };
 

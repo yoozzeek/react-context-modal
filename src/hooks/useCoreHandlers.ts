@@ -37,6 +37,27 @@ export default function useCoreHandlers({
   });
   const [closeAnimation, setCloseAnimation] = useState(false);
 
+  function getScrollMeta() {
+    let isScrollable = false;
+
+    const sar = scrollAreaRef.current;
+    if (sar) {
+      isScrollable = sar.scrollHeight > sar.clientHeight;
+    }
+
+    let isTop = true;
+    if (sar) isTop = sar.scrollTop === 0;
+
+    let isBottom = true;
+    if (sar) isBottom = sar.scrollTop + sar.clientHeight === sar.scrollHeight;
+
+    return {
+      isScrollable,
+      isTop,
+      isBottom,
+    };
+  }
+
   /**
    * Modal touch and animation handlers initializer
    */
@@ -78,6 +99,7 @@ export default function useCoreHandlers({
       const directionY = Math.sign(deltaY);
       const factorX = Math.abs(deltaX / window.innerWidth);
       const factorY = Math.abs(deltaY / window.innerHeight);
+
       return {
         directionX,
         directionY,
@@ -88,6 +110,7 @@ export default function useCoreHandlers({
 
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length !== 1) return;
+
       const touch = e.touches[0];
       initialX = touch.clientX;
       initialY = touch.clientY;
@@ -249,6 +272,7 @@ export default function useCoreHandlers({
 
       // Prevent if duration between touch start and move is too long
       if (!isMoving && new Date().getTime() - startedTime > 150) return;
+
       isMoving = true;
 
       // Prevent swipe if gesture started from the scroll Y of the modal
@@ -374,19 +398,6 @@ export default function useCoreHandlers({
       el.removeEventListener("touchend", handleTouchEnd);
     };
   }, [isLoading, type, isTabletOrDesktop, stackCtx?.lastModal]);
-
-  function getScrollMeta() {
-    let isScrollable = false;
-    const sar = scrollAreaRef.current;
-    if (sar) {
-      isScrollable = sar.scrollHeight > sar.clientHeight;
-    }
-    let isTop = true;
-    if (sar) isTop = sar.scrollTop === 0;
-    let isBottom = true;
-    if (sar) isBottom = sar.scrollTop + sar.clientHeight === sar.scrollHeight;
-    return { isScrollable, isTop, isBottom };
-  }
 
   function handleClose() {
     flushSync(() => {
