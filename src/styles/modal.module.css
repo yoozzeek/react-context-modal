@@ -1,57 +1,57 @@
 @import "./variables.css";
 
 .modal__container {
-    position: fixed;
-    inset: 0;
-    right: 0;
-    left: 0;
-    z-index: 50;
-    margin-left: auto;
-    margin-right: auto;
-    touch-action: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  inset: 0;
+  right: 0;
+  left: 0;
+  z-index: 50;
+  margin-left: auto;
+  margin-right: auto;
+  touch-action: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal__container--fullscreen {
-    align-items: flex-start;
+  align-items: flex-start;
 }
 
 .modal__container--menu,
 .modal__container--overlay-90,
 .modal__container--overlay-95,
 .modal__container--overlay-auto {
-    align-items: flex-end;
+  align-items: flex-end;
 }
 
 @media (min-width: 576px) {
-    .modal__container--menu,
-    .modal__container--overlay-90,
-    .modal__container--overlay-95,
-    .modal__container--overlay-auto {
-        align-items: center;
-    }
+  .modal__container--menu,
+  .modal__container--overlay-90,
+  .modal__container--overlay-95,
+  .modal__container--overlay-auto {
+    align-items: center;
+  }
 }
 
 .modal__safe-top {
-    padding-top: env(safe-area-inset-top, 24px);
+  padding-top: env(safe-area-inset-top, 24px);
 }
 
 .modal__main {
-    box-shadow: var(--context-modal-box-shadow);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background-color: var(--context-modal-main-background-color);
+  box-shadow: var(--context-modal-box-shadow);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--context-modal-main-background-color);
 }
 
 .modal__main--fullscreen {
-    width: 100%;
-    height: 100%;
-    max-width: 100vw;
-    max-height: 100vh;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
 }
 
 .modal__main--overlay-90,
@@ -59,147 +59,164 @@
 .modal__main--overlay-auto,
 .modal__main--overlay-base,
 .modal__main--menu {
-    border-radius: var(--context-modal-radius-xl) var(--context-modal-radius-xl) 0 0;
-    width: 100vw;
-    max-width: 100vw;
+  border-radius: var(--context-modal-radius-xl) var(--context-modal-radius-xl) 0 0;
+  width: 100vw;
+  max-width: 100vw;
 }
 
 .modal__main--overlay-90 {
-    height: 100%;
-    max-height: 90%;
+  height: 100%;
+  max-height: 90%;
 }
 
 .modal__main--overlay-95 {
-    height: 100%;
-    max-height: 95%;
+  height: 100%;
+  max-height: 95%;
 }
 
 .modal__main--overlay-auto,
 .modal__main--overlay-base,
 .modal__main--menu {
+  height: auto;
+  max-height: 95%;
+}
+
+@media (min-width: 576px) {
+  .modal__main--overlay-90,
+  .modal__main--overlay-95,
+  .modal__main--overlay-auto,
+  .modal__main--menu {
     height: auto;
     max-height: 95%;
+    border-radius: var(--context-modal-radius-xl);
+  }
 }
 
+.modal__main--sm {
+}
 @media (min-width: 576px) {
-    .modal__main--overlay-90,
-    .modal__main--overlay-95,
-    .modal__main--overlay-auto,
-    .modal__main--menu {
-        height: auto;
-        max-height: 95%;
-        border-radius: var(--context-modal-radius-xl);
-    }
+  .modal__main--sm {
+    width: 300px;
+  }
 }
 
-.modal__main--sm { }
-@media (min-width: 576px) {
-    .modal__main--sm {
-        width: 300px;
-    }
+.modal__main--md {
 }
-
-.modal__main--md { }
 @media (min-width: 768px) {
-    .modal__main--md {
-        width: 400px;
-    }
+  .modal__main--md {
+    width: 400px;
+  }
 }
 
-.modal__main--lg { }
+.modal__main--lg {
+}
 @media (min-width: 992px) {
-    .modal__main--lg {
-        width: 480px;
-    }
+  .modal__main--lg {
+    width: 480px;
+  }
 }
 
-.modal__main--2xl { }
+.modal__main--2xl {
+}
 @media (min-width: 1200px) {
-    .modal__main--2xl {
-        width: 550px;
-    }
+  .modal__main--2xl {
+    width: 550px;
+  }
 }
 
-.modal__main--3xl { }
+.modal__main--3xl {
+}
 @media (min-width: 1400px) {
-    .modal__main--3xl {
-        width: 940px;
-    }
+  .modal__main--3xl {
+    width: 940px;
+  }
 }
 
 .modal__main--opacity-0 {
-    opacity: 0;
+  opacity: 0;
 }
 
 .modal__header {
-    position: relative;
-    z-index: 20;
+  position: relative;
+  z-index: 20;
 }
 
 .modal__body {
-    z-index: 10;
-    display: flex;
-    flex-grow: 1;
-    overflow: hidden;
-    outline: none;
+  z-index: 10;
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+  outline: none;
 }
 
 .modal__scroll-area {
-    flex-grow: 1;
-    max-width: 100%;
+  flex-grow: 1;
+  max-width: 100%;
 }
 
 .modal__loader {
-    display: flex;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal__footer {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 @keyframes slideUp90 {
-    from { transform: translateY(90%);}
-    to { transform: translateY(0);}
+  from {
+    transform: translateY(90%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 @keyframes slideUp95 {
-    from { transform: translateY(95%);}
-    to { transform: translateY(0);}
+  from {
+    transform: translateY(95%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 @keyframes slideRight {
-    from { transform: translateX(100%);}
-    to { transform: translateX(0);}
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 .modal__main--animate-slide-up-90 {
-    animation: slideUp90 0.3s cubic-bezier(0.4,0,0.2,1);
+  animation: slideUp90 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .modal__main--animate-slide-up-95 {
-    animation: slideUp95 0.3s cubic-bezier(0.4,0,0.2,1);
+  animation: slideUp95 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .modal__main--animate-slide-right {
-    animation: slideRight 0.3s cubic-bezier(0.4,0,0.2,1);
+  animation: slideRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal__backdrop {
-    position: absolute;
-    inset: 0;
-    z-index: -20;
-    height: 100%;
-    width: 100%;
-    background: var(--context-modal-backdrop-background-color);
-    transition: opacity 0.2s cubic-bezier(0.4,0,0.2,1);
-    will-change: opacity;
-    opacity: 0.5;
+  position: absolute;
+  inset: 0;
+  z-index: -20;
+  height: 100%;
+  width: 100%;
+  background: var(--context-modal-backdrop-background-color);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+  opacity: 0.5;
 }
 @media (min-width: 576px) {
-    .modal__backdrop {
-        opacity: 0.3;
-    }
+  .modal__backdrop {
+    opacity: 0.3;
+  }
 }
 .modal__backdrop--hidden {
-    opacity: 0;
+  opacity: 0;
 }
