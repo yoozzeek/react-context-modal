@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.app.json",
-  "include": ["examples"]
+  "include": ["examples", "src/vite-env.d.ts"]
 }
