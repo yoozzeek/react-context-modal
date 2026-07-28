@@ -150,10 +150,14 @@ var D = typeof window < "u" && window.navigator && window.navigator.platform && 
 };
 //#endregion
 //#region src/utils/scrollLocker.ts
-function W(e, t = !0) {
+function W() {
+	let { platform: e, maxTouchPoints: t } = window.navigator;
+	return /iP(ad|hone|od)/.test(e) || e === "MacIntel" && t > 1;
+}
+function G(e, t = !0) {
 	if (!e) return () => null;
-	let n = window.scrollY;
-	return t && document.body.style.setProperty("top", `${n * -1}px`), H(e, { allowTouchMove: (e) => {
+	let n = window.scrollY, r = t && W();
+	return t && document.body.style.setProperty("top", `${n * -1}px`), r && document.body.style.setProperty("width", "100%"), H(e, { allowTouchMove: (e) => {
 		let t = e ?? null;
 		for (; t && t !== document.body;) {
 			if (t.getAttribute("body-scroll-lock-ignore") !== null) return !0;
@@ -161,7 +165,7 @@ function W(e, t = !0) {
 		}
 		return !1;
 	} }), () => {
-		if (U(e), t && (document.body.style.setProperty("top", ""), document.body.scrollTo(0, n)), !t) {
+		if (U(e), t && (document.body.style.setProperty("top", ""), document.body.scrollTo(0, n)), r && document.body.style.setProperty("width", ""), !t) {
 			document.body.style.overflow = "hidden";
 			return;
 		}
@@ -170,8 +174,8 @@ function W(e, t = !0) {
 }
 //#endregion
 //#region src/hooks/useModalStackCtx.ts
-var G = "Escape";
-function K() {
+var K = "Escape";
+function q() {
 	let e = s(/* @__PURE__ */ new Set()), [t, r] = c([]), a = o(() => t[t.length - 1], [t]);
 	i(() => {
 		let t = !1;
@@ -185,14 +189,14 @@ function K() {
 			t && n && a.close(), t = !1;
 		}
 		function s(t) {
-			t.stopPropagation(), t.key == G && (a.close(), e.current.delete(a.key));
+			t.stopPropagation(), t.key == K && (a.close(), e.current.delete(a.key));
 		}
 		return n?.addEventListener("mousedown", i), n?.addEventListener("touchstart", i), n?.addEventListener("mouseup", o), n?.addEventListener("touchend", o), document.addEventListener("keydown", s), () => {
 			n?.removeEventListener("mousedown", i), n?.removeEventListener("touchstart", i), n?.removeEventListener("mouseup", o), n?.removeEventListener("touchend", o), document.removeEventListener("keydown", s);
 		};
 	}, [a]);
 	let l = n((n) => {
-		e.current.has(n.key) || (e.current.add(n.key), r((e) => t.findIndex((e) => e.key === n.key) === -1 ? (n.enableScroll = W(n.scrollableContentRef.current || n.modalRef.current, !e.length), [...e, n]) : e));
+		e.current.has(n.key) || (e.current.add(n.key), r((e) => t.findIndex((e) => e.key === n.key) === -1 ? (n.enableScroll = G(n.scrollableContentRef.current || n.modalRef.current, !e.length), [...e, n]) : e));
 	}, [t]), u = n((t) => {
 		e.current.delete(t), r((e) => {
 			let n = [...e], r = e.findIndex((e) => e.key === t);
@@ -223,22 +227,22 @@ function K() {
 }
 //#endregion
 //#region src/providers/ModalProvider.tsx
-var q = e(void 0);
-function J({ children: e }) {
-	let t = K();
-	return /* @__PURE__ */ m(q.Provider, {
+var J = e(void 0);
+function Y({ children: e }) {
+	let t = q();
+	return /* @__PURE__ */ m(J.Provider, {
 		value: t,
 		children: e
 	});
 }
 //#endregion
 //#region src/hooks/useModal.ts
-function Y(e) {
-	return r(q) ?? e;
+function ee(e) {
+	return r(J) ?? e;
 }
 //#endregion
 //#region src/assets/icons/loader.svg?react
-var ee = (e) => /* @__PURE__ */ m("svg", {
+var te = (e) => /* @__PURE__ */ m("svg", {
 	viewBox: "0 0 24 24",
 	fill: "none",
 	xmlns: "http://www.w3.org/2000/svg",
@@ -249,10 +253,10 @@ var ee = (e) => /* @__PURE__ */ m("svg", {
 		d: "M0 12C0 5.37258 5.37258 0 12 0C12.8284 0 13.5 0.671573 13.5 1.5C13.5 2.32843 12.8284 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 11.1716 21.6716 10.5 22.5 10.5C23.3284 10.5 24 11.1716 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z",
 		fill: "currentColor"
 	})
-}), te = ({ className: e, size: t = "md", text: n }) => /* @__PURE__ */ h("div", {
+}), ne = ({ className: e, size: t = "md", text: n }) => /* @__PURE__ */ h("div", {
 	className: "flex h-full w-full flex-col items-center justify-center",
 	children: [
-		/* @__PURE__ */ m(ee, { className: _("animate-spin", {
+		/* @__PURE__ */ m(te, { className: _("animate-spin", {
 			"h-5 w-5": t === "sm",
 			"h-8 w-8": t === "md",
 			"h-12 w-12": t === "lg",
@@ -286,7 +290,7 @@ function X({ fullWidth: e = !1, type: t = "button", size: n = "md", disabled: r 
 		disabled: r || i,
 		type: t || "button",
 		onClick: s,
-		children: i && o !== "none" ? /* @__PURE__ */ h(p, { children: [/* @__PURE__ */ m(te, { className: _("btn__loader", `btn__loader--variant-${o}`) }), a && /* @__PURE__ */ m("span", {
+		children: i && o !== "none" ? /* @__PURE__ */ h(p, { children: [/* @__PURE__ */ m(ne, { className: _("btn__loader", `btn__loader--variant-${o}`) }), a && /* @__PURE__ */ m("span", {
 			className: "btn__loading-text",
 			children: a
 		})] }) : c
@@ -294,7 +298,7 @@ function X({ fullWidth: e = !1, type: t = "button", size: n = "md", disabled: r 
 }
 //#endregion
 //#region src/components/ModalConfirmAction.tsx
-function ne({ title: e, description: t, variant: n = "danger", isLoading: r = !1, onConfirm: i, onClose: a }) {
+function re({ title: e, description: t, variant: n = "danger", isLoading: r = !1, onConfirm: i, onClose: a }) {
 	function o() {
 		i(), a();
 	}
@@ -334,7 +338,7 @@ function ne({ title: e, description: t, variant: n = "danger", isLoading: r = !1
 }
 //#endregion
 //#region src/hooks/useIsTabletOrDesktop.ts
-function re(e = "576px") {
+function ie(e = "576px") {
 	let t = `(min-width: ${e})`;
 	return l(n((e) => {
 		let n = window.matchMedia(t);
@@ -343,11 +347,11 @@ function re(e = "576px") {
 }
 //#endregion
 //#region src/hooks/useIsomorphicLayoutEffect.ts
-var ie = typeof document < "u" ? a : i;
+var Z = typeof document < "u" ? a : i;
 //#endregion
 //#region src/hooks/useCoreHandlers.ts
 function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i, modalRef: a, modalHeaderRef: o, scrollAreaRef: s, onClose: l }) {
-	let u = re(), [d, p] = c({
+	let u = ie(), [d, p] = c({
 		isMoving: !1,
 		scrollDisabled: !1,
 		transitionEnabled: !0,
@@ -367,7 +371,7 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 			isBottom: r
 		};
 	}
-	ie(() => {
+	Z(() => {
 		let e = a.current;
 		if (!e || u) return;
 		let s = n === "fullscreen" && r, c = o.current, d = 0, f = 0, m = 0, _ = 0, v = !1, y = !1, b = 0, x = !1, S = (e) => {
@@ -549,7 +553,7 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 		handleClose: _
 	};
 }
-var Z = {
+var Q = {
 	modal__container: "context-modal-modal__container",
 	"modal__container--fullscreen": "context-modal-modal__container--fullscreen",
 	"modal__container--menu": "context-modal-modal__container--menu",
@@ -589,8 +593,8 @@ var Z = {
 function oe(e) {
 	return typeof e == "function";
 }
-function Q({ id: e, scrollAreaId: t, children: r, ariaLabel: l, title: d, onClose: f, loadingText: p, horizontalSwipe: g = !1, confirmClose: v = !1, isLoading: y = !1, isPortal: x = !0, mobileSafeTop: S = !0, preventClose: w = !1, tabletBreakpoint: T, confirmTitle: E = "Are you sure?", confirmDescription: D = "Are you sure you want to close this dialog?", headerRenderer: O, footerRenderer: k, fallbackCtx: A, type: j = "overlay-auto", size: M = "md" }) {
-	let N = Y(A), P = s(null), F = s(null), I = s(null), L = s(null), R = s(null), z = re(T), B = g && j === "fullscreen", [V, H] = c(!1), [U, W] = c(void 0), { closeAnimation: G, transformState: K, handleClose: q } = ae({
+function se({ id: e, scrollAreaId: t, children: r, ariaLabel: l, title: d, onClose: f, loadingText: p, horizontalSwipe: g = !1, confirmClose: v = !1, isLoading: y = !1, isPortal: x = !0, mobileSafeTop: S = !0, preventClose: w = !1, tabletBreakpoint: T, confirmTitle: E = "Are you sure?", confirmDescription: D = "Are you sure you want to close this dialog?", headerRenderer: O, footerRenderer: k, fallbackCtx: A, type: j = "overlay-auto", size: M = "md" }) {
+	let N = ee(A), P = s(null), F = s(null), I = s(null), L = s(null), R = s(null), z = ie(T), B = g && j === "fullscreen", [V, H] = c(!1), [U, W] = c(void 0), { closeAnimation: G, transformState: K, handleClose: q } = ae({
 		id: e,
 		modalRef: F,
 		modalHeaderRef: I,
@@ -608,7 +612,7 @@ function Q({ id: e, scrollAreaId: t, children: r, ariaLabel: l, title: d, onClos
 			}
 			q();
 		}
-	}, [v]), ee = n(() => {
+	}, [v]), Y = n(() => {
 		H(!1), q();
 	}, []);
 	a(() => {
@@ -633,31 +637,31 @@ function Q({ id: e, scrollAreaId: t, children: r, ariaLabel: l, title: d, onClos
 			t === null ? n?.remove() : n?.setAttribute("content", t);
 		};
 	}, []);
-	let X = _(Z.modal__container, {
-		[Z["modal__container--fullscreen"]]: j === "fullscreen",
-		[Z["modal__container--menu"]]: j === "menu",
-		[Z["modal__container--overlay-90"]]: j === "overlay-90",
-		[Z["modal__container--overlay-95"]]: j === "overlay-95",
-		[Z["modal__container--overlay-auto"]]: j === "overlay-auto",
-		[Z["modal__safe-top"]]: j !== "fullscreen" && S
-	}), ie = _(Z.modal__main, Z[`modal__main--${j}`], {
-		[Z[`modal__main--${M}`]]: j !== "fullscreen",
-		[Z["modal__main--opacity-0"]]: !U,
-		[Z["modal__main--animate-slide-up-90"]]: !G && (j === "menu" || j === "overlay-90" || j === "overlay-auto"),
-		[Z["modal__main--animate-slide-up-95"]]: !G && j === "overlay-95",
-		[Z["modal__main--animate-slide-right"]]: !G && j === "fullscreen"
-	}), Q = o(() => O ? O(J) : null, [O, J]), $ = !y && (B || Q) ? /* @__PURE__ */ m("div", {
+	let te = _(Q.modal__container, {
+		[Q["modal__container--fullscreen"]]: j === "fullscreen",
+		[Q["modal__container--menu"]]: j === "menu",
+		[Q["modal__container--overlay-90"]]: j === "overlay-90",
+		[Q["modal__container--overlay-95"]]: j === "overlay-95",
+		[Q["modal__container--overlay-auto"]]: j === "overlay-auto",
+		[Q["modal__safe-top"]]: j !== "fullscreen" && S
+	}), X = _(Q.modal__main, Q[`modal__main--${j}`], {
+		[Q[`modal__main--${M}`]]: j !== "fullscreen",
+		[Q["modal__main--opacity-0"]]: !U,
+		[Q["modal__main--animate-slide-up-90"]]: !G && (j === "menu" || j === "overlay-90" || j === "overlay-auto"),
+		[Q["modal__main--animate-slide-up-95"]]: !G && j === "overlay-95",
+		[Q["modal__main--animate-slide-right"]]: !G && j === "fullscreen"
+	}), Z = o(() => O ? O(J) : null, [O, J]), se = !y && (B || Z) ? /* @__PURE__ */ m("div", {
 		ref: I,
-		children: Q
+		children: Z
 	}) : /* @__PURE__ */ m("div", {
 		ref: I,
 		children: /* @__PURE__ */ m(C, {
 			label: d || void 0,
 			onClose: J
 		})
-	}), se = o(() => k ? k(J) : null, [k, J]), ce = !y && se ? /* @__PURE__ */ m("footer", {
-		className: Z.modal__footer,
-		children: se
+	}), $ = o(() => k ? k(J) : null, [k, J]), ce = !y && $ ? /* @__PURE__ */ m("footer", {
+		className: Q.modal__footer,
+		children: $
 	}) : null, le = o(() => oe(r) ? r(J) : r, [r, J]);
 	function ue(e) {
 		return x ? /* @__PURE__ */ m(b, { children: e }) : e;
@@ -668,11 +672,11 @@ function Q({ id: e, scrollAreaId: t, children: r, ariaLabel: l, title: d, onClos
 		role: "dialog",
 		"aria-labelledby": l || e,
 		"aria-modal": "true",
-		className: X,
+		className: te,
 		children: [
 			/* @__PURE__ */ h("div", {
 				ref: F,
-				className: ie,
+				className: X,
 				style: z ? { maskImage: "-webkit-radial-gradient(white, black)" } : {
 					willChange: "transform opacity",
 					transition: K.transitionEnabled ? K.transition : "none",
@@ -681,36 +685,36 @@ function Q({ id: e, scrollAreaId: t, children: r, ariaLabel: l, title: d, onClos
 				},
 				onClick: (e) => e.stopPropagation(),
 				children: [
-					$,
+					se,
 					/* @__PURE__ */ m("div", {
-						className: Z.modal__body,
+						className: Q.modal__body,
 						children: /* @__PURE__ */ m(u, {
 							id: t,
-							className: Z["modal__scroll-area"],
+							className: Q["modal__scroll-area"],
 							ref: R,
 							scrollableNodeProps: { ref: L },
 							children: y ? /* @__PURE__ */ m("div", {
-								className: Z.modal__loader,
-								children: /* @__PURE__ */ m(te, { text: p })
+								className: Q.modal__loader,
+								children: /* @__PURE__ */ m(ne, { text: p })
 							}) : le
 						})
 					}),
 					ce
 				]
 			}),
-			V && /* @__PURE__ */ m(ne, {
+			V && /* @__PURE__ */ m(re, {
 				title: E,
 				description: D,
-				onConfirm: ee,
+				onConfirm: Y,
 				onClose: () => H(!1)
 			}),
 			/* @__PURE__ */ m("div", {
-				className: _(Z.modal__backdrop, { [Z["modal__backdrop--hidden"]]: G && j !== "fullscreen" || G && B }),
+				className: _(Q.modal__backdrop, { [Q["modal__backdrop--hidden"]]: G && j !== "fullscreen" || G && B }),
 				style: { willChange: "opacity" }
 			})
 		]
 	}));
 }
-var $ = t(Q);
+var $ = t(se);
 //#endregion
-export { $ as Modal, J as ModalProvider, Y as useModal, K as useModalStackCtx };
+export { $ as Modal, Y as ModalProvider, ee as useModal, q as useModalStackCtx };
