@@ -51,7 +51,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: serif;
   font-size: 1.5rem;
   font-weight: 500;
 }
@@ -60,7 +59,6 @@
   .modal__header-title {
     margin-top: 0;
     margin-bottom: 0;
-    font-family: sans-serif;
   }
 }
 
