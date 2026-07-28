@@ -1,5 +1,10 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
+function isIosDevice(): boolean {
+  const { platform, maxTouchPoints } = window.navigator;
+  return /iP(ad|hone|od)/.test(platform) || (platform === "MacIntel" && maxTouchPoints > 1);
+}
+
 export default function disableScroll(
   element: HTMLElement | null,
   isFirstInStack = true,
@@ -7,8 +12,14 @@ export default function disableScroll(
   if (!element) return () => null;
 
   const storedScrollY = window.scrollY;
+  const pinsBodyWidth = isFirstInStack && isIosDevice();
+
   if (isFirstInStack) {
     document.body.style.setProperty("top", `${storedScrollY * -1}px`);
+  }
+
+  if (pinsBodyWidth) {
+    document.body.style.setProperty("width", "100%");
   }
 
   // When disabling body scrolling
@@ -33,6 +44,10 @@ export default function disableScroll(
     if (isFirstInStack) {
       document.body.style.setProperty("top", "");
       document.body.scrollTo(0, storedScrollY);
+    }
+
+    if (pinsBodyWidth) {
+      document.body.style.setProperty("width", "");
     }
 
     // Patch for modal stacking:
