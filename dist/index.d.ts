@@ -50,16 +50,15 @@ declare type OpenedModal = {
     scrollableContentRef: RefObject<HTMLDivElement>;
     simpleBarRef: RefObject<default_2>;
     close: () => void;
-    enableScroll?: () => void;
 };
 
 export declare type Size = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
 export declare type StackCtx = {
-    lastModal: OpenedModal | null;
+    lastModal: OpenedModal | undefined;
     apply(modal: OpenedModal): void;
     remove(key: string): void;
-    update(key: string, newData: Partial<OpenedModal>): void;
+    update(key: string, newData: Partial<Omit<OpenedModal, "key">>): void;
     getPositionInStack(key: string): [number, boolean];
 };
 

@@ -65,184 +65,15 @@ var b = ({ children: e }) => {
 		onClick: t,
 		children: /* @__PURE__ */ m(S, { className: x["modal__header-close-icon"] })
 	})]
-});
-//#endregion
-//#region node_modules/.pnpm/body-scroll-lock@https+++codeload.github.com+yoozzeek+body-scroll-lock+tar.gz+d48bf791f8e0b11b9b05c20177f3c98845d27f67/node_modules/body-scroll-lock/lib/bodyScrollLock.esm.js
-function w(e) {
-	if (Array.isArray(e)) {
-		for (var t = 0, n = Array(e.length); t < e.length; t++) n[t] = e[t];
-		return n;
-	} else return Array.from(e);
-}
-var T = !1;
-if (typeof window < "u") {
-	var E = { get passive() {
-		T = !0;
-	} };
-	window.addEventListener("testPassive", null, E), window.removeEventListener("testPassive", null, E);
-}
-var D = typeof window < "u" && window.navigator && window.navigator.platform && (/iP(ad|hone|od)/.test(window.navigator.platform) || window.navigator.platform === "MacIntel" && window.navigator.maxTouchPoints > 1), O = [], k = !1, A = -1, j = void 0, M = void 0, N = void 0, P = function(e) {
-	return O.some(function(t) {
-		return !!(t.options.allowTouchMove && t.options.allowTouchMove(e));
-	});
-}, F = function(e) {
-	var t = e || window.event;
-	return P(t.target) || t.touches.length > 1 ? !0 : (t.preventDefault && t.preventDefault(), !1);
-}, I = function(e) {
-	if (N === void 0) {
-		var t = !!e && e.reserveScrollBarGap === !0, n = window.innerWidth - document.documentElement.clientWidth;
-		if (t && n > 0) {
-			var r = parseInt(window.getComputedStyle(document.body).getPropertyValue("padding-right"), 10);
-			N = document.body.style.paddingRight, document.body.style.paddingRight = r + n + "px";
-		}
-	}
-	j === void 0 && (j = document.body.style.overflow, document.body.style.overflow = "hidden");
-}, L = function() {
-	N !== void 0 && (document.body.style.paddingRight = N, N = void 0), j !== void 0 && (document.body.style.overflow = j, j = void 0);
-}, R = function() {
-	return window.requestAnimationFrame(function() {
-		if (M === void 0) {
-			M = {
-				position: document.body.style.position,
-				top: document.body.style.top,
-				left: document.body.style.left
-			};
-			var e = window, t = e.scrollY, n = e.scrollX;
-			document.body.style.position = "fixed", document.body.style.top = -t + "px", document.body.style.left = -n + "px";
-		}
-	});
-}, z = function() {
-	if (M !== void 0) {
-		var e = -parseInt(document.body.style.top, 10), t = -parseInt(document.body.style.left, 10);
-		document.body.style.position = M.position, document.body.style.top = M.top, document.body.style.left = M.left, window.scrollTo(t, e), M = void 0;
-	}
-}, B = function(e) {
-	return e ? e.scrollHeight - e.scrollTop <= e.clientHeight : !1;
-}, V = function(e, t) {
-	var n = e.targetTouches[0].clientY - A;
-	return P(e.target) ? !1 : t && t.scrollTop === 0 && n > 0 || B(t) && n < 0 ? F(e) : (e.stopPropagation(), !0);
-}, H = function(e, t) {
-	if (!e) {
-		console.error("disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.");
-		return;
-	}
-	if (!O.some(function(t) {
-		return t.targetElement === e;
-	})) {
-		var n = {
-			targetElement: e,
-			options: t || {}
-		};
-		O = [].concat(w(O), [n]), D ? R() : I(t), D && (e.ontouchstart = function(e) {
-			e.targetTouches.length === 1 && (A = e.targetTouches[0].clientY);
-		}, e.ontouchmove = function(t) {
-			t.targetTouches.length === 1 && V(t, e);
-		}, k ||= (document.addEventListener("touchmove", F, T ? { passive: !1 } : void 0), !0));
-	}
-}, U = function(e) {
-	if (!e) {
-		console.error("enableBodyScroll unsuccessful - targetElement must be provided when calling enableBodyScroll on IOS devices.");
-		return;
-	}
-	O = O.filter(function(t) {
-		return t.targetElement !== e;
-	}), D && (e.ontouchstart = null, e.ontouchmove = null, k && O.length === 0 && (document.removeEventListener("touchmove", F, T ? { passive: !1 } : void 0), k = !1)), D ? z() : L();
-};
-//#endregion
-//#region src/utils/scrollLocker.ts
-function W() {
-	let { platform: e, maxTouchPoints: t } = window.navigator;
-	return /iP(ad|hone|od)/.test(e) || e === "MacIntel" && t > 1;
-}
-function G(e, t = !0) {
-	if (!e) return () => null;
-	let n = window.scrollY, r = t && W();
-	return t && document.body.style.setProperty("top", `${n * -1}px`), r && document.body.style.setProperty("width", "100%"), H(e, { allowTouchMove: (e) => {
-		let t = e ?? null;
-		for (; t && t !== document.body;) {
-			if (t.getAttribute("body-scroll-lock-ignore") !== null) return !0;
-			t = t.parentElement;
-		}
-		return !1;
-	} }), () => {
-		if (U(e), t && (document.body.style.setProperty("top", ""), document.body.scrollTo(0, n)), r && document.body.style.setProperty("width", ""), !t) {
-			document.body.style.overflow = "hidden";
-			return;
-		}
-		document.body.style.overflow = "";
-	};
-}
-//#endregion
-//#region src/hooks/useModalStackCtx.ts
-var K = "Escape";
-function q() {
-	let e = s(/* @__PURE__ */ new Set()), [t, r] = c([]), a = o(() => t[t.length - 1], [t]);
-	i(() => {
-		let t = !1;
-		if (typeof document > "u" || !a) return;
-		let n = a?.containerRef.current, r = a?.modalRef.current;
-		function i(e) {
-			t = !!(r && !r.contains(e.target));
-		}
-		function o(e) {
-			let n = r && !r.contains(e.target);
-			t && n && a.close(), t = !1;
-		}
-		function s(t) {
-			t.stopPropagation(), t.key == K && (a.close(), e.current.delete(a.key));
-		}
-		return n?.addEventListener("mousedown", i), n?.addEventListener("touchstart", i), n?.addEventListener("mouseup", o), n?.addEventListener("touchend", o), document.addEventListener("keydown", s), () => {
-			n?.removeEventListener("mousedown", i), n?.removeEventListener("touchstart", i), n?.removeEventListener("mouseup", o), n?.removeEventListener("touchend", o), document.removeEventListener("keydown", s);
-		};
-	}, [a]);
-	let l = n((n) => {
-		e.current.has(n.key) || (e.current.add(n.key), r((e) => t.findIndex((e) => e.key === n.key) === -1 ? (n.enableScroll = G(n.scrollableContentRef.current || n.modalRef.current, !e.length), [...e, n]) : e));
-	}, [t]), u = n((t) => {
-		e.current.delete(t), r((e) => {
-			let n = [...e], r = e.findIndex((e) => e.key === t);
-			return r === -1 ? e : r === 0 ? (n.reverse().forEach((e) => e.enableScroll?.()), []) : (n[r].enableScroll?.(), n.splice(r, 1), n);
-		});
-	}, []), d = n((n, i) => {
-		if (!e.current.has(n)) return;
-		let a = t.findIndex((e) => e.key === n);
-		if (a > -1) {
-			let o = [...t];
-			o[a] = {
-				...o[a],
-				...i
-			}, e.current.add(n), r(o);
-		}
-	}, [t]);
-	function f(e) {
-		let n = t.findIndex((t) => t.key === e);
-		return [n, n === t.length - 1];
-	}
-	return {
-		lastModal: a,
-		apply: l,
-		remove: u,
-		update: d,
-		getPositionInStack: f
-	};
-}
-//#endregion
-//#region src/providers/ModalProvider.tsx
-var J = e(void 0);
-function Y({ children: e }) {
-	let t = q();
-	return /* @__PURE__ */ m(J.Provider, {
-		value: t,
-		children: e
-	});
-}
+}), w = e(void 0);
 //#endregion
 //#region src/hooks/useModal.ts
-function ee(e) {
-	return r(J) ?? e;
+function T(e) {
+	return r(w) ?? e;
 }
 //#endregion
 //#region src/assets/icons/loader.svg?react
-var te = (e) => /* @__PURE__ */ m("svg", {
+var E = (e) => /* @__PURE__ */ m("svg", {
 	viewBox: "0 0 24 24",
 	fill: "none",
 	xmlns: "http://www.w3.org/2000/svg",
@@ -253,10 +84,10 @@ var te = (e) => /* @__PURE__ */ m("svg", {
 		d: "M0 12C0 5.37258 5.37258 0 12 0C12.8284 0 13.5 0.671573 13.5 1.5C13.5 2.32843 12.8284 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 11.1716 21.6716 10.5 22.5 10.5C23.3284 10.5 24 11.1716 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z",
 		fill: "currentColor"
 	})
-}), ne = ({ className: e, size: t = "md", text: n }) => /* @__PURE__ */ h("div", {
+}), D = ({ className: e, size: t = "md", text: n }) => /* @__PURE__ */ h("div", {
 	className: "flex h-full w-full flex-col items-center justify-center",
 	children: [
-		/* @__PURE__ */ m(te, { className: _("animate-spin", {
+		/* @__PURE__ */ m(E, { className: _("animate-spin", {
 			"h-5 w-5": t === "sm",
 			"h-8 w-8": t === "md",
 			"h-12 w-12": t === "lg",
@@ -278,7 +109,7 @@ var te = (e) => /* @__PURE__ */ m("svg", {
 });
 //#endregion
 //#region src/components/Button.tsx
-function X({ fullWidth: e = !1, type: t = "button", size: n = "md", disabled: r = !1, loading: i = !1, loadingText: a, variant: o = "light", onClick: s, children: c }) {
+function O({ fullWidth: e = !1, type: t = "button", size: n = "md", disabled: r = !1, loading: i = !1, loadingText: a, variant: o = "light", onClick: s, children: c }) {
 	return /* @__PURE__ */ m("button", {
 		className: _("btn", `btn--variant-${o}`, `btn--size-${n}`, {
 			"btn--fullwidth": e,
@@ -290,7 +121,7 @@ function X({ fullWidth: e = !1, type: t = "button", size: n = "md", disabled: r 
 		disabled: r || i,
 		type: t || "button",
 		onClick: s,
-		children: i && o !== "none" ? /* @__PURE__ */ h(p, { children: [/* @__PURE__ */ m(ne, { className: _("btn__loader", `btn__loader--variant-${o}`) }), a && /* @__PURE__ */ m("span", {
+		children: i && o !== "none" ? /* @__PURE__ */ h(p, { children: [/* @__PURE__ */ m(D, { className: _("btn__loader", `btn__loader--variant-${o}`) }), a && /* @__PURE__ */ m("span", {
 			className: "btn__loading-text",
 			children: a
 		})] }) : c
@@ -298,11 +129,11 @@ function X({ fullWidth: e = !1, type: t = "button", size: n = "md", disabled: r 
 }
 //#endregion
 //#region src/components/ModalConfirmAction.tsx
-function re({ title: e, description: t, variant: n = "danger", isLoading: r = !1, onConfirm: i, onClose: a }) {
+function k({ title: e, description: t, variant: n = "danger", isLoading: r = !1, onConfirm: i, onClose: a }) {
 	function o() {
 		i(), a();
 	}
-	return /* @__PURE__ */ m($, {
+	return /* @__PURE__ */ m(F, {
 		id: "confirm-action-modal",
 		ariaLabel: "Aria label",
 		type: "overlay-auto",
@@ -313,14 +144,14 @@ function re({ title: e, description: t, variant: n = "danger", isLoading: r = !1
 		}),
 		footerRenderer: (e) => /* @__PURE__ */ h("div", {
 			className: "modal-confirm__footer",
-			children: [/* @__PURE__ */ m(X, {
+			children: [/* @__PURE__ */ m(O, {
 				fullWidth: !0,
 				type: "button",
 				variant: n,
 				loading: r,
 				onClick: o,
 				children: "Confirm"
-			}), /* @__PURE__ */ m(X, {
+			}), /* @__PURE__ */ m(O, {
 				fullWidth: !0,
 				type: "button",
 				variant: "light",
@@ -338,7 +169,7 @@ function re({ title: e, description: t, variant: n = "danger", isLoading: r = !1
 }
 //#endregion
 //#region src/hooks/useIsTabletOrDesktop.ts
-function ie(e = "576px") {
+function A(e = "576px") {
 	let t = `(min-width: ${e})`;
 	return l(n((e) => {
 		let n = window.matchMedia(t);
@@ -347,20 +178,23 @@ function ie(e = "576px") {
 }
 //#endregion
 //#region src/hooks/useIsomorphicLayoutEffect.ts
-var Z = typeof document < "u" ? a : i;
+var j = typeof document < "u" ? a : i;
 //#endregion
 //#region src/hooks/useCoreHandlers.ts
-function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i, modalRef: a, modalHeaderRef: o, scrollAreaRef: s, onClose: l }) {
-	let u = ie(), [d, p] = c({
+function M({ isLoading: e = !1, id: t, type: r, horizontalSwipe: i, stackCtx: a, modalRef: o, modalHeaderRef: l, scrollAreaRef: u, onClose: d }) {
+	let p = A(), m = s(d), h = s(a), [g, _] = c({
 		isMoving: !1,
 		scrollDisabled: !1,
 		transitionEnabled: !0,
 		transition: "none",
 		transform: "none",
 		opacity: 1
-	}), [m, h] = c(!1);
-	function g() {
-		let e = !1, t = s.current;
+	}), [v, y] = c(!1);
+	j(() => {
+		m.current = d, h.current = a;
+	});
+	function b() {
+		let e = !1, t = u.current;
 		t && (e = t.scrollHeight > t.clientHeight);
 		let n = !0;
 		t && (n = t.scrollTop === 0);
@@ -371,11 +205,11 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 			isBottom: r
 		};
 	}
-	Z(() => {
-		let e = a.current;
-		if (!e || u) return;
-		let s = n === "fullscreen" && r, c = o.current, d = 0, f = 0, m = 0, _ = 0, v = !1, y = !1, b = 0, x = !1, S = (e) => {
-			let t = e.changedTouches[0].clientX - m, n = e.changedTouches[0].clientY - f;
+	return j(() => {
+		let e = o.current;
+		if (!e || p) return;
+		let n = r === "fullscreen" && i, a = l.current, s = 0, c = 0, u = 0, d = 0, f = !1, g = !1, v = 0, x = !1, S = (e) => {
+			let t = e.changedTouches[0].clientX - u, n = e.changedTouches[0].clientY - c;
 			return {
 				directionX: Math.sign(t),
 				directionY: Math.sign(n),
@@ -385,20 +219,20 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 		}, C = (e) => {
 			if (e.touches.length !== 1) return;
 			let t = e.touches[0];
-			m = t.clientX, f = t.clientY, v = !0, y = !1, _ = (/* @__PURE__ */ new Date()).getTime(), b = (/* @__PURE__ */ new Date()).getTime();
-			let { isTop: n } = g();
+			u = t.clientX, c = t.clientY, f = !0, g = !1, d = (/* @__PURE__ */ new Date()).getTime(), v = (/* @__PURE__ */ new Date()).getTime();
+			let { isTop: n } = b();
 			x = n;
 		};
 		function w() {
-			d = 0, f = 0, m = 0, _ = 0, v = !1, y = !1, b = 0, x = !1;
+			s = 0, c = 0, u = 0, d = 0, f = !1, g = !1, v = 0, x = !1;
 		}
 		function T() {
-			h(!0), w(), setTimeout(() => {
-				i?.remove(t), l();
+			y(!0), w(), setTimeout(() => {
+				h.current?.remove(t), m.current();
 			}, 150);
 		}
 		function E() {
-			T(), p((e) => ({
+			T(), _((e) => ({
 				...e,
 				transitionEnabled: !0,
 				transition: "transform 0.18s, opacity 0.18s",
@@ -407,7 +241,7 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 			}));
 		}
 		function D() {
-			p((e) => ({
+			_((e) => ({
 				...e,
 				isMoving: !1,
 				scrollDisabled: !1,
@@ -418,7 +252,7 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 			}));
 		}
 		function O() {
-			T(), p((e) => ({
+			T(), _((e) => ({
 				...e,
 				transitionEnabled: !0,
 				transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
@@ -427,7 +261,7 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 			}));
 		}
 		function k() {
-			p((e) => ({
+			_((e) => ({
 				...e,
 				transitionEnabled: !0,
 				transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
@@ -436,7 +270,7 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 			}));
 		}
 		function A() {
-			p((e) => ({
+			_((e) => ({
 				...e,
 				isMoving: !1,
 				scrollDisabled: !0,
@@ -447,7 +281,7 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 			}));
 		}
 		function j() {
-			p((e) => ({
+			_((e) => ({
 				...e,
 				isMoving: !0,
 				scrollDisabled: !0,
@@ -458,31 +292,31 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 			}));
 		}
 		let M = (e) => {
-			if (e.target.closest("[horizontal-scroll-inside-modal]") || !v) return;
-			let { directionY: t, factorY: r, directionX: i, factorX: a } = S(e);
-			if (d = e.touches[0].clientY, s) {
-				if (!y && (/* @__PURE__ */ new Date()).getTime() - b > 150) return;
-				if (y = !0, i === -1) {
+			if (e.target.closest("[horizontal-scroll-inside-modal]") || !f) return;
+			let { directionY: t, factorY: i, directionX: o, factorX: l } = S(e);
+			if (s = e.touches[0].clientY, n) {
+				if (!g && (/* @__PURE__ */ new Date()).getTime() - v > 150) return;
+				if (g = !0, o === -1) {
 					A();
 					return;
 				}
-				if (a > r) {
-					p({
+				if (l > i) {
+					_({
 						isMoving: !0,
 						scrollDisabled: !0,
 						transitionEnabled: !1,
 						transition: "none",
-						transform: `translateX(${e.changedTouches[0].clientX - m}px)`,
+						transform: `translateX(${e.changedTouches[0].clientX - u}px)`,
 						opacity: 1
 					});
 					return;
 				} else A();
 				return;
 			}
-			if (n === "fullscreen") return;
-			let o = c ? e.target === c || c.contains(e.target) : !1;
-			if (!y && (/* @__PURE__ */ new Date()).getTime() - b > 150) return;
-			if (y = !0, !x && !o) {
+			if (r === "fullscreen") return;
+			let d = a ? e.target === a || a.contains(e.target) : !1;
+			if (!g && (/* @__PURE__ */ new Date()).getTime() - v > 150) return;
+			if (g = !0, !x && !d) {
 				j();
 				return;
 			}
@@ -490,70 +324,69 @@ function ae({ isLoading: e = !1, id: t, type: n, horizontalSwipe: r, stackCtx: i
 				j();
 				return;
 			}
-			let l = e.changedTouches[0].clientY - f;
-			p((e) => ({
+			let p = e.changedTouches[0].clientY - c;
+			_((e) => ({
 				...e,
 				transitionEnabled: !1,
-				transform: `translateY(${l}px)`,
+				transform: `translateY(${p}px)`,
 				transition: "none"
 			}));
 		}, N = (e) => {
-			let { directionX: t, factorX: r, directionY: i, factorY: o } = S(e);
-			if (s) {
-				t === 1 && r > .25 && ((/* @__PURE__ */ new Date()).getTime() - b < 250 || r > .8) ? E() : D(), w();
+			let { directionX: t, factorX: i, directionY: l, factorY: u } = S(e);
+			if (n) {
+				t === 1 && i > .25 && ((/* @__PURE__ */ new Date()).getTime() - v < 250 || i > .8) ? E() : D(), w();
 				return;
 			}
-			if (n === "fullscreen") return;
+			if (r === "fullscreen") return;
 			if (!x) {
-				let t = c ? e.target === c || c.contains(e.target) : !1;
-				i === 1 && o > .25 && t ? O() : k(), w();
+				let t = a ? e.target === a || a.contains(e.target) : !1;
+				l === 1 && u > .25 && t ? O() : k(), w();
 				return;
 			}
-			if (i === -1) {
+			if (l === -1) {
 				k(), w();
 				return;
 			}
-			let { isScrollable: l, isTop: u } = g();
-			if (l && !u) {
+			let { isScrollable: f, isTop: p } = b();
+			if (f && !p) {
 				k(), w();
 				return;
 			}
-			if (f > d) {
+			if (c > s) {
 				k(), w();
 				return;
 			}
-			let p = (/* @__PURE__ */ new Date()).getTime() - _, m = (d - f) / (a.current?.clientHeight || 0);
-			u && m > .25 && p < 250 && p < 500 || p > 500 && p < 1200 && o > .2 ? (O(), w()) : (k(), w());
+			let m = (/* @__PURE__ */ new Date()).getTime() - d, h = (s - c) / (o.current?.clientHeight || 0);
+			p && h > .25 && m < 250 && m < 500 || m > 500 && m < 1200 && u > .2 ? (O(), w()) : (k(), w());
 		};
 		return e.addEventListener("touchstart", C, { passive: !0 }), e.addEventListener("touchmove", M, { passive: !0 }), e.addEventListener("touchend", N, { passive: !0 }), () => {
 			e.removeEventListener("touchstart", C), e.removeEventListener("touchmove", M), e.removeEventListener("touchend", N);
 		};
 	}, [
 		e,
-		n,
-		u,
-		i?.lastModal
-	]);
-	function _() {
-		f(() => {
-			h(!0), p((e) => ({
-				...e,
-				transitionEnabled: !0,
-				transform: "translateY(100%)",
-				transition: "transform 0.12s ease-out, opacity 0.12s ease-out",
-				opacity: 0
-			}));
-		}), setTimeout(() => {
-			i?.remove(t), l();
-		}, u ? 0 : 200);
-	}
-	return {
-		transformState: d,
-		closeAnimation: m,
-		handleClose: _
+		r,
+		p,
+		i,
+		t
+	]), {
+		transformState: g,
+		closeAnimation: v,
+		handleClose: n(() => {
+			f(() => {
+				y(!0), _((e) => ({
+					...e,
+					transitionEnabled: !0,
+					transform: "translateY(100%)",
+					transition: "transform 0.12s ease-out, opacity 0.12s ease-out",
+					opacity: 0
+				}));
+			}), setTimeout(() => {
+				h.current?.remove(t), m.current();
+			}, p ? 0 : 200);
+		}, [t, p])
 	};
 }
-var Q = {
+var N = {
 	modal__container: "context-modal-modal__container",
 	"modal__container--fullscreen": "context-modal-modal__container--fullscreen",
 	"modal__container--menu": "context-modal-modal__container--menu",
@@ -590,131 +423,352 @@ var Q = {
 };
 //#endregion
 //#region src/components/Modal.tsx
-function oe(e) {
+function ee(e) {
 	return typeof e == "function";
 }
-function se({ id: e, scrollAreaId: t, children: r, ariaLabel: l, title: d, onClose: f, loadingText: p, horizontalSwipe: g = !1, confirmClose: v = !1, isLoading: y = !1, isPortal: x = !0, mobileSafeTop: S = !0, preventClose: w = !1, tabletBreakpoint: T, confirmTitle: E = "Are you sure?", confirmDescription: D = "Are you sure you want to close this dialog?", headerRenderer: O, footerRenderer: k, fallbackCtx: A, type: j = "overlay-auto", size: M = "md" }) {
-	let N = ee(A), P = s(null), F = s(null), I = s(null), L = s(null), R = s(null), z = ie(T), B = g && j === "fullscreen", [V, H] = c(!1), [U, W] = c(void 0), { closeAnimation: G, transformState: K, handleClose: q } = ae({
+function P({ id: e, scrollAreaId: t, children: r, ariaLabel: l, title: d, onClose: f, loadingText: p, horizontalSwipe: g = !1, confirmClose: v = !1, isLoading: y = !1, isPortal: x = !0, mobileSafeTop: S = !0, preventClose: w = !1, tabletBreakpoint: E, confirmTitle: O = "Are you sure?", confirmDescription: j = "Are you sure you want to close this dialog?", headerRenderer: P, footerRenderer: F, fallbackCtx: te, type: I = "overlay-auto", size: L = "md" }) {
+	let R = T(te), z = s(null), B = s(null), V = s(null), H = s(null), U = s(null), W = s(R), G = A(E), K = g && I === "fullscreen", [ne, q] = c(!1), [re, ie] = c(void 0), { closeAnimation: J, transformState: Y, handleClose: X } = M({
 		id: e,
-		modalRef: F,
-		modalHeaderRef: I,
-		scrollAreaRef: L,
+		modalRef: B,
+		modalHeaderRef: V,
+		scrollAreaRef: H,
 		onClose: f,
-		type: j ?? "overlay-auto",
+		type: I ?? "overlay-auto",
 		isLoading: y ?? !1,
 		horizontalSwipe: g ?? !1,
-		stackCtx: N
-	}), J = n(() => {
+		stackCtx: R
+	}), Z = n(() => {
 		if (!w) {
 			if (v) {
-				H(!0);
+				q(!0);
 				return;
 			}
-			q();
+			X();
 		}
-	}, [v]), Y = n(() => {
-		H(!1), q();
-	}, []);
+	}, [
+		w,
+		v,
+		X
+	]), Q = n(() => {
+		q(!1), X();
+	}, [X]), $ = s(Z);
 	a(() => {
-		let t = e;
-		N?.apply({
-			key: t,
-			simpleBarRef: R,
-			containerRef: P,
-			modalRef: F,
-			scrollableContentRef: L,
-			close: J
-		});
-	}, []), a(() => {
-		if (!L.current) return;
+		W.current = R, $.current = Z;
+	});
+	let ae = n(() => $.current(), []);
+	a(() => {
+		let t = W.current;
+		return t?.apply({
+			key: e,
+			simpleBarRef: U,
+			containerRef: z,
+			modalRef: B,
+			scrollableContentRef: H,
+			close: ae
+		}), () => t?.remove(e);
+	}, [e, ae]), a(() => {
+		if (!H.current) return;
 		let e = new ResizeObserver(() => {
-			W(L.current?.clientHeight);
+			ie(H.current?.clientHeight);
 		});
-		return e.observe(L.current), () => e.disconnect();
+		return e.observe(H.current), () => e.disconnect();
 	}, []), i(() => {
 		let e = document.querySelector("meta[name=\"theme-color\"]"), t = null, n = e;
 		return e ? (t = e.getAttribute("content"), e.setAttribute("content", "#000000")) : (n = document.createElement("meta"), n.name = "theme-color", n.content = "#000000", document.head.appendChild(n)), () => {
 			t === null ? n?.remove() : n?.setAttribute("content", t);
 		};
 	}, []);
-	let te = _(Q.modal__container, {
-		[Q["modal__container--fullscreen"]]: j === "fullscreen",
-		[Q["modal__container--menu"]]: j === "menu",
-		[Q["modal__container--overlay-90"]]: j === "overlay-90",
-		[Q["modal__container--overlay-95"]]: j === "overlay-95",
-		[Q["modal__container--overlay-auto"]]: j === "overlay-auto",
-		[Q["modal__safe-top"]]: j !== "fullscreen" && S
-	}), X = _(Q.modal__main, Q[`modal__main--${j}`], {
-		[Q[`modal__main--${M}`]]: j !== "fullscreen",
-		[Q["modal__main--opacity-0"]]: !U,
-		[Q["modal__main--animate-slide-up-90"]]: !G && (j === "menu" || j === "overlay-90" || j === "overlay-auto"),
-		[Q["modal__main--animate-slide-up-95"]]: !G && j === "overlay-95",
-		[Q["modal__main--animate-slide-right"]]: !G && j === "fullscreen"
-	}), Z = o(() => O ? O(J) : null, [O, J]), se = !y && (B || Z) ? /* @__PURE__ */ m("div", {
-		ref: I,
-		children: Z
+	let oe = _(N.modal__container, {
+		[N["modal__container--fullscreen"]]: I === "fullscreen",
+		[N["modal__container--menu"]]: I === "menu",
+		[N["modal__container--overlay-90"]]: I === "overlay-90",
+		[N["modal__container--overlay-95"]]: I === "overlay-95",
+		[N["modal__container--overlay-auto"]]: I === "overlay-auto",
+		[N["modal__safe-top"]]: I !== "fullscreen" && S
+	}), se = _(N.modal__main, N[`modal__main--${I}`], {
+		[N[`modal__main--${L}`]]: I !== "fullscreen",
+		[N["modal__main--opacity-0"]]: !re,
+		[N["modal__main--animate-slide-up-90"]]: !J && (I === "menu" || I === "overlay-90" || I === "overlay-auto"),
+		[N["modal__main--animate-slide-up-95"]]: !J && I === "overlay-95",
+		[N["modal__main--animate-slide-right"]]: !J && I === "fullscreen"
+	}), ce = o(() => P ? P(Z) : null, [P, Z]), le = !y && (K || ce) ? /* @__PURE__ */ m("div", {
+		ref: V,
+		children: ce
 	}) : /* @__PURE__ */ m("div", {
-		ref: I,
+		ref: V,
 		children: /* @__PURE__ */ m(C, {
 			label: d || void 0,
-			onClose: J
+			onClose: Z
 		})
-	}), $ = o(() => k ? k(J) : null, [k, J]), ce = !y && $ ? /* @__PURE__ */ m("footer", {
-		className: Q.modal__footer,
-		children: $
-	}) : null, le = o(() => oe(r) ? r(J) : r, [r, J]);
-	function ue(e) {
+	}), ue = o(() => F ? F(Z) : null, [F, Z]), de = !y && ue ? /* @__PURE__ */ m("footer", {
+		className: N.modal__footer,
+		children: ue
+	}) : null, fe = o(() => ee(r) ? r(Z) : r, [r, Z]);
+	function pe(e) {
 		return x ? /* @__PURE__ */ m(b, { children: e }) : e;
 	}
-	return ue(/* @__PURE__ */ h("div", {
+	return pe(/* @__PURE__ */ h("div", {
 		id: e,
-		ref: P,
+		ref: z,
 		role: "dialog",
 		"aria-labelledby": l || e,
 		"aria-modal": "true",
-		className: te,
+		className: oe,
 		children: [
 			/* @__PURE__ */ h("div", {
-				ref: F,
-				className: X,
-				style: z ? { maskImage: "-webkit-radial-gradient(white, black)" } : {
+				ref: B,
+				className: se,
+				style: G ? { maskImage: "-webkit-radial-gradient(white, black)" } : {
 					willChange: "transform opacity",
-					transition: K.transitionEnabled ? K.transition : "none",
-					transform: K.transform,
-					opacity: K.opacity
+					transition: Y.transitionEnabled ? Y.transition : "none",
+					transform: Y.transform,
+					opacity: Y.opacity
 				},
 				onClick: (e) => e.stopPropagation(),
 				children: [
-					se,
+					le,
 					/* @__PURE__ */ m("div", {
-						className: Q.modal__body,
+						className: N.modal__body,
 						children: /* @__PURE__ */ m(u, {
 							id: t,
-							className: Q["modal__scroll-area"],
-							ref: R,
-							scrollableNodeProps: { ref: L },
+							className: N["modal__scroll-area"],
+							ref: U,
+							scrollableNodeProps: { ref: H },
 							children: y ? /* @__PURE__ */ m("div", {
-								className: Q.modal__loader,
-								children: /* @__PURE__ */ m(ne, { text: p })
-							}) : le
+								className: N.modal__loader,
+								children: /* @__PURE__ */ m(D, { text: p })
+							}) : fe
 						})
 					}),
-					ce
+					de
 				]
 			}),
-			V && /* @__PURE__ */ m(re, {
-				title: E,
-				description: D,
-				onConfirm: Y,
-				onClose: () => H(!1)
+			ne && /* @__PURE__ */ m(k, {
+				title: O,
+				description: j,
+				onConfirm: Q,
+				onClose: () => q(!1)
 			}),
 			/* @__PURE__ */ m("div", {
-				className: _(Q.modal__backdrop, { [Q["modal__backdrop--hidden"]]: G && j !== "fullscreen" || G && B }),
+				className: _(N.modal__backdrop, { [N["modal__backdrop--hidden"]]: J && I !== "fullscreen" || J && K }),
 				style: { willChange: "opacity" }
 			})
 		]
 	}));
 }
-var $ = t(se);
+var F = t(P);
 //#endregion
-export { $ as Modal, Y as ModalProvider, ee as useModal, q as useModalStackCtx };
+//#region node_modules/.pnpm/body-scroll-lock@https+++codeload.github.com+yoozzeek+body-scroll-lock+tar.gz+d48bf791f8e0b11b9b05c20177f3c98845d27f67/node_modules/body-scroll-lock/lib/bodyScrollLock.esm.js
+function te(e) {
+	if (Array.isArray(e)) {
+		for (var t = 0, n = Array(e.length); t < e.length; t++) n[t] = e[t];
+		return n;
+	} else return Array.from(e);
+}
+var I = !1;
+if (typeof window < "u") {
+	var L = { get passive() {
+		I = !0;
+	} };
+	window.addEventListener("testPassive", null, L), window.removeEventListener("testPassive", null, L);
+}
+var R = typeof window < "u" && window.navigator && window.navigator.platform && (/iP(ad|hone|od)/.test(window.navigator.platform) || window.navigator.platform === "MacIntel" && window.navigator.maxTouchPoints > 1), z = [], B = !1, V = -1, H = void 0, U = void 0, W = void 0, G = function(e) {
+	return z.some(function(t) {
+		return !!(t.options.allowTouchMove && t.options.allowTouchMove(e));
+	});
+}, K = function(e) {
+	var t = e || window.event;
+	return G(t.target) || t.touches.length > 1 ? !0 : (t.preventDefault && t.preventDefault(), !1);
+}, ne = function(e) {
+	if (W === void 0) {
+		var t = !!e && e.reserveScrollBarGap === !0, n = window.innerWidth - document.documentElement.clientWidth;
+		if (t && n > 0) {
+			var r = parseInt(window.getComputedStyle(document.body).getPropertyValue("padding-right"), 10);
+			W = document.body.style.paddingRight, document.body.style.paddingRight = r + n + "px";
+		}
+	}
+	H === void 0 && (H = document.body.style.overflow, document.body.style.overflow = "hidden");
+}, q = function() {
+	W !== void 0 && (document.body.style.paddingRight = W, W = void 0), H !== void 0 && (document.body.style.overflow = H, H = void 0);
+}, re = function() {
+	return window.requestAnimationFrame(function() {
+		if (U === void 0) {
+			U = {
+				position: document.body.style.position,
+				top: document.body.style.top,
+				left: document.body.style.left
+			};
+			var e = window, t = e.scrollY, n = e.scrollX;
+			document.body.style.position = "fixed", document.body.style.top = -t + "px", document.body.style.left = -n + "px";
+		}
+	});
+}, ie = function() {
+	if (U !== void 0) {
+		var e = -parseInt(document.body.style.top, 10), t = -parseInt(document.body.style.left, 10);
+		document.body.style.position = U.position, document.body.style.top = U.top, document.body.style.left = U.left, window.scrollTo(t, e), U = void 0;
+	}
+}, J = function(e) {
+	return e ? e.scrollHeight - e.scrollTop <= e.clientHeight : !1;
+}, Y = function(e, t) {
+	var n = e.targetTouches[0].clientY - V;
+	return G(e.target) ? !1 : t && t.scrollTop === 0 && n > 0 || J(t) && n < 0 ? K(e) : (e.stopPropagation(), !0);
+}, X = function(e, t) {
+	if (!e) {
+		console.error("disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.");
+		return;
+	}
+	if (!z.some(function(t) {
+		return t.targetElement === e;
+	})) {
+		var n = {
+			targetElement: e,
+			options: t || {}
+		};
+		z = [].concat(te(z), [n]), R ? re() : ne(t), R && (e.ontouchstart = function(e) {
+			e.targetTouches.length === 1 && (V = e.targetTouches[0].clientY);
+		}, e.ontouchmove = function(t) {
+			t.targetTouches.length === 1 && Y(t, e);
+		}, B ||= (document.addEventListener("touchmove", K, I ? { passive: !1 } : void 0), !0));
+	}
+}, Z = function(e) {
+	if (!e) {
+		console.error("enableBodyScroll unsuccessful - targetElement must be provided when calling enableBodyScroll on IOS devices.");
+		return;
+	}
+	z = z.filter(function(t) {
+		return t.targetElement !== e;
+	}), R && (e.ontouchstart = null, e.ontouchmove = null, B && z.length === 0 && (document.removeEventListener("touchmove", K, I ? { passive: !1 } : void 0), B = !1)), R ? ie() : q();
+}, Q = /* @__PURE__ */ new Map(), $ = null;
+function ae() {
+	let { platform: e, maxTouchPoints: t } = window.navigator;
+	return /iP(ad|hone|od)/.test(e) || e === "MacIntel" && t > 1;
+}
+function oe(e) {
+	let t = e;
+	for (; t && t !== document.body;) {
+		if (t.getAttribute("body-scroll-lock-ignore") !== null) return !0;
+		t = t.parentElement;
+	}
+	return !1;
+}
+function se() {
+	let e = {
+		isIos: ae(),
+		scrollX: window.scrollX,
+		scrollY: window.scrollY,
+		position: document.body.style.position,
+		top: document.body.style.top,
+		left: document.body.style.left,
+		overflow: document.body.style.overflow
+	};
+	return e.isIos && document.body.style.setProperty("width", "100%"), e;
+}
+function ce(e) {
+	e.isIos && (document.body.style.position = "fixed", document.body.style.setProperty("top", `${-e.scrollY}px`), document.body.style.setProperty("left", `${-e.scrollX}px`)), document.body.style.overflow = "hidden";
+}
+function le(e) {
+	e.isIos && (document.body.style.position = e.position, document.body.style.setProperty("top", e.top), document.body.style.setProperty("left", e.left), document.body.style.setProperty("width", ""), window.scrollTo(e.scrollX, e.scrollY)), document.body.style.overflow = e.overflow;
+}
+function ue(e) {
+	Q.size === 0 && ($ = se());
+	let t = Q.get(e) ?? 0;
+	Q.set(e, t + 1), t === 0 && X(e, { allowTouchMove: oe });
+	let n = !1;
+	return () => {
+		if (n) return;
+		n = !0;
+		let t = (Q.get(e) ?? 1) - 1;
+		if (t > 0 ? Q.set(e, t) : (Q.delete(e), Z(e)), $) {
+			if (Q.size > 0) {
+				ce($);
+				return;
+			}
+			le($), $ = null;
+		}
+	};
+}
+//#endregion
+//#region src/hooks/useModalStackCtx.ts
+var de = "Escape";
+function fe(e) {
+	return e.scrollableContentRef.current ?? e.modalRef.current;
+}
+function pe() {
+	let e = s(/* @__PURE__ */ new Map()), [t, r] = c([]), a = t[t.length - 1];
+	i(() => {
+		let e = !1;
+		if (typeof document > "u" || !a) return;
+		let t = a?.containerRef.current, n = a?.modalRef.current;
+		function r(t) {
+			e = !!(n && !n.contains(t.target));
+		}
+		function i(t) {
+			let r = n && !n.contains(t.target);
+			e && r && a.close(), e = !1;
+		}
+		function o(e) {
+			e.key === de && (e.stopPropagation(), a.close());
+		}
+		return t?.addEventListener("mousedown", r), t?.addEventListener("touchstart", r), t?.addEventListener("mouseup", i), t?.addEventListener("touchend", i), document.addEventListener("keydown", o), () => {
+			t?.removeEventListener("mousedown", r), t?.removeEventListener("touchstart", r), t?.removeEventListener("mouseup", i), t?.removeEventListener("touchend", i), document.removeEventListener("keydown", o);
+		};
+	}, [a]), j(() => {
+		let n = e.current, r = new Map(t.map((e) => [e.key, fe(e)]));
+		for (let [e, t] of n) r.get(e) !== t.target && (t.release(), n.delete(e));
+		for (let [e, t] of r) !t || n.has(e) || n.set(e, {
+			target: t,
+			release: ue(t)
+		});
+	}, [t]), j(() => {
+		let t = e.current;
+		return () => {
+			for (let e of t.values()) e.release();
+			t.clear();
+		};
+	}, []);
+	let l = n((e) => {
+		r((t) => t.some((t) => t.key === e.key) ? (console.warn(`react-context-modal: a modal with id "${e.key}" is already open. Modal ids must be unique. This modal is not registered in the stack, and gets no escape key, outside click or body scroll lock.`), t) : [...t, e]);
+	}, []), u = n((e) => {
+		r((t) => {
+			let n = t.filter((t) => t.key !== e);
+			return n.length === t.length ? t : n;
+		});
+	}, []), d = n((e, t) => {
+		r((n) => {
+			let r = n.findIndex((t) => t.key === e);
+			if (r === -1) return n;
+			let i = [...n];
+			return i[r] = {
+				...i[r],
+				...t
+			}, i;
+		});
+	}, []), f = n((e) => {
+		let n = t.findIndex((t) => t.key === e);
+		return [n, n === t.length - 1];
+	}, [t]);
+	return o(() => ({
+		lastModal: a,
+		apply: l,
+		remove: u,
+		update: d,
+		getPositionInStack: f
+	}), [
+		a,
+		l,
+		u,
+		d,
+		f
+	]);
+}
+//#endregion
+//#region src/providers/ModalProvider.tsx
+function me({ children: e }) {
+	let t = pe();
+	return /* @__PURE__ */ m(w.Provider, {
+		value: t,
+		children: e
+	});
+}
+//#endregion
+export { F as Modal, me as ModalProvider, T as useModal, pe as useModalStackCtx };
