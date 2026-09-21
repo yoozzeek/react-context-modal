@@ -2,7 +2,15 @@ name: Deploy static demo content to Pages
 
 on:
   push:
-    branches: ["gh-pages"]
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'examples/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'vite.config.ts'
+      - 'tsconfig*.json'
+      - '.github/workflows/static_demo.yml'
   workflow_dispatch:
 
 permissions:
@@ -12,7 +20,7 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
