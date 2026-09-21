@@ -1,14 +1,24 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect.ts";
 import disableScroll from "@/utils/scrollLocker.ts";
 import type { StackCtx, OpenedModal } from "@/types";
 
-// const TAB_KEY = "Tab";
 const ESC_KEY = "Escape";
 
+type ScrollLock = {
+  target: HTMLElement;
+  release: () => void;
+};
+
+function scrollTargetOf(modal: OpenedModal): HTMLElement | null {
+  return modal.scrollableContentRef.current ?? modal.modalRef.current;
+}
+
 export default function useModalStackCtx(): StackCtx {
-  const openedModalsRef = useRef<Set<string>>(new Set());
+  const scrollLocksRef = useRef<Map<string, ScrollLock>>(new Map());
+
   const [openedStack, setOpenedStack] = useState<OpenedModal[]>([]);
-  const lastModal = useMemo(() => openedStack[openedStack.length - 1], [openedStack]);
+  const lastModal = openedStack[openedStack.length - 1];
 
   /**
    * Listen outside taps on the last modal in stack
@@ -29,18 +39,19 @@ export default function useModalStackCtx(): StackCtx {
 
     function handleTouchEnd(event: MouseEvent | TouchEvent) {
       const endClickOutside = contentEl && !contentEl.contains(event.target as Element);
+
       if (startClickOutside && endClickOutside) {
         lastModal.close();
       }
+
       startClickOutside = false; // Reset for the next mousedown
     }
 
     function keyDownHandler(event: KeyboardEvent) {
+      if (event.key !== ESC_KEY) return;
+
       event.stopPropagation();
-      if (event.key == ESC_KEY) {
-        lastModal.close();
-        openedModalsRef.current.delete(lastModal.key);
-      }
+      lastModal.close();
     }
 
     // Handle outside clicks and touches
@@ -61,83 +72,92 @@ export default function useModalStackCtx(): StackCtx {
     };
   }, [lastModal]);
 
-  const apply = useCallback(
-    (modal: OpenedModal) => {
-      if (openedModalsRef.current.has(modal.key)) return;
+  useIsomorphicLayoutEffect(() => {
+    const locks = scrollLocksRef.current;
+    const targets = new Map(openedStack.map((modal) => [modal.key, scrollTargetOf(modal)]));
 
-      openedModalsRef.current.add(modal.key);
-      setOpenedStack((prev) => {
-        const modalIdx = openedStack.findIndex((m) => m.key === modal.key);
-        if (modalIdx !== -1) {
-          return prev;
-        }
+    for (const [key, lock] of locks) {
+      if (targets.get(key) === lock.target) continue;
 
-        // Disable body scroll
-        modal.enableScroll = disableScroll(
-          modal.scrollableContentRef.current || modal.modalRef.current,
-          !prev.length, // mark as first modal in stack
-        );
+      lock.release();
+      locks.delete(key);
+    }
 
+    for (const [key, target] of targets) {
+      if (!target || locks.has(key)) continue;
+
+      locks.set(key, { target, release: disableScroll(target) });
+    }
+  }, [openedStack]);
+
+  useIsomorphicLayoutEffect(() => {
+    const locks = scrollLocksRef.current;
+
+    return () => {
+      for (const lock of locks.values()) lock.release();
+
+      locks.clear();
+    };
+  }, []);
+
+  const apply = useCallback((modal: OpenedModal) => {
+    setOpenedStack((prev) => {
+      if (!prev.some((m) => m.key === modal.key)) {
         return [...prev, modal];
-      });
-    },
-    [openedStack],
-  );
+      }
+
+      console.warn(
+        `react-context-modal: a modal with id "${modal.key}" is already open. ` +
+          `Modal ids must be unique. This modal is not registered in the stack, ` +
+          `and gets no escape key, outside click or body scroll lock.`,
+      );
+
+      return prev;
+    });
+  }, []);
 
   const remove = useCallback((key: string) => {
-    openedModalsRef.current.delete(key);
     setOpenedStack((prevState) => {
-      const newState = [...prevState];
+      const nextState = prevState.filter((modal) => modal.key !== key);
+
+      return nextState.length === prevState.length ? prevState : nextState;
+    });
+  }, []);
+
+  const update = useCallback((key: string, newData: Partial<Omit<OpenedModal, "key">>) => {
+    setOpenedStack((prevState) => {
       const modalIdx = prevState.findIndex((modal) => modal.key === key);
+
       if (modalIdx === -1) {
         return prevState;
       }
 
-      // If the modal is the first in the stack, remove all other
-      // modals and enable body scroll. Because it's the root modal
-      // and there is no need to keep the rest of the stack.
-      if (modalIdx === 0) {
-        newState.reverse().forEach((modal) => modal.enableScroll?.());
-        return [];
-      }
+      const updatedOpenedStack = [...prevState];
+      updatedOpenedStack[modalIdx] = {
+        ...updatedOpenedStack[modalIdx],
+        ...newData,
+      };
 
-      // Enable body scroll and remove the modal from the stack
-      newState[modalIdx].enableScroll?.();
-      newState.splice(modalIdx, 1);
-
-      return newState;
+      return updatedOpenedStack;
     });
   }, []);
 
-  const update = useCallback(
-    (key: string, newData: Partial<OpenedModal>) => {
-      if (!openedModalsRef.current.has(key)) return;
-
-      const modalIdx = openedStack.findIndex((modal) => modal.key === key);
-      if (modalIdx > -1) {
-        const updatedOpenedStack = [...openedStack];
-        updatedOpenedStack[modalIdx] = {
-          ...updatedOpenedStack[modalIdx],
-          ...newData,
-        };
-
-        openedModalsRef.current.add(key);
-        setOpenedStack(updatedOpenedStack);
-      }
+  const getPositionInStack = useCallback(
+    (key: string): [number, boolean] => {
+      const idx = openedStack.findIndex((modal) => modal.key === key);
+      return [idx, idx === openedStack.length - 1];
     },
     [openedStack],
   );
 
-  function getPositionInStack(key: string): [number, boolean] {
-    const idx = openedStack.findIndex((modal) => modal.key === key);
-    return [idx, idx === openedStack.length - 1];
-  }
-
-  return {
-    lastModal,
-    apply,
-    remove,
-    update,
-    getPositionInStack,
-  };
+  return useMemo(
+    () => ({
+      lastModal,
+      apply,
+      remove,
+      update,
+      getPositionInStack,
+    }),
+    [lastModal, apply, remove, update, getPositionInStack],
+  );
 }

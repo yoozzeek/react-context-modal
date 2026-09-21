@@ -24,13 +24,12 @@ export type OpenedModal = {
   scrollableContentRef: RefObject<HTMLDivElement>;
   simpleBarRef: RefObject<SimpleBarCore>;
   close: () => void;
-  enableScroll?: () => void;
 };
 
 export type StackCtx = {
-  lastModal: OpenedModal | null;
+  lastModal: OpenedModal | undefined;
   apply(modal: OpenedModal): void;
   remove(key: string): void;
-  update(key: string, newData: Partial<OpenedModal>): void;
+  update(key: string, newData: Partial<Omit<OpenedModal, "key">>): void;
   getPositionInStack(key: string): [number, boolean];
 };

@@ -1,64 +1,114 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
+type BodyPin = {
+  isIos: boolean;
+  scrollX: number;
+  scrollY: number;
+  position: string;
+  top: string;
+  left: string;
+  overflow: string;
+};
+
+const lockedTargets = new Map<HTMLElement, number>();
+
+let bodyPin: BodyPin | null = null;
+
 function isIosDevice(): boolean {
   const { platform, maxTouchPoints } = window.navigator;
   return /iP(ad|hone|od)/.test(platform) || (platform === "MacIntel" && maxTouchPoints > 1);
 }
 
-export default function disableScroll(
-  element: HTMLElement | null,
-  isFirstInStack = true,
-): () => void {
-  if (!element) return () => null;
+function allowTouchMove(el: HTMLElement | Element): boolean {
+  let node: Element | null = el;
+  while (node && node !== document.body) {
+    if (node.getAttribute("body-scroll-lock-ignore") !== null) {
+      return true;
+    }
 
-  const storedScrollY = window.scrollY;
-  const pinsBodyWidth = isFirstInStack && isIosDevice();
-
-  if (isFirstInStack) {
-    document.body.style.setProperty("top", `${storedScrollY * -1}px`);
+    node = node.parentElement;
   }
 
-  if (pinsBodyWidth) {
+  return false;
+}
+
+function pinBody(): BodyPin {
+  const pin = {
+    isIos: isIosDevice(),
+    scrollX: window.scrollX,
+    scrollY: window.scrollY,
+    position: document.body.style.position,
+    top: document.body.style.top,
+    left: document.body.style.left,
+    overflow: document.body.style.overflow,
+  };
+
+  if (pin.isIos) {
     document.body.style.setProperty("width", "100%");
   }
 
-  // When disabling body scrolling
-  disableBodyScroll(element, {
-    allowTouchMove: (el) => {
-      let node: Element | null = el ?? null;
-      while (node && node !== document.body) {
-        if (node.getAttribute("body-scroll-lock-ignore") !== null) {
-          return true;
-        }
+  return pin;
+}
 
-        node = node.parentElement;
-      }
+function repinBody(pin: BodyPin) {
+  if (pin.isIos) {
+    document.body.style.position = "fixed";
+    document.body.style.setProperty("top", `${-pin.scrollY}px`);
+    document.body.style.setProperty("left", `${-pin.scrollX}px`);
+  }
 
-      return false;
-    },
-  });
+  document.body.style.overflow = "hidden";
+}
+
+function unpinBody(pin: BodyPin) {
+  if (pin.isIos) {
+    document.body.style.position = pin.position;
+    document.body.style.setProperty("top", pin.top);
+    document.body.style.setProperty("left", pin.left);
+    document.body.style.setProperty("width", "");
+
+    window.scrollTo(pin.scrollX, pin.scrollY);
+  }
+
+  document.body.style.overflow = pin.overflow;
+}
+
+export default function disableScroll(element: HTMLElement): () => void {
+  if (lockedTargets.size === 0) {
+    bodyPin = pinBody();
+  }
+
+  const holders = lockedTargets.get(element) ?? 0;
+  lockedTargets.set(element, holders + 1);
+
+  if (holders === 0) {
+    disableBodyScroll(element, { allowTouchMove });
+  }
+
+  let released = false;
+
   return () => {
-    // When enabling body scrolling
-    enableBodyScroll(element);
+    if (released) return;
 
-    if (isFirstInStack) {
-      document.body.style.setProperty("top", "");
-      document.body.scrollTo(0, storedScrollY);
+    released = true;
+
+    const remaining = (lockedTargets.get(element) ?? 1) - 1;
+
+    if (remaining > 0) {
+      lockedTargets.set(element, remaining);
+    } else {
+      lockedTargets.delete(element);
+      enableBodyScroll(element);
     }
 
-    if (pinsBodyWidth) {
-      document.body.style.setProperty("width", "");
-    }
-
-    // Patch for modal stacking:
-    // body-scroll-lock clears overflow hidden on the body after enabling.
-    // We prevent this behavior and restore overflow hidden from the body
-    // if this is not the first element in the stack.
-    if (!isFirstInStack) {
-      document.body.style.overflow = "hidden";
+    if (!bodyPin) return;
+    if (lockedTargets.size > 0) {
+      repinBody(bodyPin);
       return;
     }
 
-    document.body.style.overflow = "";
+    unpinBody(bodyPin);
+
+    bodyPin = null;
   };
 }
