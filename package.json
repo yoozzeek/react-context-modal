@@ -2,7 +2,7 @@
   "name": "@yoozzeek/react-context-modal",
   "description": "A simple React modal component and hooks designed to overcome limitations of existing modal libraries. Key features include horizontal and vertical swipe-to-close, scroll position preservation on iOS, and stacking multiple modals.",
   "homepage": "https://yoozzeek.github.io/react-context-modal/",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -47,8 +47,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:demo": "vite build --mode demo",
-    "lint": "eslint --quiet .",
-    "lint:fix": "eslint --quiet --fix .",
+    "test": "vitest run",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint --fix .",
     "prettier:fix": "prettier --write ."
   },
   "peerDependencies": {
@@ -75,6 +76,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "happy-dom": "^20.14.5",
     "postcss-combine-duplicated-selectors": "^10.0.3",
     "postcss-combine-media-query": "^2.1.0",
     "postcss-prettify": "^0.3.4",

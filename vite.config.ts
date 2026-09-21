@@ -63,6 +63,16 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    test: {
+      environment: "happy-dom",
+      include: ["tests/**/*.test.{ts,tsx}"],
+      setupFiles: ["tests/setup.ts"],
+      server: {
+        deps: {
+          inline: ["body-scroll-lock"],
+        },
+      },
+    },
   };
 
   return config;
