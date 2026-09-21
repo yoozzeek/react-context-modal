@@ -74,6 +74,8 @@ function Modal({
   const modalHeaderRef = useRef<HTMLDivElement>(null!);
   const scrollAreaRef = useRef<HTMLDivElement>(null!);
   const simpleBarRef = useRef<SimpleBarCore>(null!);
+  const stackCtxRef = useRef(stackCtx);
+
   const isTabletOrDesktop = useIsTabletOrDesktop(tabletBreakpoint);
 
   const isRightSwipeAllowed = horizontalSwipe && type === "fullscreen";
@@ -99,37 +101,54 @@ function Modal({
       setConfirmCloseModal(true);
       return;
     }
+
     handleClose();
-  }, [confirmClose]);
+  }, [preventClose, confirmClose, handleClose]);
 
   const onConfirmCloseModalHandler = useCallback(() => {
     setConfirmCloseModal(false);
     handleClose();
-  }, []);
+  }, [handleClose]);
+
+  const closeHandlerRef = useRef(onCloseModalHandler);
 
   useLayoutEffect(() => {
-    const key = id;
-    stackCtx?.apply({
-      key,
+    stackCtxRef.current = stackCtx;
+    closeHandlerRef.current = onCloseModalHandler;
+  });
+
+  const closeFromStack = useCallback(() => closeHandlerRef.current(), []);
+
+  useLayoutEffect(() => {
+    const ctx = stackCtxRef.current;
+
+    ctx?.apply({
+      key: id,
       simpleBarRef,
       containerRef,
-      modalRef: modalRef,
+      modalRef,
       scrollableContentRef: scrollAreaRef,
-      close: onCloseModalHandler,
+      close: closeFromStack,
     });
-  }, []);
+
+    return () => ctx?.remove(id);
+  }, [id, closeFromStack]);
 
   useLayoutEffect(() => {
     if (!scrollAreaRef.current) return;
+
     const resizeObserver = new ResizeObserver(() => {
       setScrollableHeight(scrollAreaRef.current?.clientHeight);
     });
+
     resizeObserver.observe(scrollAreaRef.current);
+
     return () => resizeObserver.disconnect();
   }, []);
 
   useEffect(() => {
     const existingMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+
     let originalContent = null;
     let metaEl = existingMeta;
 
@@ -140,6 +159,7 @@ function Modal({
       metaEl = document.createElement("meta");
       metaEl.name = "theme-color";
       metaEl.content = "#000000";
+
       document.head.appendChild(metaEl);
     }
 
@@ -233,6 +253,7 @@ function Modal({
         onClick={(e) => e.stopPropagation()}
       >
         {headerWrapperEl}
+
         <div className={styles.modal__body}>
           <SimpleBar
             id={scrollAreaId}
@@ -249,8 +270,10 @@ function Modal({
             )}
           </SimpleBar>
         </div>
+
         {footerWrapperEl}
       </div>
+
       {confirmCloseModal && (
         <ModalConfirmAction
           title={confirmTitle}

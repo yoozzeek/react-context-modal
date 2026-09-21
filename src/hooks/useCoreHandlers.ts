@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { RefObject } from "react";
 import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect";
 import useIsTabletOrDesktop from "@/hooks/useIsTabletOrDesktop.ts";
@@ -27,6 +27,9 @@ export default function useCoreHandlers({
   onClose(): void;
 }) {
   const isTabletOrDesktop = useIsTabletOrDesktop();
+  const onCloseRef = useRef(onClose);
+  const stackCtxRef = useRef(stackCtx);
+
   const [transformState, setTransformState] = useState({
     isMoving: false,
     scrollDisabled: false,
@@ -36,6 +39,11 @@ export default function useCoreHandlers({
     opacity: 1,
   });
   const [closeAnimation, setCloseAnimation] = useState(false);
+
+  useIsomorphicLayoutEffect(() => {
+    onCloseRef.current = onClose;
+    stackCtxRef.current = stackCtx;
+  });
 
   function getScrollMeta() {
     let isScrollable = false;
@@ -74,11 +82,9 @@ export default function useCoreHandlers({
 
     // Set initial swipe state
     let currentY = 0;
-    // let currentX = 0;
     let initialY = 0;
     let initialX = 0;
     let touchStart = 0;
-    // let touchEnd = 0;
     let isLocked = false;
     let isMoving = false;
     let startedTime = 0;
@@ -125,11 +131,9 @@ export default function useCoreHandlers({
 
     function resetValues() {
       currentY = 0;
-      // currentX = 0;
       initialY = 0;
       initialX = 0;
       touchStart = 0;
-      // touchEnd = 0;
       isLocked = false;
       isMoving = false;
       startedTime = 0;
@@ -142,8 +146,8 @@ export default function useCoreHandlers({
 
       // Close modal after animation is finished
       setTimeout(() => {
-        stackCtx?.remove(id);
-        onClose();
+        stackCtxRef.current?.remove(id);
+        onCloseRef.current();
       }, 150);
     }
 
@@ -225,7 +229,6 @@ export default function useCoreHandlers({
       const { directionY, factorY, directionX, factorX } = getTouchMeta(e);
 
       currentY = e.touches[0].clientY;
-      // currentX = e.touches[0].clientX;
 
       // ------------------------------------
       // Handle horizontal touch move if allowed
@@ -397,9 +400,9 @@ export default function useCoreHandlers({
       el.removeEventListener("touchmove", handleTouchMove);
       el.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isLoading, type, isTabletOrDesktop, stackCtx?.lastModal]);
+  }, [isLoading, type, isTabletOrDesktop, horizontalSwipe, id]);
 
-  function handleClose() {
+  const handleClose = useCallback(() => {
     flushSync(() => {
       setCloseAnimation(true);
       setTransformState((state) => ({
@@ -413,12 +416,12 @@ export default function useCoreHandlers({
 
     setTimeout(
       () => {
-        stackCtx?.remove(id);
-        onClose();
+        stackCtxRef.current?.remove(id);
+        onCloseRef.current();
       },
       isTabletOrDesktop ? 0 : 200,
     );
-  }
+  }, [id, isTabletOrDesktop]);
 
   return {
     transformState,
