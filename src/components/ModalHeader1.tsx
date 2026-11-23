@@ -32,7 +32,12 @@ const ModalHeader1 = ({
           <span className={styles["modal__header1-title-text"]}>{title}</span>
         </h3>
       )}
-      <button type="button" onClick={onClose} className={styles["modal__header1-close"]}>
+      <button
+        type="button"
+        aria-label="Close"
+        onClick={onClose}
+        className={styles["modal__header1-close"]}
+      >
         <CloseIcon
           className={clsx(styles["modal__header1-close-icon"], {
             [styles["modal__header1-close-icon--transparent"]]: transparent,

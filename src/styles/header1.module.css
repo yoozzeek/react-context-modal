@@ -9,12 +9,10 @@
   background: #fff;
 }
 
-@media (min-width: 768px) {
-  .modal__header1 {
-    height: auto;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
+[data-layout="dialog"] .modal__header1 {
+  height: auto;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .modal__header1--superposition {
@@ -71,11 +69,9 @@
   z-index: 1;
 }
 
-@media (min-width: 768px) {
-  .modal__header1-close {
-    top: 1rem;
-    right: 1rem;
-  }
+[data-layout="dialog"] .modal__header1-close {
+  top: 1rem;
+  right: 1rem;
 }
 
 .modal__header1-close-icon {
