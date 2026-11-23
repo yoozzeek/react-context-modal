@@ -14,12 +14,10 @@
   color: #1f2937;
 }
 
-@media (min-width: 576px) {
-  .modal-confirm__description {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    padding-top: 1rem;
-  }
+[data-layout="dialog"] .modal-confirm__description {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
 }
 
 .modal-confirm__footer {

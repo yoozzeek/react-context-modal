@@ -1,4 +1,4 @@
-import "@/styles/confirm.module.css";
+import styles from "@/styles/confirm.module.css";
 import Modal from "./Modal";
 import Button from "@/components/Button";
 import type { JSX } from "react";
@@ -29,9 +29,9 @@ function ModalConfirmAction({
       ariaLabel="Aria label"
       type="overlay-auto"
       size="sm"
-      headerRenderer={() => <h3 className="modal-confirm__title">{title}</h3>}
+      headerRenderer={() => <h3 className={styles["modal-confirm__title"]}>{title}</h3>}
       footerRenderer={(onCloseHandler) => (
-        <div className="modal-confirm__footer">
+        <div className={styles["modal-confirm__footer"]}>
           <Button
             fullWidth
             type="button"
@@ -54,7 +54,7 @@ function ModalConfirmAction({
       )}
       onClose={onClose}
     >
-      {description && <p className="modal-confirm__description">{description}</p>}
+      {description && <p className={styles["modal-confirm__description"]}>{description}</p>}
     </Modal>
   );
 }

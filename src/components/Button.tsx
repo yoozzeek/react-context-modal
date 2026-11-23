@@ -1,8 +1,8 @@
-import "@/styles/button.module.css";
+import styles from "@/styles/button.module.css";
 import { clsx } from "clsx";
 import LoadingIcon from "@/components/Loader";
 import type { MouseEvent, ReactNode, JSX } from "react";
-import type { Size, Variant } from "@/types";
+import type { ButtonSize, Variant } from "@/types";
 
 type ButtonTypes = "button" | "submit" | "reset";
 
@@ -10,7 +10,7 @@ interface ButtonProps {
   children: ReactNode;
   type?: ButtonTypes;
   variant?: Variant;
-  size?: Size | "icon";
+  size?: ButtonSize | "icon";
   isIcon?: boolean;
   loading?: boolean;
   loadingText?: string;
@@ -32,12 +32,12 @@ function Button({
 }: ButtonProps): JSX.Element {
   return (
     <button
-      className={clsx("btn", `btn--variant-${variant}`, `btn--size-${size}`, {
-        "btn--fullwidth": fullWidth,
-        "btn--loading": loading,
-        "btn--icon": size === "icon",
-        "btn--flex": loading && variant !== "none",
-        "btn--disabled": disabled || loading,
+      className={clsx(styles.btn, styles[`btn--variant-${variant}`], styles[`btn--size-${size}`], {
+        [styles["btn--fullwidth"]]: fullWidth,
+        [styles["btn--loading"]]: loading,
+        [styles["btn--icon"]]: size === "icon",
+        [styles["btn--flex"]]: loading && variant !== "none",
+        [styles["btn--disabled"]]: disabled || loading,
       })}
       disabled={disabled || loading}
       type={type || "button"}
@@ -45,8 +45,10 @@ function Button({
     >
       {loading && variant !== "none" ? (
         <>
-          <LoadingIcon className={clsx("btn__loader", `btn__loader--variant-${variant}`)} />
-          {loadingText && <span className="btn__loading-text">{loadingText}</span>}
+          <LoadingIcon
+            className={clsx(styles.btn__loader, styles[`btn__loader--variant-${variant}`])}
+          />
+          {loadingText && <span className={styles["btn__loading-text"]}>{loadingText}</span>}
         </>
       ) : (
         children
