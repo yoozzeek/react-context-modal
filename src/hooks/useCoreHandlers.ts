@@ -1,12 +1,12 @@
 import { useCallback, useRef, useState } from "react";
 import type { RefObject } from "react";
 import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect";
-import useIsTabletOrDesktop from "@/hooks/useIsTabletOrDesktop.ts";
 import { flushSync } from "react-dom";
 import type { StackCtx, ModalType } from "@/types";
 
 export default function useCoreHandlers({
   isLoading = false,
+  isDialog,
   id,
   type,
   horizontalSwipe,
@@ -19,6 +19,7 @@ export default function useCoreHandlers({
   id: string;
   type: ModalType;
   isLoading: boolean;
+  isDialog: boolean;
   horizontalSwipe: boolean;
   stackCtx?: StackCtx;
   modalRef: RefObject<HTMLDivElement>;
@@ -26,7 +27,6 @@ export default function useCoreHandlers({
   scrollAreaRef: RefObject<HTMLDivElement>;
   onClose(): void;
 }) {
-  const isTabletOrDesktop = useIsTabletOrDesktop();
   const onCloseRef = useRef(onClose);
   const stackCtxRef = useRef(stackCtx);
 
@@ -72,7 +72,7 @@ export default function useCoreHandlers({
   useIsomorphicLayoutEffect(() => {
     const el = modalRef.current;
     if (!el) return;
-    if (isTabletOrDesktop) return;
+    if (isDialog) return;
 
     // Right swipe allowed only on fullscreen and
     // base modals with horizontalSwipe prop
@@ -400,7 +400,7 @@ export default function useCoreHandlers({
       el.removeEventListener("touchmove", handleTouchMove);
       el.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isLoading, type, isTabletOrDesktop, horizontalSwipe, id]);
+  }, [isLoading, type, isDialog, horizontalSwipe, id]);
 
   const handleClose = useCallback(() => {
     flushSync(() => {
@@ -419,9 +419,9 @@ export default function useCoreHandlers({
         stackCtxRef.current?.remove(id);
         onCloseRef.current();
       },
-      isTabletOrDesktop ? 0 : 200,
+      isDialog ? 0 : 200,
     );
-  }, [id, isTabletOrDesktop]);
+  }, [id, isDialog]);
 
   return {
     transformState,

@@ -1,4 +1,13 @@
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { ReactNode, ReactElement, JSX } from "react";
 import type SimpleBarCore from "simplebar-core";
 import SimpleBar from "simplebar-react";
@@ -9,8 +18,9 @@ import ModalDefaultHeader from "./ModalHeader";
 import useModal from "@/hooks/useModal";
 import Loader from "@/components/Loader";
 import ModalConfirmAction from "./ModalConfirmAction";
-import useIsTabletOrDesktop from "@/hooks/useIsTabletOrDesktop.ts";
+import useMediaMinWidth from "@/hooks/useMediaMinWidth.ts";
 import useCoreHandlers from "@/hooks/useCoreHandlers";
+import { ModalLayoutContext } from "@/providers/modalContext";
 import styles from "@/styles/modal.module.css";
 
 type ModalProps = {
@@ -20,7 +30,6 @@ type ModalProps = {
   type?: ModalType;
   size?: Size;
   fallbackCtx?: StackCtx;
-  tabletBreakpoint?: string;
   children: ModalChildrenType;
   isPortal?: boolean;
   isLoading?: boolean;
@@ -59,14 +68,13 @@ function Modal({
   isPortal = true,
   mobileSafeTop = true,
   preventClose = false,
-  tabletBreakpoint,
   confirmTitle = "Are you sure?",
   confirmDescription = "Are you sure you want to close this dialog?",
   headerRenderer,
   footerRenderer,
   fallbackCtx,
   type = "overlay-auto",
-  size = "md",
+  size,
 }: ModalProps): JSX.Element {
   const stackCtx = useModal(fallbackCtx);
   const containerRef = useRef<HTMLDivElement>(null!);
@@ -76,7 +84,9 @@ function Modal({
   const simpleBarRef = useRef<SimpleBarCore>(null!);
   const stackCtxRef = useRef(stackCtx);
 
-  const isTabletOrDesktop = useIsTabletOrDesktop(tabletBreakpoint);
+  const { dialogFrom, sheetCloseButton, defaultSize } = useContext(ModalLayoutContext);
+  const isDialog = useMediaMinWidth(dialogFrom);
+  const resolvedSize = size ?? defaultSize;
 
   const isRightSwipeAllowed = horizontalSwipe && type === "fullscreen";
 
@@ -91,6 +101,7 @@ function Modal({
     onClose,
     type: type ?? "overlay-auto",
     isLoading: isLoading ?? false,
+    isDialog,
     horizontalSwipe: horizontalSwipe ?? false,
     stackCtx: stackCtx!,
   });
@@ -183,7 +194,7 @@ function Modal({
   });
 
   const mainClass = clsx(styles.modal__main, styles[`modal__main--${type}`], {
-    [styles[`modal__main--${size}`]]: type !== "fullscreen",
+    [styles[`modal__main--${resolvedSize}`]]: type !== "fullscreen",
     [styles[`modal__main--opacity-0`]]: !scrollableHeight,
     [styles[`modal__main--animate-slide-up-90`]]:
       !closeAnimation && (type === "menu" || type === "overlay-90" || type === "overlay-auto"),
@@ -202,7 +213,11 @@ function Modal({
       <div ref={modalHeaderRef}>{dynamicHeader}</div>
     ) : (
       <div ref={modalHeaderRef}>
-        <ModalDefaultHeader label={title || undefined} onClose={onCloseModalHandler} />
+        <ModalDefaultHeader
+          label={title || undefined}
+          closeButton={isDialog || sheetCloseButton}
+          onClose={onCloseModalHandler}
+        />
       </div>
     );
 
@@ -232,13 +247,14 @@ function Modal({
       role="dialog"
       aria-labelledby={ariaLabel || id}
       aria-modal="true"
+      data-layout={isDialog ? "dialog" : "sheet"}
       className={containerClass}
     >
       <div
         ref={modalRef}
         className={mainClass}
         style={
-          isTabletOrDesktop
+          isDialog
             ? {
                 // Patch for Safari browser
                 maskImage: "-webkit-radial-gradient(white, black)",

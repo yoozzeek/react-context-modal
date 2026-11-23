@@ -1,7 +1,9 @@
 import type { RefObject } from "react";
 import type SimpleBarCore from "simplebar-core";
 
-export type Size = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+export type Size = "sm" | "md" | "lg" | "2xl" | "3xl";
+
+export type ButtonSize = "xxs" | "xs" | "sm" | "md" | "lg" | "xl";
 
 export type Variant =
   | "light"
@@ -16,6 +18,14 @@ export type Variant =
   | "none";
 
 export type ModalType = "menu" | "fullscreen" | "overlay-90" | "overlay-95" | "overlay-auto";
+
+export type CssLength = `${number}px` | `${number}em` | `${number}rem`;
+
+export type ModalLayout = {
+  dialogFrom: CssLength;
+  sheetCloseButton: boolean;
+  defaultSize: Size;
+};
 
 export type OpenedModal = {
   key: string;

@@ -1,6 +1,7 @@
 import { useCallback, useSyncExternalStore } from "react";
+import type { CssLength } from "@/types";
 
-export default function useIsTabletOrDesktop(minWidth = "576px"): boolean {
+export default function useMediaMinWidth(minWidth: CssLength): boolean {
   const query = `(min-width: ${minWidth})`;
 
   const subscribe = useCallback(

@@ -14,6 +14,10 @@
   --context-modal-radius-lg: 1em;
   --context-modal-radius-xl: 1.2em;
 
+  --context-modal-dialog-max-width: none;
+  --context-modal-dialog-max-height: 95%;
+  --context-modal-dialog-radius: var(--context-modal-radius-xl);
+
   --context-modal-font-size: 15px;
 
   --context-modal-box-shadow:
