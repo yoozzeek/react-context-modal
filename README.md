@@ -1,8 +1,5 @@
 # react-context-modal
 
-![npm](https://img.shields.io/npm/v/@yoozzeek/react-context-modal.svg)
-![downloads](https://img.shields.io/npm/dm/@yoozzeek/react-context-modal.svg)
-
 React modal that actually feels native. Solves pain from existing libs: horizontal & vertical swipe-to-close (near‑native), keeps scroll position on iOS, supports stacking multiple modals.
 
 [View Demo](https://yoozzeek.github.io/react-context-modal/)
@@ -68,6 +65,26 @@ const YourComponent = () => {
 };
 ```
 
+### Sheet or dialog
+
+Overlay and menu modals render as bottom sheets on narrow viewports and as centred dialogs from `dialogFrom` up. The
+switch is set once, on the provider, and drives the layout, the swipe gestures and the close timing together:
+
+```jsx
+<ModalProvider dialogFrom="768px" sheetCloseButton>
+  <App />
+</ModalProvider>
+```
+
+| Prop               | Type                              | Default   | Effect                                               |
+| ------------------ | --------------------------------- | --------- | ---------------------------------------------------- |
+| `dialogFrom`       | `CssLength` (`px`, `em` or `rem`) | `"576px"` | Viewport width from which modals render as dialogs   |
+| `sheetCloseButton` | `boolean`                         | `false`   | Sheets show the close button instead of the drag bar |
+| `defaultSize`      | `Size`                            | `"md"`    | Dialog size for every modal without its own `size`   |
+
+The modal container carries `data-layout="sheet"` or `data-layout="dialog"`. Custom headers and content target either
+layout with an attribute selector instead of a media query.
+
 ## Todos
 
 - [x] Core helpers, hooks and component;
@@ -96,11 +113,21 @@ Various use-case examples are provided in the [examples](./examples) directory. 
 
 You can easily style and theme the modal by adjusting CSS variables or overriding specific class names.
 
+Dialog dimensions:
+
+| Variable                            | Default                          |
+| ----------------------------------- | -------------------------------- |
+| `--context-modal-dialog-max-width`  | `none`                           |
+| `--context-modal-dialog-max-height` | `95%`                            |
+| `--context-modal-dialog-radius`     | `var(--context-modal-radius-xl)` |
+
+A dialog's `size` sets its width, capped at the viewport width; `--context-modal-dialog-max-width` caps it further.
+
 TODO: Complete customization guide
 
 ## Bundle and dependencies
 
-The modal component with hooks and provider is 26.69 KB (gzip: 7.41 KB) + styles 5.51 KB (gzip: 1.32 KB).
+The modal component with hooks and provider is 29.31 KB (gzip: 8.42 KB) + styles 9.33 KB (gzip: 1.98 KB).
 
 Based on two npm packages:
 

@@ -5,7 +5,7 @@ import ModalProvider from "../src/providers/ModalProvider";
 const WithContextProviderExample = () => {
   const [opened, setOpened] = useState(false);
   return (
-    <ModalProvider>
+    <ModalProvider dialogFrom="768px" sheetCloseButton>
       <header>
         <h3>With context provider</h3>
         <a
@@ -16,6 +16,10 @@ const WithContextProviderExample = () => {
         </a>
       </header>
       <p>Basic usage supports modal stack global for all your app.</p>
+      <p>
+        This provider opens modals as bottom sheets with a close button below 768px and as centred
+        dialogs from 768px up.
+      </p>
       <button type="button" onClick={() => setOpened(true)}>
         Open
       </button>
