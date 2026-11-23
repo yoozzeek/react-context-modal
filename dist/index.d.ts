@@ -7,9 +7,11 @@ import { RefObject } from 'react';
 
 declare type ChildrenRendererFn = (onClose: () => void) => ReactNode;
 
+export declare type CssLength = `${number}px` | `${number}em` | `${number}rem`;
+
 export declare const Modal: MemoExoticComponent<typeof Modal_2>;
 
-declare function Modal_2({ id, scrollAreaId, children, ariaLabel, title, onClose, loadingText, horizontalSwipe, confirmClose, isLoading, isPortal, mobileSafeTop, preventClose, tabletBreakpoint, confirmTitle, confirmDescription, headerRenderer, footerRenderer, fallbackCtx, type, size, }: ModalProps): JSX.Element;
+declare function Modal_2({ id, scrollAreaId, children, ariaLabel, title, onClose, loadingText, horizontalSwipe, confirmClose, isLoading, isPortal, mobileSafeTop, preventClose, confirmTitle, confirmDescription, headerRenderer, footerRenderer, fallbackCtx, type, size, }: ModalProps): JSX.Element;
 
 declare type ModalChildrenType = ReactNode | ChildrenRendererFn;
 
@@ -20,7 +22,6 @@ declare type ModalProps = {
     type?: ModalType;
     size?: Size;
     fallbackCtx?: StackCtx;
-    tabletBreakpoint?: string;
     children: ModalChildrenType;
     isPortal?: boolean;
     isLoading?: boolean;
@@ -37,9 +38,14 @@ declare type ModalProps = {
     onClose(): void;
 };
 
-export declare function ModalProvider({ children }: {
+export declare function ModalProvider({ children, dialogFrom, sheetCloseButton, defaultSize, }: ModalProviderProps): JSX;
+
+declare type ModalProviderProps = {
     children: ReactNode;
-}): JSX;
+    dialogFrom?: CssLength;
+    sheetCloseButton?: boolean;
+    defaultSize?: Size;
+};
 
 export declare type ModalType = "menu" | "fullscreen" | "overlay-90" | "overlay-95" | "overlay-auto";
 
@@ -52,7 +58,7 @@ declare type OpenedModal = {
     close: () => void;
 };
 
-export declare type Size = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+export declare type Size = "sm" | "md" | "lg" | "2xl" | "3xl";
 
 export declare type StackCtx = {
     lastModal: OpenedModal | undefined;
